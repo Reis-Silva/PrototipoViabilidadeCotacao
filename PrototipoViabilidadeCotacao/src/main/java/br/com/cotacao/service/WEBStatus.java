@@ -1,4 +1,4 @@
-package br.com.virus.service;
+package br.com.cotacao.service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,9 +7,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.Gson;
-import br.com.virus.entidade.datasource.Estados;
-import br.com.virus.entidade.repository.EstadoRepository;
-import br.com.virus.entidade.repository.PaisRepository;
+
+import br.com.cotacao.entidade.datasource.Estados;
+import br.com.cotacao.entidade.repository.EstadoRepository;
+import br.com.cotacao.entidade.repository.PaisRepository;
 
 public class WEBStatus {
 
@@ -20,11 +21,11 @@ public class WEBStatus {
 		String url = "https://covid19-brazil-api.now.sh/api/report/v1?formato=json";
 		String json = ws.obterDados(url);
 		Gson g = new Gson();
-		EstadoRepository estadoReposit = new EstadoRepository();
-		estadoReposit = g.fromJson(json, EstadoRepository.class);
+		EstadoRepository cotacaoReposit = new EstadoRepository();
+		cotacaoReposit = g.fromJson(json, EstadoRepository.class);
 
-		List<Estados> dadosCOVID = convertArrayToList(estadoReposit.getData());
-		return dadosCOVID;
+		List<Estados> dadosCotacao = convertArrayToList(cotacaoReposit.getData());
+		return dadosCotacao;
 	}
 
 	// Armazenando dados Gerais

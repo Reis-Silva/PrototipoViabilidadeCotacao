@@ -1,7 +1,6 @@
-package br.com.virus.entidade.repository;
+package br.com.cotacao.entidade.repository;
 
-import br.com.virus.entidade.datasource.Pais;
-
+import br.com.cotacao.entidade.datasource.Pais;
 
 //Dados Gerais
 public class PaisRepository {

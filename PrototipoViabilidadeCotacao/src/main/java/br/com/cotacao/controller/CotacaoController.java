@@ -1,4 +1,4 @@
-package br.com.virus.controller;
+package br.com.cotacao.controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,13 +8,13 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 
-import br.com.virus.entidade.datasource.Estados;
-import br.com.virus.entidade.repository.PaisRepository;
-import br.com.virus.service.WEBStatus;
+import br.com.cotacao.entidade.datasource.Estados;
+import br.com.cotacao.entidade.repository.PaisRepository;
+import br.com.cotacao.service.WEBStatus;
 
 @ApplicationScoped
 @ManagedBean
-public class PaisController implements Serializable {
+public class CotacaoController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

@@ -1,4 +1,4 @@
-package br.com.virus.entidade.datasource;
+package br.com.cotacao.entidade.datasource;
 
 import java.util.Date;
 
