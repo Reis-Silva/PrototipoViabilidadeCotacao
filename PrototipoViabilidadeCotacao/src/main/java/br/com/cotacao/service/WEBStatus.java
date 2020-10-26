@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.Gson;
 
-import br.com.cotacao.entidade.datasource.Estados;
+import br.com.cotacao.entidade.datasource.Moedas;
 import br.com.cotacao.entidade.repository.EstadoRepository;
-import br.com.cotacao.entidade.repository.PaisRepository;
+import br.com.cotacao.entidade.repository.CotacoesRepository;
 
 public class WEBStatus {
 
 	// Armazenando Dados na lista
-	public static List<Estados> listarEstados() throws Exception {
+	public static List<Moedas> listarEstados() throws Exception {
 
 		WEBStatus ws = new WEBStatus();
 		String url = "https://covid19-brazil-api.now.sh/api/report/v1?formato=json";
@@ -24,21 +24,22 @@ public class WEBStatus {
 		EstadoRepository cotacaoReposit = new EstadoRepository();
 		cotacaoReposit = g.fromJson(json, EstadoRepository.class);
 
-		List<Estados> dadosCotacao = convertArrayToList(cotacaoReposit.getData());
+		List<Moedas> dadosCotacao = convertArrayToList(cotacaoReposit.getData());
 		return dadosCotacao;
 	}
 
 	// Armazenando dados Gerais
-	public static PaisRepository paisesDetalhes(String pais) throws Exception {
+	public static CotacoesRepository moedasDetalhes(String moeda, String dataAtual) throws Exception {
 
 		WEBStatus ws = new WEBStatus();
-		String url = "https://covid19-brazil-api.now.sh/api/report/v1/" + pais + "?formato=json";
+		String url = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?"
+				+ "%40moeda='" + moeda+"'&%40dataCotacao='"+dataAtual+"'&%24format=json";
 		String json = ws.obterDados(url);
 		Gson g = new Gson();
-		PaisRepository paisReposit = new PaisRepository();
-		paisReposit = g.fromJson(json, PaisRepository.class);
+		CotacoesRepository moedasReposit = new CotacoesRepository();
+		moedasReposit = g.fromJson(json, CotacoesRepository.class);
 
-		return paisReposit;
+		return moedasReposit;
 	}
 
 	// Obtendo dados da URL

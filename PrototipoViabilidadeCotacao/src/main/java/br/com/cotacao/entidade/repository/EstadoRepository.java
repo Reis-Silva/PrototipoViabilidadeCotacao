@@ -2,18 +2,18 @@ package br.com.cotacao.entidade.repository;
 
 import java.util.Arrays;
 
-import br.com.cotacao.entidade.datasource.Estados;
+import br.com.cotacao.entidade.datasource.Moedas;
 
 //Dados dos Estados
 public class EstadoRepository {
 
-	private Estados[] data;
+	private Moedas[] data;
 
-	public Estados[] getData() {
+	public Moedas[] getData() {
 		return data;
 	}
 
-	public void setData(Estados[] data) {
+	public void setData(Moedas[] data) {
 		this.data = data;
 	}
 

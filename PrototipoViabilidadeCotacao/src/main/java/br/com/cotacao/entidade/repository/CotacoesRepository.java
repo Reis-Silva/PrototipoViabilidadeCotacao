@@ -1,18 +1,18 @@
 package br.com.cotacao.entidade.repository;
 
-import br.com.cotacao.entidade.datasource.Pais;
+import br.com.cotacao.entidade.datasource.Moedas;
 
 //Dados Gerais
-public class PaisRepository {
+public class CotacoesRepository {
 
-	private Pais data;
+	private Moedas value;
 
-	public Pais getData() {
-		return data;
+	public Moedas getValue() {
+		return value;
 	}
 
-	public void setData(Pais data) {
-		this.data = data;
+	public void setValue(Moedas value) {
+		this.value = value;
 	}
 
 }

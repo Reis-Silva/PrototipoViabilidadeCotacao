@@ -13,152 +13,39 @@
 </h:head>
 
 
-
-
 <h:body>
 	<h:form id="form1">
 
-		<div align="center">
+		<p:growl id="msg" showDetail="true" sticky="true" />
 
-			<h:panelGrid layout="flex" styleClass="showcase-text-align-center">
+		<p:panel id="pg">
+			<h:panelGrid columns="3" border="1" layout="flex">
 				<f:facet name="header">
-					<p:graphicImage library="img" name="virus.jpg" width="300" />
-				</f:facet>
-				<hr />
+           		Cotação
+        	</f:facet>
+				
+				<p:outputLabel for="MO" value="Console:" />
+				<p:selectOneRadio id="MO"
+					value="#{cotacaoController.inputMoeda}"
+					unselectable="true" required="true">
+					<f:selectItem itemLabel="USD" itemValue="USD" />
+					<f:selectItem itemLabel="CAD" itemValue="CAD" />
+					<f:selectItem itemLabel="EUR" itemValue="EUR" />
+				</p:selectOneRadio>
+				<p:outputLabel value="Teste"/>
+				
+				<p:outputLabel value="Cotação (Coompra)"/>
+				<p:outputLabel value="#{cotacaoController.cotacaoAtual.value.cotacaoCompra}"/>
+				<p:outputLabel value="R$(BRL)"/>
+				
+				<p:outputLabel value="Cotação (Venda)"/>
+				<p:outputLabel value="#{cotacaoController.cotacaoAtual.value.cotacaoVenda}"/>
+				<p:outputLabel value="R$(BRL)"/>
+				
+				<p:commandButton value="Buscar" action="#{cotacaoController.moedaCotacaoAtual()}"/>
 
-				<p:staticMessage severity="error"
-					summary="Nº de Casos Confirmados do Brasil:"
-					detail="#{paisController.pais.data.confirmed}" />
-				<p:staticMessage severity="warn"
-					summary="Nº de Casos Recuperados do Brasil:"
-					detail="#{paisController.pais.data.recovered}" />
-				<p:staticMessage severity="info" summary="Ultima Atualização: "
-					detail="#{paisController.pais.data.updated_at}" />
-				<hr />
 			</h:panelGrid>
-
-			<p:commandButton value="Reatualizar"
-				action="#{paisController.init()}" update="form1" />
-		</div>
-
-		<br />
-
-		<p:layout>
-
-			<div align="center">
-				<p:layoutUnit position="west" header="Sites" resizable="false"
-					size="245">
-
-					<p:menu style="width 100%">
-						<p:menuitem value="COVID Pará"
-							url="https://www.covid-19.pa.gov.br/#/" target="_blank" />
-						<p:menuitem value="Noticias COVID"
-							url="https://www.gov.br/saude/pt-br" target="_blank" />
-						<p:menuitem value="Mapa Geral COVID"
-							url="https://news.google.com/covid19/map?hl=pt-BR&mid;"
-							target="_blank" />
-					</p:menu>
-					<hr />
-
-
-					<h:outputLabel value="Júlio César Reis da Silva" />
-					<br />
-					<h:outputLabel value="Developer" />
-					<br />
-
-					<p:graphicImage library="img" name="git.jpeg" width="200" />
-					<br />
-					<h:outputLabel value="github.com/Reis-Silva" />
-					<p:panelGrid columns="1">
-
-
-
-					</p:panelGrid>
-				</p:layoutUnit>
-
-			</div>
-
-
-			<p:layoutUnit position="center">
-				<h:form id="form2">
-					<p:dataTable id="tablevirus" value="#{paisController.estados}"
-						var="v" width="800px" style="width: auto;" paginator="true"
-						rows="15" widgetVar="tVirus"
-						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-						paginatorPosition="bottom" rowsPerPageTemplate="15">
-
-
-						<p:column sortBy="#{v.state}" filterBy="#{v.state}"
-							filterMatchMode="contains">
-							<f:facet name="header">
-								<p:outputLabel value="Estado" />
-							</f:facet>
-							<h:outputLabel value="#{v.state}" />
-						</p:column>
-
-						<p:column sortBy="#{v.cases}">
-							<f:facet name="header">
-								<p:outputLabel value="Nº de Casos Ativos" />
-							</f:facet>
-							<h:outputLabel value="#{v.cases}" />
-						</p:column>
-
-						<p:column sortBy="#{v.deaths}">
-							<f:facet name="header">
-								<p:outputLabel value="Nº de Mortes" />
-							</f:facet>
-							<h:outputLabel value="#{v.deaths}" />
-						</p:column>
-
-						<p:column sortBy="#{v.suspects}">
-							<f:facet name="header">
-								<p:outputLabel value="Nº de Casos Suspeitos" />
-							</f:facet>
-							<h:outputLabel value="#{v.suspects}" />
-						</p:column>
-
-						<p:column sortBy="#{v.datetime}">
-							<f:facet name="header">
-								<p:outputLabel value="Nº de Casos Dispensados" />
-							</f:facet>
-							<h:outputLabel value="#{v.refuses}" />
-						</p:column>
-					</p:dataTable>
-					<hr />
-				</h:form>
-
-				<div align="center">
-					<br />
-					<h:outputLabel
-						value="Insira o nome de outro País para a pesquisa de CASOS GERAIS" />
-					<br /> <br />
-					<p:inputText value="#{paisController.inputPais}"
-						placeholder="Insira o nome aqui" />
-					<p:commandButton value="Buscar"
-						action="#{paisController.pesquisaExterna()}" update="form2 form1" />
-					<br />
-
-					<h:panelGrid layout="flex" styleClass="showcase-text-align-center">
-						<hr />
-						<p:staticMessage severity="error"
-							summary="Nº de Casos Confirmados:"
-							detail="#{paisController.paisExterno.data.confirmed}" />
-						<p:staticMessage severity="warn"
-							summary="Nº de Casos Recuperados: "
-							detail="#{paisController.paisExterno.data.recovered}" />
-						<p:staticMessage severity="info" summary="Ultima Atualização: "
-							detail="#{paisController.paisExterno.data.updated_at}" />
-						<hr />
-
-
-					</h:panelGrid>
-					<h6>Exemplo: Angola, Canada ou Mexico</h6>
-				</div>
-
-			</p:layoutUnit>
-
-		</p:layout>
+		</p:panel>
 
 	</h:form>
 </h:body>

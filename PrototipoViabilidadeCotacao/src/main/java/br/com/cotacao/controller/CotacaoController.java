@@ -1,15 +1,14 @@
 package br.com.cotacao.controller;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.inject.Inject;
-
-import br.com.cotacao.entidade.datasource.Estados;
-import br.com.cotacao.entidade.repository.PaisRepository;
+import br.com.cotacao.entidade.repository.CotacoesRepository;
 import br.com.cotacao.service.WEBStatus;
 
 @ApplicationScoped
@@ -19,75 +18,68 @@ public class CotacaoController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// Iiniciando construção de lista
-
-	@Inject
-	private Estados estado;
-
-	@Inject
-	private PaisRepository pais;
 	
-	@Inject
-	private PaisRepository paisExterno;
+	private CotacoesRepository cotacaoAtual;
 	
-	@Inject
-	private String inputPais;
-
-	public String getInputPais() {
-		return inputPais;
-	}
-
-	public void setInputPais(String inputPais) {
-		this.inputPais = inputPais;
-	}
-
-	@Inject
-	private List<Estados> estados;
-
-	public Estados getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estados estado) {
-		this.estado = estado;
-	}
-
-	public PaisRepository getPais() {
-		return pais;
-	}
-
-	public void setPais(PaisRepository pais) {
-		this.pais = pais;
-	}
-
-	public PaisRepository getPaisExterno() {
-		return paisExterno;
-	}
-
-	public void setPaisExterno(PaisRepository paisExterno) {
-		this.paisExterno = paisExterno;
-	}
-
-	public List<Estados> getEstados() {
-		return estados;
-	}
-
-	public void setEstados(List<Estados> estados) {
-		this.estados = estados;
-	}
-
-	public void pesquisaExterna() throws Exception {
+	private String inputMoeda;
+	
+	private List cotacoes;
 		
-		paisExterno = WEBStatus.paisesDetalhes(inputPais);
+	public String getInputMoeda() {
+		return inputMoeda;
+	}
+
+	public void setInputMoeda(String inputMoeda) {
+		this.inputMoeda = inputMoeda;
+	}
+
+	public CotacoesRepository getCotacaoAtual() {
+		return cotacaoAtual;
+	}
+
+	public void setCotacaoAtual(CotacoesRepository cotacaoAtual) {
+		this.cotacaoAtual = cotacaoAtual;
+	}
+
+	public List getCotacoes() {
+		return cotacoes;
+	}
+
+	public void setCotacoes(List cotacoes) {
+		this.cotacoes = cotacoes;
+	}
+	
+	public String calendarioAtual() {
+		Calendar calendar = new GregorianCalendar();
+		String dia = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
+		String mes = Integer.toString(calendar.get((Calendar.MONTH))+1);
+		String  ano = Integer.toString(calendar.get(Calendar.YEAR));
+		
+		String dataAtual = mes+dia+ano;
+		
+		return dataAtual;	 
 	}
 	
 	
+	public void moedaCotacaoAtual(){
+		
+		String dataAtual = calendarioAtual();
+		try {
+			cotacaoAtual =  WEBStatus.moedasDetalhes(inputMoeda, dataAtual);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+
 	// Inicio automático da página
 	@PostConstruct
 	public void init() {
 		try {
-			setEstados(WEBStatus.listarEstados());
-			pais = WEBStatus.paisesDetalhes("Brazil");
-
+			setCotacoes(WEBStatus.listarEstados());
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
