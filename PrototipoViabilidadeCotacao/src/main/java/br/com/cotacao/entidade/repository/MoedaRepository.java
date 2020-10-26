@@ -5,20 +5,20 @@ import java.util.Arrays;
 import br.com.cotacao.entidade.datasource.Moedas;
 
 //Dados dos Estados
-public class EstadoRepository {
+public class MoedaRepository {
 
-	private Moedas[] data;
+	private Moedas[] value;
 
-	public Moedas[] getData() {
-		return data;
+	public Moedas[] getValue() {
+		return value;
 	}
 
-	public void setData(Moedas[] data) {
-		this.data = data;
+	public void setData(Moedas[] value) {
+		this.value = value;
 	}
 
 	@Override
 	public String toString() {
-		return Arrays.toString(data);
+		return Arrays.toString(value);
 	}
 }

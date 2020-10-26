@@ -19,6 +19,7 @@ public class Moedas {
 	private double paridadeVenda;
 	private double cotacaoCompra;
 	private double cotacaoVenda;
+	private String tipoBoletim;
 	
 	public double getParidadeCompra() {
 		return paridadeCompra;
