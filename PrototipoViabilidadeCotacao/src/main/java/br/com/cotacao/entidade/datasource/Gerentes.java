@@ -23,7 +23,7 @@ public class Gerentes implements Serializable{
 	private String nomeGerente;
 	
 	@Column
-	private int agencia;
+	private String agencia;
 	
 	@Column
 	private String email;
@@ -44,11 +44,11 @@ public class Gerentes implements Serializable{
 		this.nomeGerente = nomeGerente;
 	}
 
-	public int getAgencia() {
+	public String getAgencia() {
 		return agencia;
 	}
 
-	public void setAgencia(int agencia) {
+	public void setAgencia(String agencia) {
 		this.agencia = agencia;
 	}
 

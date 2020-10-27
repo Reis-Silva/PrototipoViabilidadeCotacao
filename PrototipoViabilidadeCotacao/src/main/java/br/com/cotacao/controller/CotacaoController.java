@@ -9,6 +9,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 
+import br.com.cotacao.dominio.dao.GerentesDAO;
 import br.com.cotacao.dominio.dao.MoedasDAO;
 import br.com.cotacao.entidade.datasource.Gerentes;
 import br.com.cotacao.entidade.datasource.Moedas;
@@ -41,13 +42,67 @@ public class CotacaoController implements Serializable {
 	private Date dataInicial;
 
 	@Inject
-	private MoedasDAO gerenciar;
+	private MoedasDAO gerenciarMoedas;
+	
+	@Inject
+	private GerentesDAO gerenciarGerentes;
 	
 	@Inject
 	private Gerentes gerente;
 	
 	@Inject
 	private List<Gerentes> gerentes;
+	
+	@Inject
+	private String inputNomeGerente;
+	
+	@Inject
+	private String inputAgencia;
+	
+	@Inject
+	private String inputEmail;
+	
+	
+	
+	public String getInputNomeGerente() {
+		return inputNomeGerente;
+	}
+
+	public void setInputNomeGerente(String inputNomeGerente) {
+		this.inputNomeGerente = inputNomeGerente;
+	}
+
+	public String getInputAgencia() {
+		return inputAgencia;
+	}
+
+	public void setInputAgencia(String inputAgencia) {
+		this.inputAgencia = inputAgencia;
+	}
+
+	public String getInputEmail() {
+		return inputEmail;
+	}
+
+	public void setInputEmail(String inputEmail) {
+		this.inputEmail = inputEmail;
+	}
+
+	public GerentesDAO getGerenciarGerentes() {
+		return gerenciarGerentes;
+	}
+
+	public void setGerenciarGerentes(GerentesDAO gerenciarGerentes) {
+		this.gerenciarGerentes = gerenciarGerentes;
+	}
+
+	public MoedasDAO getGerenciarMoedas() {
+		return gerenciarMoedas;
+	}
+
+	public void setGerenciarMoedas(MoedasDAO gerenciarMoedas) {
+		this.gerenciarMoedas = gerenciarMoedas;
+	}
 	
 	public Gerentes getGerente() {
 		return gerente;
@@ -66,7 +121,7 @@ public class CotacaoController implements Serializable {
 	}
 
 	public MoedasDAO getGerenciar() {
-		return gerenciar;
+		return gerenciarMoedas;
 	}
 
 	public CotacoesRepository getCotacaoAtual() {
@@ -118,9 +173,11 @@ public class CotacaoController implements Serializable {
 	}
 
 	public void setGerenciar(MoedasDAO gerenciar) {
-		this.gerenciar = gerenciar;
+		this.gerenciarMoedas = gerenciar;
 	}
 
+	
+	//******************************** Cotação Moedas ***********************************
 	public void varreduraLista() {
 		setMoeda(moedas.get(moedas.size() - 1));
 		moeda.setMoedaOrigem(getInputMoeda());
@@ -141,44 +198,59 @@ public class CotacaoController implements Serializable {
 
 	// Função para salvar no banco de dados
 	public void saveMoeda() {
-		gerenciar = new MoedasDAO();
-		gerenciar.salvar(moeda);
+		gerenciarMoedas = new MoedasDAO();
+		gerenciarMoedas.salvar(moeda);
 		buscarMoeda();
 	}
 
 	// Busca no banco de dados
 	public void buscarMoeda() {
 		moeda = new Moedas();
-		gerenciar = new MoedasDAO();
-		setMoedas(gerenciar.listar());
+		gerenciarMoedas = new MoedasDAO();
+		setMoedas(gerenciarMoedas.listar());
 	}
 
 	public void removeMoeda(int id) {
-		gerenciar.removeById(id);
+		gerenciarMoedas.removeById(id);
 		buscarMoeda();
 	}
 	
 	
+	
+	//******************************** Gerentes ***********************************
+	
 	// Função para salvar no banco de dados
 	public void saveGerente() {
-		gerenciar = new MoedasDAO();
-		gerenciar.salvar(moeda);
-		buscarMoeda();
+		gerente = new Gerentes();
+		gerente.setNomeGerente(getInputNomeGerente());
+		gerente.setAgencia(getInputAgencia());
+		gerente.setEmail(getInputEmail());
+		
+		gerenciarGerentes = new GerentesDAO();
+		gerenciarGerentes.salvar(gerente);
+		buscarGerente();
 	}
 
 	// Busca no banco de dados
 	public void buscarGerente() {
-		moeda = new Moedas();
-		gerenciar = new MoedasDAO();
-		setMoedas(gerenciar.listar());
+		gerente = new Gerentes();
+		gerenciarGerentes = new GerentesDAO();
+		setGerentes(gerenciarGerentes.listar());
+	}
+	
+	// Busca email dos gerentes
+	public void buscarEmailGerente() {
+		gerente = new Gerentes();
+		gerenciarGerentes = new GerentesDAO();
+		setGerentes(gerenciarGerentes.listarEmails());
 	}
 
 	public void removeGerente(int id) {
-		gerenciar.removeById(id);
-		buscarMoeda();
+		gerenciarGerentes.removeById(id);
+		buscarGerente();
 	}
 	
-	
+	//******************************************************************************
 	
 	public void sendMail(String[] mails) {
 		JavaMailApp mail = new JavaMailApp();
@@ -190,6 +262,7 @@ public class CotacaoController implements Serializable {
 	public void init() {
 		try {
 			buscarMoeda();
+			buscarGerente();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

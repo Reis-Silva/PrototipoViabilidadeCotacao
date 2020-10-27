@@ -40,7 +40,7 @@
 					<f:selectItem itemLabel="kr - NOK" itemValue="NOK" />
 					<f:selectItem itemLabel="kr - SEK" itemValue="SEK" />
 					<f:selectItem itemLabel="$ - USD" itemValue="USD" />
-					
+
 					<f:facet name="footer">
 						<p:separator />
 						<h:outputText value="Moedas" style="font-weight:bold;" />
@@ -67,10 +67,7 @@
 
 			</h:panelGrid>
 		</p:panel>
-
-		<br />
-
-		<p:fieldset legend="Cotações de Moedas">
+		<p:fieldset legend="Gerentes">
 
 			<p:dataTable id="tablecotacoes" value="#{cotacaoController.moedas}"
 				var="m" border="1" width="800px" style="width: auto;"
@@ -89,7 +86,7 @@
 				</p:column>
 
 				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					 headerText="MoedaDestino">
+					headerText="MoedaDestino">
 					<h:outputLabel value="#{m.moedaDestino}" />
 				</p:column>
 
@@ -133,7 +130,70 @@
 			</p:dataTable>
 		</p:fieldset>
 
+	</h:form>
+	<br />
+	<h:form id="form2">
+
+		<p:panel id="pg2">
+			<h:panelGrid columns="2" border="1" layout="flex">
+				<f:facet name="header">
+           		Cadastro de Gerentes
+        	</f:facet>
+
+				<p:outputLabel value="Nome" />
+				<p:inputText value="#{cotacaoController.inputNomeGerente}" />
+
+				<p:outputLabel value="Agencia" />
+				<p:inputText value="#{cotacaoController.inputAgencia}" />
+
+				<p:outputLabel value="Email" />
+				<p:inputText value="#{cotacaoController.inputEmail}" />
+
+				<p:commandButton value="Cadastrar"
+					action="#{cotacaoController.saveGerente()}"
+					update="form2:pg2 tablegerentes" />
+
+			</h:panelGrid>
+		</p:panel>
+
+		<p:fieldset legend="Gerentes">
+
+			<p:dataTable id="tablegerentes" value="#{cotacaoController.gerentes}"
+				var="g" border="1" width="800px" style="width: auto;"
+				paginator="true" rows="10" widgetVar="tGerentes"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+				paginatorPosition="bottom" rowsPerPageTemplate="10">
+
+				<f:facet name="header">
+           			Tabela de Gerentes
+        		</f:facet>
+
+				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
+					sortBy="#{g.nomeGerente}" headerText="Gerente">
+					<h:outputLabel value="#{g.nomeGerente}" />
+				</p:column>
+
+				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
+					headerText="Agência">
+					<h:outputLabel value="#{g.agencia}" />
+				</p:column>
+
+				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
+					headerText="Email">
+					<h:outputLabel value="#{g.email}" />
+				</p:column>
+
+				<p:column>
+					<p:commandButton value="Deletar" process="tablegerentes"
+						actionListener="#{cotacaoController.removeGerente(g.id)}"
+						update="form2:tablegerentes" />
+				</p:column>
+
+			</p:dataTable>
+		</p:fieldset>
 
 	</h:form>
+
 </h:body>
 </html>

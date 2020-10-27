@@ -42,7 +42,6 @@ public class GerentesDAO {
 
 		}
 		
-	
 		//Remover do banco de dados
 		public Gerentes getById(final int id) {
 	         return entityManager.find(Gerentes.class, id);
@@ -74,13 +73,24 @@ public class GerentesDAO {
 
 		}
 		
-		
 		//Buscar no banco de dados
 		@SuppressWarnings("unchecked")
 		public List<Gerentes> listar(){
 			
 			entityManager.getTransaction().begin();
-			Query consulta = entityManager.createQuery("select moeda from Moedas moeda");
+			Query consulta = entityManager.createQuery("select gerente from Gerentes gerente");
+			List<Gerentes> lista = consulta.getResultList();
+			entityManager.getTransaction().commit();
+			
+			return lista;
+		}
+		
+		//Buscar no banco de dados emails
+		@SuppressWarnings("unchecked")
+		public List<Gerentes> listarEmails(){
+			
+			entityManager.getTransaction().begin();
+			Query consulta = entityManager.createQuery("select email from Gerentes gerente");
 			List<Gerentes> lista = consulta.getResultList();
 			entityManager.getTransaction().commit();
 			
