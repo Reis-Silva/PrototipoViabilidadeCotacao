@@ -54,11 +54,71 @@
 				<p:outputLabel value="R$(BRL)" />
 
 				<p:commandButton value="Buscar"
-					action="#{cotacaoController.moedaCotacaoAtual()}" update="pg"/>
+					action="#{cotacaoController.moedaCotacaoAtual()}" update="form1 pg tablecotacoes"/>
 
 			</h:panelGrid>
 		</p:panel>
+		
+		<br/>
+		
+		<p:fieldset legend="Cotações de Moedas">
 
+			<p:dataTable id="tablecotacoes" value="#{cotacaoController.cotacoes}" var="m"
+				border="1" width="800px" style="width: auto;" paginator="true"
+				rows="5" widgetVar="tJogos"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+				paginatorPosition="bottom" rowsPerPageTemplate="5">
+
+				<f:facet name="header">
+           			Tabela de Cotacões
+        		</f:facet>
+
+				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
+					sortBy="#{m.moedaOrigem}" headerText="MoedaOrigem">
+					<h:outputLabel value="#{m.moedaOrigem}" />
+				</p:column>
+
+				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
+					sortBy="#{j.registroID}" headerText="MoedaDestino">
+					<h:outputLabel value="#{m.moedaDestino}" />
+				</p:column>
+
+				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
+					headerText="VlrCompra">
+					<h:outputLabel value="#{m.cotacaoCompra}" />
+				</p:column>
+
+				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
+					headerText="VlrVenda">
+					<h:outputLabel value="#{m.cotacaoVenda}" />
+				</p:column>
+				
+				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
+					headerText="PercentLucro">
+					<h:outputLabel value="2.5" />
+				</p:column>
+				
+				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
+					headerText="VlrCompraAjust">
+					<h:outputLabel value="#{m.vlrCompraAjust}" />
+				</p:column>
+				
+				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
+					headerText="VlrVendaAjust">
+					<h:outputLabel value="#{m.vlrVendaAjust}" />
+				</p:column>
+							
+				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
+					headerText="Data">
+					<h:outputLabel value="#{m.dataSave}" />
+				</p:column>
+				
+				<p:commandButton value="Buscar" action="#{cotacaoController.buscar()}"/>
+			</p:dataTable>
+		</p:fieldset>
+		
+		
 	</h:form>
 </h:body>
 </html>
