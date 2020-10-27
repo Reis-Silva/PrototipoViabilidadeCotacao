@@ -1,7 +1,6 @@
 package br.com.cotacao.entidade.datasource;
 
-import java.util.Date;
-
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,11 +10,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "moedas")
-public class Moedas {
+public class Moedas implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	public Moedas() {}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private double id;
+	private int id;
 	
 	@Column
 	private String moedaOrigem;
@@ -46,11 +49,11 @@ public class Moedas {
 	@Column
 	private String dataSave;
 
-	public double getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -141,8 +144,5 @@ public class Moedas {
 	public void setDataSave(String dataSave) {
 		this.dataSave = dataSave;
 	}
-
-	
-
 
 }

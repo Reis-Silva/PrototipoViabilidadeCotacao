@@ -164,7 +164,7 @@ public class CotacaoController implements Serializable {
 	public void init() {
 		try {
 			
-			buscar();
+			//buscar();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
