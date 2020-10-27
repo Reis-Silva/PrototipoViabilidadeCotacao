@@ -129,42 +129,26 @@ public class CotacaoController implements Serializable {
 		public void save() {
 			gerenciar = new MoedasDAO();
 			gerenciar.salvar(cotacao);
-			//buscar();	
+			buscar();	
+		}
+				
+		//Busca no banco de dados
+		public void buscar() {
+			cotacao = new Moedas();
+			gerenciar = new MoedasDAO();
+			setCotacoes(gerenciar.listar());
 		}
 		
 		public void remove(int id) {
 			gerenciar.removeById(id);
 			buscar();
 		}
-		
-		//Busca no banco de dados
-		public void buscar() {
-			gerenciar = new MoedasDAO();
-			setCotacoes(gerenciar.listar());
-		}
-		
-		/*//Função para editar no banco de dados
-		public void inicioEditar(int id ,String inputnJogo, String inputrID, String inputvSistema) {
-			jogo.setId(id);
-			jogo.setNomeJogo(inputnJogo);
-			jogo.setRegistroID(inputrID);
-			jogo.setVersao(inputvSistema);
-		}
-		
-		
-		public void editar(int id, String inputnJogo, String inputrID, String inputvSistema) {
-			gerenciar.atualizar(id, inputnJogo, inputrID, inputvSistema);
-			buscar();
-		}*/
-		
-		//Iniciando o sistema
 	
 	// Inicio automático da página
 	@PostConstruct
 	public void init() {
 		try {
-			
-			//buscar();
+			buscar();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

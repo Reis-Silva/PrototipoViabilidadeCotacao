@@ -26,17 +26,18 @@ public class Moedas implements Serializable{
 	@Column
 	private String MoedaDestino="BRL";
 	
-	private double paridadeCompra;
-	private double paridadeVenda;
+	@Column
+	private double paridadecompra;
+	
+	@Column
+	private double paridadevenda;
 	
 	@Column
 	private double cotacaoCompra;
 	
 	@Column
 	private double cotacaoVenda;
-	
-	private String tipoBoletim;
-	
+		
 	@Column
 	private double vlrCompraAjust;
 	
@@ -73,20 +74,20 @@ public class Moedas implements Serializable{
 		MoedaDestino = moedaDestino;
 	}
 
-	public double getParidadeCompra() {
-		return paridadeCompra;
+	public double getParidadecompra() {
+		return paridadecompra;
 	}
 
-	public void setParidadeCompra(double paridadeCompra) {
-		this.paridadeCompra = paridadeCompra;
+	public void setParidadecompra(double paridadecompra) {
+		this.paridadecompra = paridadecompra;
 	}
 
-	public double getParidadeVenda() {
-		return paridadeVenda;
+	public double getParidadevenda() {
+		return paridadevenda;
 	}
 
-	public void setParidadeVenda(double paridadeVenda) {
-		this.paridadeVenda = paridadeVenda;
+	public void setParidadevenda(double paridadevenda) {
+		this.paridadevenda = paridadevenda;
 	}
 
 	public double getCotacaoCompra() {
@@ -103,14 +104,6 @@ public class Moedas implements Serializable{
 
 	public void setCotacaoVenda(double cotacaoVenda) {
 		this.cotacaoVenda = cotacaoVenda;
-	}
-
-	public String getTipoBoletim() {
-		return tipoBoletim;
-	}
-
-	public void setTipoBoletim(String tipoBoletim) {
-		this.tipoBoletim = tipoBoletim;
 	}
 
 	public double getVlrCompraAjust() {
@@ -144,5 +137,8 @@ public class Moedas implements Serializable{
 	public void setDataSave(String dataSave) {
 		this.dataSave = dataSave;
 	}
+
+	
+
 
 }

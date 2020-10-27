@@ -87,19 +87,4 @@ public class MoedasDAO {
 			return lista;
 		}
 		
-		
-		/*//Atualizar no banco de dados
-		public void atualizar(final int id, String inputnJogo, String inputrID, String inputvSistema) {
-			
-			Moedas moeda = entityManager.find(Moedas.class, id);
-			entityManager.getTransaction().begin();
-			moeda.setNomeJogo(inputnJogo);
-			moeda.setRegistroID(inputrID);
-			moeda.setVersao(inputvSistema);
-			entityManager.getTransaction().commit();
-			entityManagerFactory.close();
-			
-		}*/
-	
-
 }

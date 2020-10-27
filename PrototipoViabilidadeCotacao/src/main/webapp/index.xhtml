@@ -9,7 +9,7 @@
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>COVID Brazil</title>
+	<title>Cotações de Moedas</title>
 </h:head>
 
 
@@ -40,9 +40,10 @@
 					</f:facet>
 				</p:selectOneMenu>
 				<p:outputLabel value="" />
-				
+
 				<p:outputLabel value="Data da Cotação" />
-				<p:calendar value="#{cotacaoController.dataInicial}" mode="popup" pattern="MM/dd/yyyy" />
+				<p:calendar value="#{cotacaoController.dataInicial}" mode="popup"
+					pattern="MM/dd/yyyy" required="true" />
 				<p:outputLabel value="" />
 
 				<p:outputLabel value="Cotação (Compra)" />
@@ -54,18 +55,19 @@
 				<p:outputLabel value="R$(BRL)" />
 
 				<p:commandButton value="Buscar"
-					action="#{cotacaoController.moedaCotacaoAtual()}" update="form1 pg tablecotacoes"/>
+					action="#{cotacaoController.moedaCotacaoAtual()}"
+					update="form1 pg tablecotacoes" />
 
 			</h:panelGrid>
 		</p:panel>
-		
-		<br/>
-		
+
+		<br />
+
 		<p:fieldset legend="Cotações de Moedas">
 
-			<p:dataTable id="tablecotacoes" value="#{cotacaoController.cotacoes}" var="m"
-				border="1" width="800px" style="width: auto;" paginator="true"
-				rows="5" widgetVar="tJogos"
+			<p:dataTable id="tablecotacoes" value="#{cotacaoController.cotacoes}"
+				var="m" border="1" width="800px" style="width: auto;"
+				paginator="true" rows="5" widgetVar="tMoedas"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
 				paginatorPosition="bottom" rowsPerPageTemplate="5">
@@ -93,32 +95,38 @@
 					headerText="VlrVenda">
 					<h:outputLabel value="#{m.cotacaoVenda}" />
 				</p:column>
-				
+
 				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
 					headerText="PercentLucro">
 					<h:outputLabel value="2.5" />
 				</p:column>
-				
+
 				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
 					headerText="VlrCompraAjust">
 					<h:outputLabel value="#{m.vlrCompraAjust}" />
 				</p:column>
-				
+
 				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
 					headerText="VlrVendaAjust">
 					<h:outputLabel value="#{m.vlrVendaAjust}" />
 				</p:column>
-							
+
 				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
 					headerText="Data">
 					<h:outputLabel value="#{m.dataSave}" />
 				</p:column>
-				
-				<p:commandButton value="Buscar" action="#{cotacaoController.buscar()}"/>
+
+				<p:column>
+					<p:commandButton value="Deletar" process="tablecotacoes"
+						actionListener="#{cotacaoController.remove(m.id)}"
+						update="form1 tablecotacoes" />
+
+				</p:column>
+
 			</p:dataTable>
 		</p:fieldset>
-		
-		
+
+
 	</h:form>
 </h:body>
 </html>
