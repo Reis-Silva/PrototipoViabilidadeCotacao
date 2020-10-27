@@ -31,9 +31,16 @@
 				<p:selectOneMenu id="MO" value="#{cotacaoController.inputMoeda}"
 					unselectable="true" required="true">
 					<f:selectItem itemLabel="Selecione" itemValue="" />
-					<f:selectItem itemLabel="USD" itemValue="USD" />
-					<f:selectItem itemLabel="CAD" itemValue="CAD" />
-					<f:selectItem itemLabel="EUR" itemValue="EUR" />
+					<f:selectItem itemLabel="A$ - AUD" itemValue="AUD" />
+					<f:selectItem itemLabel="C$ - CAD" itemValue="CAD" />
+					<f:selectItem itemLabel="Fr - CHF" itemValue="CHF" />
+					<f:selectItem itemLabel="kr - DKK" itemValue="DKK" />
+					<f:selectItem itemLabel="£ - GBP" itemValue="GBP" />
+					<f:selectItem itemLabel="¥ - JPY" itemValue="JPY" />
+					<f:selectItem itemLabel="kr - NOK" itemValue="NOK" />
+					<f:selectItem itemLabel="kr - SEK" itemValue="SEK" />
+					<f:selectItem itemLabel="$ - USD" itemValue="USD" />
+					
 					<f:facet name="footer">
 						<p:separator />
 						<h:outputText value="Moedas" style="font-weight:bold;" />
@@ -43,15 +50,15 @@
 
 				<p:outputLabel value="Data da Cotação" />
 				<p:calendar value="#{cotacaoController.dataInicial}" mode="popup"
-					pattern="MM/dd/yyyy" required="true" />
+					pattern="dd/MM/yyyy" required="true" />
 				<p:outputLabel value="" />
 
 				<p:outputLabel value="Cotação (Compra)" />
-				<p:outputLabel value="#{cotacaoController.cotacao.cotacaoCompra}" />
+				<p:outputLabel value="#{cotacaoController.moeda.cotacaoCompra}" />
 				<p:outputLabel value="R$(BRL)" />
 
 				<p:outputLabel value="Cotação (Venda)" />
-				<p:outputLabel value="#{cotacaoController.cotacao.cotacaoVenda}" />
+				<p:outputLabel value="#{cotacaoController.moeda.cotacaoVenda}" />
 				<p:outputLabel value="R$(BRL)" />
 
 				<p:commandButton value="Buscar"
@@ -65,12 +72,12 @@
 
 		<p:fieldset legend="Cotações de Moedas">
 
-			<p:dataTable id="tablecotacoes" value="#{cotacaoController.cotacoes}"
+			<p:dataTable id="tablecotacoes" value="#{cotacaoController.moedas}"
 				var="m" border="1" width="800px" style="width: auto;"
-				paginator="true" rows="5" widgetVar="tMoedas"
+				paginator="true" rows="10" widgetVar="tMoedas"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-				paginatorPosition="bottom" rowsPerPageTemplate="5">
+				paginatorPosition="bottom" rowsPerPageTemplate="10">
 
 				<f:facet name="header">
            			Tabela de Cotacões
@@ -82,7 +89,7 @@
 				</p:column>
 
 				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					sortBy="#{j.registroID}" headerText="MoedaDestino">
+					 headerText="MoedaDestino">
 					<h:outputLabel value="#{m.moedaDestino}" />
 				</p:column>
 
@@ -118,7 +125,7 @@
 
 				<p:column>
 					<p:commandButton value="Deletar" process="tablecotacoes"
-						actionListener="#{cotacaoController.remove(m.id)}"
+						actionListener="#{cotacaoController.removeMoeda(m.id)}"
 						update="form1 tablecotacoes" />
 
 				</p:column>

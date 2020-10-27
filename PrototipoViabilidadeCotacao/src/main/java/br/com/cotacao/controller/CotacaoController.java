@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 
 import br.com.cotacao.dominio.dao.MoedasDAO;
+import br.com.cotacao.entidade.datasource.Gerentes;
 import br.com.cotacao.entidade.datasource.Moedas;
 import br.com.cotacao.entidade.repository.CotacoesRepository;
 import br.com.cotacao.service.WEBStatus;
@@ -21,39 +22,51 @@ public class CotacaoController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// Iiniciando construção de lista
-	
+
 	private CotacoesRepository cotacaoAtual;
-	
+
 	@Inject
 	private String inputMoeda;
-	
+
 	@Inject
-	private Moedas cotacao;
-	
+	private Moedas moeda;
+
 	@Inject
-	private List<Moedas> cotacoes;
-	
+	private List<Moedas> moedas;
+
 	@Inject
 	private DataUtils dataUtils = new DataUtils();
-	
+
 	@Inject
 	private Date dataInicial;
-	
+
 	@Inject
 	private MoedasDAO gerenciar;
 	
+	@Inject
+	private Gerentes gerente;
+	
+	@Inject
+	private List<Gerentes> gerentes;
+	
+	public Gerentes getGerente() {
+		return gerente;
+	}
+
+	public void setGerente(Gerentes gerente) {
+		this.gerente = gerente;
+	}
+
+	public List<Gerentes> getGerentes() {
+		return gerentes;
+	}
+
+	public void setGerentes(List<Gerentes> gerentes) {
+		this.gerentes = gerentes;
+	}
+
 	public MoedasDAO getGerenciar() {
 		return gerenciar;
-	}
-
-	public void setGerenciar(MoedasDAO gerenciar) {
-		this.gerenciar = gerenciar;
-	}
-
-	private Enum TipoMoeda;
-	
-	public Enum getTipoMoeda() {
-		return TipoMoeda;
 	}
 
 	public CotacoesRepository getCotacaoAtual() {
@@ -72,20 +85,20 @@ public class CotacaoController implements Serializable {
 		this.inputMoeda = inputMoeda;
 	}
 
-	public Moedas getCotacao() {
-		return cotacao;
+	public Moedas getMoeda() {
+		return moeda;
 	}
 
-	public void setCotacao(Moedas cotacao) {
-		this.cotacao = cotacao;
+	public void setMoeda(Moedas moeda) {
+		this.moeda = moeda;
 	}
 
-	public List<Moedas> getCotacoes() {
-		return cotacoes;
+	public List<Moedas> getMoedas() {
+		return moedas;
 	}
 
-	public void setCotacoes(List<Moedas> cotacoes) {
-		this.cotacoes = cotacoes;
+	public void setMoedas(List<Moedas> moedas) {
+		this.moedas = moedas;
 	}
 
 	public DataUtils getDataUtils() {
@@ -99,56 +112,84 @@ public class CotacaoController implements Serializable {
 	public Date getDataInicial() {
 		return dataInicial;
 	}
-
+	
 	public void setDataInicial(Date dataInicial) {
 		this.dataInicial = dataInicial;
 	}
 
-	public void setTipoMoeda(Enum tipoMoeda) {
-		TipoMoeda = tipoMoeda;
+	public void setGerenciar(MoedasDAO gerenciar) {
+		this.gerenciar = gerenciar;
 	}
 
-
-	public void varreduraLista(){
-		setCotacao(cotacoes.get(cotacoes.size()-1));
-		cotacao.setVlrCompraAjust(cotacao.getCotacaoCompra()+(cotacao.getCotacaoCompra()*cotacao.getPercentLucro()));
-		cotacao.setVlrVendaAjust(cotacao.getCotacaoVenda()+(cotacao.getCotacaoVenda()*cotacao.getPercentLucro()));
-		cotacao.setMoedaOrigem(getInputMoeda());
-		cotacao.setDataSave(this.dataUtils.dateAsString(getDataInicial()));
+	public void varreduraLista() {
+		setMoeda(moedas.get(moedas.size() - 1));
+		moeda.setMoedaOrigem(getInputMoeda());
+		moeda.setVlrCompraAjust(
+				moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
+		moeda.setVlrVendaAjust(
+				moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
+		moeda.setDataSave(this.dataUtils.dateAsString(getDataInicial()));
 	}
-	
+
 	public void moedaCotacaoAtual() throws Exception {
-		cotacao = new Moedas();
-		setCotacoes(WEBStatus.listarCotas(getInputMoeda(), this.dataUtils.dateAsString(getDataInicial()), this.dataUtils.todayAsString()));
+		moeda = new Moedas();
+		setMoedas(WEBStatus.listarCotas(getInputMoeda(), this.dataUtils.dateAsString(getDataInicial()),
+				this.dataUtils.todayAsString()));
 		varreduraLista();
-		save();
+		saveMoeda();
+	}
+
+	// Função para salvar no banco de dados
+	public void saveMoeda() {
+		gerenciar = new MoedasDAO();
+		gerenciar.salvar(moeda);
+		buscarMoeda();
+	}
+
+	// Busca no banco de dados
+	public void buscarMoeda() {
+		moeda = new Moedas();
+		gerenciar = new MoedasDAO();
+		setMoedas(gerenciar.listar());
+	}
+
+	public void removeMoeda(int id) {
+		gerenciar.removeById(id);
+		buscarMoeda();
 	}
 	
 	
-	//Função para salvar no banco de dados
-		public void save() {
-			gerenciar = new MoedasDAO();
-			gerenciar.salvar(cotacao);
-			buscar();	
-		}
-				
-		//Busca no banco de dados
-		public void buscar() {
-			cotacao = new Moedas();
-			gerenciar = new MoedasDAO();
-			setCotacoes(gerenciar.listar());
-		}
-		
-		public void remove(int id) {
-			gerenciar.removeById(id);
-			buscar();
-		}
+	// Função para salvar no banco de dados
+	public void saveGerente() {
+		gerenciar = new MoedasDAO();
+		gerenciar.salvar(moeda);
+		buscarMoeda();
+	}
+
+	// Busca no banco de dados
+	public void buscarGerente() {
+		moeda = new Moedas();
+		gerenciar = new MoedasDAO();
+		setMoedas(gerenciar.listar());
+	}
+
+	public void removeGerente(int id) {
+		gerenciar.removeById(id);
+		buscarMoeda();
+	}
 	
+	
+	
+	public void sendMail(String[] mails) {
+		JavaMailApp mail = new JavaMailApp();
+		mail.javamail(mails);
+	}
+
 	// Inicio automático da página
 	@PostConstruct
 	public void init() {
 		try {
-			buscar();
+			buscarMoeda();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

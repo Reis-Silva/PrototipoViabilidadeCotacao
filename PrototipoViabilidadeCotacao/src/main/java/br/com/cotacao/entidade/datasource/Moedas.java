@@ -1,12 +1,14 @@
 package br.com.cotacao.entidade.datasource;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "moedas")
@@ -20,35 +22,38 @@ public class Moedas implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column
+	@Column(name = "MoedaOrigem", length = 10, nullable = false )
 	private String moedaOrigem;
 	
-	@Column
-	private String MoedaDestino="BRL";
+	@Column(name = "MoedaDestino", length = 10, nullable = false ) 
+	private String moedaDestino="BRL";
 	
-	@Column
+	@Transient
 	private double paridadecompra;
 	
-	@Column
+	@Transient
 	private double paridadevenda;
 	
-	@Column
+	@Column(name = "CotacaoCompra", length = 10, nullable = false ) 
 	private double cotacaoCompra;
 	
-	@Column
+	@Column(name = "CotacaoVenda", length = 10, nullable = false ) 
 	private double cotacaoVenda;
 		
-	@Column
+	@Column(name = "vlrCompraAjust", length = 10, nullable = false )
 	private double vlrCompraAjust;
 	
-	@Column
+	@Column(name = "vlrVendaAjust", length = 10, nullable = false )
 	private double vlrVendaAjust;
 	
-	@Column
+	@Column(name = "percentLucro", length = 10, nullable = false )
 	private double percentLucro=0.025;
 	
-	@Column
+	@Column(name = "Data", length = 10, nullable = false )
 	private String dataSave;
+	
+	@Transient
+	private String tipoBoletim;
 
 	public int getId() {
 		return id;
@@ -67,11 +72,11 @@ public class Moedas implements Serializable{
 	}
 
 	public String getMoedaDestino() {
-		return MoedaDestino;
+		return moedaDestino;
 	}
 
 	public void setMoedaDestino(String moedaDestino) {
-		MoedaDestino = moedaDestino;
+		this.moedaDestino = moedaDestino;
 	}
 
 	public double getParidadecompra() {
@@ -138,7 +143,13 @@ public class Moedas implements Serializable{
 		this.dataSave = dataSave;
 	}
 
-	
+	public String getTipoBoletim() {
+		return tipoBoletim;
+	}
+
+	public void setTipoBoletim(String tipoBoletim) {
+		this.tipoBoletim = tipoBoletim;
+	}
 
 
 }
