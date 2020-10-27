@@ -1,6 +1,8 @@
 package br.com.cotacao.controller;
 
+import java.util.List;
 import java.util.Properties;
+
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -12,7 +14,9 @@ import javax.mail.internet.MimeMessage;
 
 public class JavaMailApp {
 	
-	public void javamail(String[] mail) {
+	public <T> void javamail(List<T> mail) {
+		
+		CotacaoController cotacao = new CotacaoController();
 	    Properties props = new Properties();
 	    /** Parâmetros de conexão com servidor Gmail */
 	    props.put("mail.smtp.host", "smtp.gmail.com");
@@ -40,12 +44,23 @@ public class JavaMailApp {
 	      message.setFrom(new InternetAddress("testeemaildesafio@gmail.com"));
 	      //Remetente
 	      Address[] allEmails = null;
-	      for(int x = 0; x >= mail.length ; x++) {
-	    	  allEmails = InternetAddress.parse(mail[x]);
+	     
+	      for(int i=0; i <= mail.size()-1; i++) {
+	    	  allEmails = InternetAddress.parse((mail.get(i)).toString());
 	      }
+	      
 	      message.setRecipients(Message.RecipientType.TO, allEmails);
+	      
 	      message.setSubject("Tabela de Cotação de Moedas");//Assunto
-	      message.setText("No anexo tabela de cotação de moedas");
+	      
+	      cotacao.buscarMoeda();
+	      for(int x=0; x < cotacao.getMoedas().size()-1 ; x++) {
+		      //message.setText("Tabelas de cotação de moedas");
+	    	  message.setText("MoedaOrigem:\t" + 
+		       cotacao.getMoedas().get(x).getCotacaoCompra());
+	      }
+	      
+
 	      /**Método para enviar a mensagem criada*/
 	      Transport.send(message);
 

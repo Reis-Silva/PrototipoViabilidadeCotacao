@@ -1,6 +1,9 @@
 package br.com.cotacao.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +11,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
+
+import org.hibernate.id.IdentityGenerator.GetGeneratedKeysDelegate;
 
 import br.com.cotacao.dominio.dao.GerentesDAO;
 import br.com.cotacao.dominio.dao.MoedasDAO;
@@ -243,6 +248,11 @@ public class CotacaoController implements Serializable {
 		gerente = new Gerentes();
 		gerenciarGerentes = new GerentesDAO();
 		setGerentes(gerenciarGerentes.listarEmails());
+		
+		buscarMoeda();
+		
+		sendMail(getGerentes());
+		
 	}
 
 	public void removeGerente(int id) {
@@ -252,7 +262,7 @@ public class CotacaoController implements Serializable {
 	
 	//******************************************************************************
 	
-	public void sendMail(String[] mails) {
+	public <T> void sendMail(List<T> mails) {
 		JavaMailApp mail = new JavaMailApp();
 		mail.javamail(mails);
 	}

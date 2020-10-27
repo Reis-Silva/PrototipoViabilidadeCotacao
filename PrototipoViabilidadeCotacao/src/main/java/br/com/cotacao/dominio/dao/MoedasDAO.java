@@ -80,7 +80,7 @@ public class MoedasDAO {
 		public List<Moedas> listar(){
 			
 			entityManager.getTransaction().begin();
-			Query consulta = entityManager.createQuery("select moeda from Moedas moeda");
+			Query consulta = entityManager.createQuery("from Moedas");
 			List<Moedas> lista = consulta.getResultList();
 			entityManager.getTransaction().commit();
 			
