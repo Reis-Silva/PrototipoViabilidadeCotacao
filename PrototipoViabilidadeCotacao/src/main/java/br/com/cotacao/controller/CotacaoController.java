@@ -30,35 +30,18 @@ public class CotacaoController implements Serializable {
 	
 	private List<Moedas> cotacoes;
 	
+	private DataUtils dataUtils = new DataUtils();
+	
 	private Date dataInicial;
 	
-	private Date dataFinal;
+	private Enum TipoMoeda;
+	
+	public Enum getTipoMoeda() {
+		return TipoMoeda;
+	}
 
 	
 	
-	public Date getDataInicial() {
-		return dataInicial;
-	}
-
-	public void setDataInicial(Date dataInicial) {
-		this.dataInicial = dataInicial;
-	}
-
-	public Date getDataFinal() {
-		return dataFinal;
-	}
-
-	public void setDataFinal(Date dataFinal) {
-		this.dataFinal = dataFinal;
-	}
-
-	public Moedas getCotacao() {
-		return cotacao;
-	}
-
-	public void setCotacao(Moedas cotacao) {
-		this.cotacao = cotacao;
-	}
 
 	public CotacoesRepository getCotacaoAtual() {
 		return cotacaoAtual;
@@ -76,6 +59,14 @@ public class CotacaoController implements Serializable {
 		this.inputMoeda = inputMoeda;
 	}
 
+	public Moedas getCotacao() {
+		return cotacao;
+	}
+
+	public void setCotacao(Moedas cotacao) {
+		this.cotacao = cotacao;
+	}
+
 	public List<Moedas> getCotacoes() {
 		return cotacoes;
 	}
@@ -84,42 +75,41 @@ public class CotacaoController implements Serializable {
 		this.cotacoes = cotacoes;
 	}
 
-	public String calendarioAtual() {
-		Calendar calendar = new GregorianCalendar();
-		String dia = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
-		String mes = Integer.toString(calendar.get((Calendar.MONTH))+1);
-		String  ano = Integer.toString(calendar.get(Calendar.YEAR));
-		
-		String dataAtual = mes+dia+ano;
-		
-		return dataAtual;	 
+	public DataUtils getDataUtils() {
+		return dataUtils;
 	}
-	 
-	
+
+	public void setDataUtils(DataUtils dataUtils) {
+		this.dataUtils = dataUtils;
+	}
+
+	public Date getDataInicial() {
+		return dataInicial;
+	}
+
+	public void setDataInicial(Date dataInicial) {
+		this.dataInicial = dataInicial;
+	}
+
+	public void setTipoMoeda(Enum tipoMoeda) {
+		TipoMoeda = tipoMoeda;
+	}
+
+
 	public void varreduraLista(){
-		
 		setCotacao(cotacoes.get(cotacoes.size()-1));
 		System.out.print("\n"+cotacao.getCotacaoCompra());
 	}
 	
-	public void moedaCotacaoAtual(String inputMoeda, String dataInicial, String dataFinal) throws Exception {
-		setCotacoes(WEBStatus.listarCotas(inputMoeda, dataInicial, dataFinal));
+	public void moedaCotacaoAtual() throws Exception {
+		
+		setCotacoes(WEBStatus.listarCotas(getInputMoeda(), this.dataUtils.dateAsString(getDataInicial()), this.dataUtils.todayAsString()));
 		varreduraLista();
+		
 	}
 	
-	/*public void moedaCotacaoAtual(){
-		
-		String dataAtual = calendarioAtual();
-		try {
-			cotacaoAtual =  WEBStatus.moedasDetalhes(inputMoeda, dataAtual);
-			varreduraLista();
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}*/
+	
+
 	
 	// Inicio automático da página
 	@PostConstruct

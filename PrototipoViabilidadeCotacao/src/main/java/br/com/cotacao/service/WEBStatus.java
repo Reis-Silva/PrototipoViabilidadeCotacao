@@ -20,9 +20,7 @@ public class WEBStatus {
 		WEBStatus ws = new WEBStatus();
 		String url = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?"
 				+ "%40moeda='"+ moeda+"'&%40dataInicial='"+dataInicial+"'&%40dataFinalCotacao='"+dataFinal+"'&%24format=json";
-		
-		//String url = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaDia(moeda=@moeda,dataCotacao=@dataCotacao)?"
-		//		+ "%40moeda='" +moeda+"'&%40dataCotacao='"+dataAtual+"'&%24format=json";
+
 		String json = ws.obterDados(url);
 		Gson g = new Gson();
 		MoedaRepository cotacaoReposit = new MoedaRepository();

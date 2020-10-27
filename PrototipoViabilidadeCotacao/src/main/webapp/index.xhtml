@@ -39,8 +39,10 @@
 						<h:outputText value="Moedas" style="font-weight:bold;" />
 					</f:facet>
 				</p:selectOneMenu>
-
-
+				<p:outputLabel value="" />
+				
+				<p:outputLabel value="Data da Cotação" />
+				<p:calendar value="#{cotacaoController.dataInicial}" mode="popup" pattern="MM/dd/yyyy" />
 				<p:outputLabel value="" />
 
 				<p:outputLabel value="Cotação (Compra)" />
@@ -52,7 +54,7 @@
 				<p:outputLabel value="R$(BRL)" />
 
 				<p:commandButton value="Buscar"
-					action="#{cotacaoController.moedaCotacaoAtual2()}" update="pg"/>
+					action="#{cotacaoController.moedaCotacaoAtual()}" update="pg"/>
 
 			</h:panelGrid>
 		</p:panel>
