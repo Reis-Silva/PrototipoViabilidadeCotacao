@@ -59,6 +59,8 @@ public class Gerentes implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
 	
 	
 }

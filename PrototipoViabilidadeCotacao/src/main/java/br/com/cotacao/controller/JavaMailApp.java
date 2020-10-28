@@ -1,5 +1,6 @@
 package br.com.cotacao.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -11,10 +12,15 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import br.com.cotacao.service.WEBStatus;
+
 
 public class JavaMailApp {
 	
+	@SuppressWarnings({ "unchecked", "null" })
 	public <T> void javamail(List<T> mail) {
+		
+		String[] UnidadeMoedas = {"AUD","CAD","CHF","DKK","GBP","JPY","NOK","SEK","USD"};
 		
 		CotacaoController cotacao = new CotacaoController();
 		
@@ -32,32 +38,49 @@ public class JavaMailApp {
 	           protected PasswordAuthentication getPasswordAuthentication()
 	           {
 	                 return new PasswordAuthentication("testeemaildesafio@gmail.com",
-	                 "senha@123");
+	                 "testeemaildesafio@12");
 	           }
 	      });
 
 	    /** Ativa Debug para sessão */
 	    session.setDebug(true);
-
+	    List<T> lista = new ArrayList<T>();
+	    try {	    	
+			
+			   for(int i=0; i <= 8 ; i++) {
+				  // System.out.println("Teste: "+cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
+			    	//  lista.add((T) cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
+			      }
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	 
 	    try {
 	    	
 	    
 	      Message message = new MimeMessage(session);
 	      message.setFrom(new InternetAddress("testeemaildesafio@gmail.com"));
 	      //Remetente
+	      String[] teste = null;
 	      Address[] allEmails = null;
-	     
-	      for(int i=0; i <= mail.size()-1; i++) {
-	    	  allEmails = InternetAddress.parse((mail.get(i)).toString());
+	      
+	      System.out.print("teste1: "+mail);
+	      
+	      for(int i=0; i < mail.size(); i++) {
+	    	  allEmails = InternetAddress.parse((String) mail.get(i));
 	      }
+	      System.out.print("\nteste2: "+allEmails.toString()+"\n");
+	      
+	      
 	      
 	      message.setRecipients(Message.RecipientType.TO, allEmails);
 	      
 	      message.setSubject("Tabela diária - Cotação de Moedas");//Assunto
 	      
-	      cotacao.buscarMoeda();
+	      //cotacao.buscarMoeda();
 
-	      message.setContent(cotacao.getMoedas().toString(),
+	      message.setContent(lista.toString(),
     			  "text/html; charset=utf-8");
 	      
 	      /**Método para enviar a mensagem criada*/

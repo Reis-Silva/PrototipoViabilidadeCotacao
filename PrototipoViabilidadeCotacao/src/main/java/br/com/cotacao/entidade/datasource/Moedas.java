@@ -155,8 +155,8 @@ public class Moedas implements Serializable{
 	@Override
 	public String toString() {
 		return "<br/><br/>moedaOrigem=" + moedaOrigem + "<br/>moedaDestino=" + moedaDestino
-				+ "<br/>cotacaoCompra=" + cotacaoCompra + "<br/>cotacaoVenda=" + cotacaoVenda + "<br/>vlrCompraAjust=" + vlrCompraAjust
-				+ "<br/>vlrVendaAjust=" + vlrVendaAjust + "<br/>percentLucro=" + percentLucro + "<br/>dataSave=" + dataSave+"<br/><br/";
+				+ "<br/>cotacaoCompra=" + cotacaoCompra + "<br/>cotacaoVenda=" + cotacaoVenda + "<br/>percentLucro=" + percentLucro 
+				+"<br/>vlrCompraAjust=" + vlrCompraAjust + "<br/>vlrVendaAjust=" + vlrVendaAjust +  "<br/>dataSave=" + dataSave+"<br/><br/>";
 	}
 
 	

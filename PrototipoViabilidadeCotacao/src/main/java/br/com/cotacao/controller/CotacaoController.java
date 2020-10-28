@@ -1,6 +1,9 @@
 package br.com.cotacao.controller;
 
+import java.awt.EventQueue;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +22,8 @@ import br.com.cotacao.service.WEBStatus;
 @ApplicationScoped
 @ManagedBean
 public class CotacaoController implements Serializable {
-
+	
+	public void CotacaoController(){}
 	private static final long serialVersionUID = 1L;
 
 	// Iiniciando construção de lista
@@ -222,6 +226,8 @@ public class CotacaoController implements Serializable {
 		VlrVendaAjust = vlrVendaAjust;
 	}
 
+ boolean laco=true;
+ 
 	//******************************** Cotação Moedas ***********************************
 	public void varreduraLista() {
 		setMoeda(moedas.get(moedas.size() - 1));
@@ -240,6 +246,24 @@ public class CotacaoController implements Serializable {
 		varreduraLista();
 		saveMoeda();
 		
+	}
+	
+	public Moedas moedaCotacaoAtualEmail(String input){
+		moeda = new Moedas();
+		try {
+			setMoedas(WEBStatus.listarCotas(input, this.dataUtils.todayAsString(),this.dataUtils.todayAsString()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		setMoeda(moedas.get(moedas.size() - 1));
+		moeda.setMoedaOrigem(input);
+		moeda.setVlrCompraAjust(
+				moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
+		moeda.setVlrVendaAjust(
+				moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
+		moeda.setDataSave(this.dataUtils.todayAsString());
+		return moeda;
 	}
 
 	// Função para salvar no banco de dados
@@ -301,12 +325,12 @@ public class CotacaoController implements Serializable {
 	}
 	
 	// Busca email dos gerentes
-	public void buscarEmailGerente() {
+	public void buscarEmailGerente() throws Exception {
 		gerente = new Gerentes();
 		gerenciarGerentes = new GerentesDAO();
 		setGerentes(gerenciarGerentes.listarEmails());
 		
-		buscarMoeda();
+		//buscarMoeda();
 		
 		sendMail(getGerentes());
 		
@@ -317,9 +341,14 @@ public class CotacaoController implements Serializable {
 		buscarGerente();
 	}
 	
-	public <T> void sendMail(List<T> mails) {
+	public <T> void sendMail(List<T> mails){
 		JavaMailApp mail = new JavaMailApp();
-		mail.javamail(mails);
+		try {
+			mail.javamail(mails);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//******************************************************************************
@@ -327,12 +356,20 @@ public class CotacaoController implements Serializable {
 	// Inicio automático da página
 	@PostConstruct
 	public void init() {
-		try {
-			buscarMoeda();
-			buscarGerente();
-		} catch (Exception e) {
-			e.printStackTrace();
+		
+		DateFormat formato = new SimpleDateFormat("HH:mm:ss.SSS");		
+		while (laco = true) {
+			try {
+				Date date = new Date();
+			    String formattedDate = formato.format(date);
+
+			    System.out.print("teste\n");
+			      Thread.sleep(10000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 }
+

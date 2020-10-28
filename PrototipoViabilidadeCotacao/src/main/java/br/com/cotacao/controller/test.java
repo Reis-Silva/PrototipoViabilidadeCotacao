@@ -4,7 +4,7 @@ public class test {
 
 	static CotacaoController co = new CotacaoController();
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		co.buscarEmailGerente();
 	}
 }
