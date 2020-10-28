@@ -65,26 +65,38 @@ public class JavaMailApp {
 	      
 	      Address[] allEmails = null;
 	      
-	      System.out.print("teste1: "+mail);
 	      
-	      for(int i=0; i <= mail.size(); i++) {
+	      
+	      System.out.print("Email da Tabela: "+mail);
+	     
+	      
+	      String[] teste = {};
+	      
+		for(int i=0; i < mail.size()-1; i++) {
 	    	  
-	    	 allEmails = InternetAddress.parse((String) mail.get(i));
+	    	  teste[i] = mail.get(i).toString();
 	      }
-	      System.out.print("\nteste2: "+allEmails.toString()+"\n");
+	      
+	      System.out.print("\nteste2: "+ teste);
+	      
+	      for(int i=0; i < mail.size(); i++) {
+	    	  
+	    	 allEmails = InternetAddress.parse(mail.get(i).toString());
+	      }
+	      
+	      System.out.print("\nteste3: "+allEmails.toString()+"\n");
 	      
 	      
 	      message.setRecipients(Message.RecipientType.TO, allEmails);
 	      
 	      message.setSubject("Tabela diária - Cotação de Moedas");//Assunto
 	      
-	      //cotacao.buscarMoeda();
-
+	   
 	      message.setContent(lista.toString(),
     			  "text/html; charset=utf-8");
 	      
 	      /**Método para enviar a mensagem criada*/
-	      Transport.send(message);
+	      //Transport.send(message);
 
 	      System.out.println("Feito!!!");
 
