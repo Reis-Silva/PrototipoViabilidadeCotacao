@@ -354,21 +354,21 @@ public class CotacaoController implements Serializable {
 	//******************************************************************************
 	
 	// Inicio automático da página
+	
+	DataUtils tempoE = new DataUtils();
 	@PostConstruct
 	public void init() {
-		
-		DateFormat formato = new SimpleDateFormat("HH:mm:ss.SSS");		
-		while (laco = true) {
-			try {
-				Date date = new Date();
-			    String formattedDate = formato.format(date);
-
-			    System.out.print("teste\n");
-			      Thread.sleep(10000);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		try {
+			buscarGerente();
+			buscarMoeda();
+			
+			tempoE.setPriority(Thread.MIN_PRIORITY);
+			//tempoE.calendarioEnvioEmail();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 	}
 
 }

@@ -62,16 +62,16 @@ public class JavaMailApp {
 	      Message message = new MimeMessage(session);
 	      message.setFrom(new InternetAddress("testeemaildesafio@gmail.com"));
 	      //Remetente
-	      String[] teste = null;
+	      
 	      Address[] allEmails = null;
 	      
 	      System.out.print("teste1: "+mail);
 	      
-	      for(int i=0; i < mail.size(); i++) {
-	    	  allEmails = InternetAddress.parse((String) mail.get(i));
+	      for(int i=0; i <= mail.size(); i++) {
+	    	  
+	    	 allEmails = InternetAddress.parse((String) mail.get(i));
 	      }
 	      System.out.print("\nteste2: "+allEmails.toString()+"\n");
-	      
 	      
 	      
 	      message.setRecipients(Message.RecipientType.TO, allEmails);
