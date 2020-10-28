@@ -17,6 +17,7 @@ public class JavaMailApp {
 	public <T> void javamail(List<T> mail) {
 		
 		CotacaoController cotacao = new CotacaoController();
+		
 	    Properties props = new Properties();
 	    /** Parâmetros de conexão com servidor Gmail */
 	    props.put("mail.smtp.host", "smtp.gmail.com");
@@ -39,7 +40,8 @@ public class JavaMailApp {
 	    session.setDebug(true);
 
 	    try {
-
+	    	
+	    
 	      Message message = new MimeMessage(session);
 	      message.setFrom(new InternetAddress("testeemaildesafio@gmail.com"));
 	      //Remetente
@@ -51,16 +53,13 @@ public class JavaMailApp {
 	      
 	      message.setRecipients(Message.RecipientType.TO, allEmails);
 	      
-	      message.setSubject("Tabela de Cotação de Moedas");//Assunto
+	      message.setSubject("Tabela diária - Cotação de Moedas");//Assunto
 	      
 	      cotacao.buscarMoeda();
-	      for(int x=0; x < cotacao.getMoedas().size()-1 ; x++) {
-		      //message.setText("Tabelas de cotação de moedas");
-	    	  message.setText("MoedaOrigem:\t" + 
-		       cotacao.getMoedas().get(x).getCotacaoCompra());
-	      }
-	      
 
+	      message.setContent(cotacao.getMoedas().toString(),
+    			  "text/html; charset=utf-8");
+	      
 	      /**Método para enviar a mensagem criada*/
 	      Transport.send(message);
 

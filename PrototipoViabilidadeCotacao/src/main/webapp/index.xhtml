@@ -14,13 +14,30 @@
 
 
 <h:body>
+
+	<p:growl id="msg" showDetail="true" sticky="true" />
+
+	<h:form id="formmenu">
+		<p:growl id="messages" showDetail="true" />
+
+		<p:menuButton value="Menu">
+			<p:menuitem value="Tabela de Moedas"
+				action="#{cotacaoController.buscarMoeda()}" update="messages"
+				icon="pi pi-save" oncomplete="PF('Moedasdetails').show();" />
+			<p:menuitem value="Tabela de Gerentes"
+				action="#{cotacaoController.buscarGerente()}" update="messages"
+				icon="pi pi-save" oncomplete="PF('Gerentesdetails').show();" />
+			<p:separator />
+			<p:menuitem value="Cadastro de Gerentes"
+				action="#{cotacaoController.saveGerente()}"
+				oncomplete="PF('CadastroGerentesdetails').show();"
+				icon="pi pi-times" />
+		</p:menuButton>
+	</h:form>
+	<br />
+	<br />
+
 	<h:form id="form1">
-
-		<p:growl id="msg" showDetail="true" sticky="true" />
-
-		<br />
-		<br />
-
 		<p:panel id="pg">
 			<h:panelGrid columns="3" border="1" layout="flex">
 				<f:facet name="header">
@@ -50,7 +67,7 @@
 
 				<p:outputLabel value="Data da Cotação" />
 				<p:calendar value="#{cotacaoController.dataInicial}" mode="popup"
-					pattern="dd/MM/yyyy" required="true" />
+					pattern="MM/dd/yyyy" required="true" />
 				<p:outputLabel value="" />
 
 				<p:outputLabel value="Cotação (Compra)" />
@@ -62,138 +79,182 @@
 				<p:outputLabel value="R$(BRL)" />
 
 				<p:commandButton value="Buscar"
-					action="#{cotacaoController.moedaCotacaoAtual()}"
-					update="form1 pg tablecotacoes" />
-
+					action="#{cotacaoController.moedaCotacaoAtual()}" process="pg" update="form1:pg formmoedas:tablecotacoes"/>
 			</h:panelGrid>
 		</p:panel>
-		<p:fieldset legend="Gerentes">
 
-			<p:dataTable id="tablecotacoes" value="#{cotacaoController.moedas}"
-				var="m" border="1" width="800px" style="width: auto;"
-				paginator="true" rows="10" widgetVar="tMoedas"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-				paginatorPosition="bottom" rowsPerPageTemplate="10">
+	</h:form>
 
-				<f:facet name="header">
+
+
+	<br />
+
+	<p:dialog widgetVar="Moedasdetails" id="Moedasdetails"
+		showEffect="fade" hideEffect="fade" styleClass="modal-dialog"
+		header="Cotação de Moedas" appendTo="@(body)" closable="true"
+		resizable="false" responsive="true" modal="true" height="auto"
+		style="width:300px;  font-size: 14pt; text-align: center;">
+
+		<h:form id="formmoedas">
+			<p:fieldset legend="Moedas Cadastradas">
+
+				<p:dataTable id="tablecotacoes" value="#{cotacaoController.moedas}"
+					var="m" border="1" width="800px" style="width: auto;"
+					paginator="true" rows="10" widgetVar="tMoedas"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+					paginatorPosition="bottom" rowsPerPageTemplate="10">
+
+					<f:facet name="header">
            			Tabela de Cotacões
         		</f:facet>
 
-				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					sortBy="#{m.moedaOrigem}" headerText="MoedaOrigem">
-					<h:outputLabel value="#{m.moedaOrigem}" />
-				</p:column>
+					<p:column
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						sortBy="#{m.moedaOrigem}" headerText="MoedaOrigem">
+						<h:outputLabel value="#{m.moedaOrigem}" />
+					</p:column>
 
-				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					headerText="MoedaDestino">
-					<h:outputLabel value="#{m.moedaDestino}" />
-				</p:column>
+					<p:column
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						headerText="MoedaDestino">
+						<h:outputLabel value="#{m.moedaDestino}" />
+					</p:column>
 
-				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					headerText="VlrCompra">
-					<h:outputLabel value="#{m.cotacaoCompra}" />
-				</p:column>
+					<p:column
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						headerText="VlrCompra">
+						<h:outputLabel value="#{m.cotacaoCompra}" />
+					</p:column>
 
-				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					headerText="VlrVenda">
-					<h:outputLabel value="#{m.cotacaoVenda}" />
-				</p:column>
+					<p:column
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						headerText="VlrVenda">
+						<h:outputLabel value="#{m.cotacaoVenda}" />
+					</p:column>
 
-				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					headerText="PercentLucro">
-					<h:outputLabel value="2.5" />
-				</p:column>
+					<p:column
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						headerText="PercentLucro">
+						<h:outputLabel value="2.5" />
+					</p:column>
 
-				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					headerText="VlrCompraAjust">
-					<h:outputLabel value="#{m.vlrCompraAjust}" />
-				</p:column>
+					<p:column
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						headerText="VlrCompraAjust">
+						<h:outputLabel value="#{m.vlrCompraAjust}" />
+					</p:column>
 
-				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					headerText="VlrVendaAjust">
-					<h:outputLabel value="#{m.vlrVendaAjust}" />
-				</p:column>
+					<p:column
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						headerText="VlrVendaAjust">
+						<h:outputLabel value="#{m.vlrVendaAjust}" />
+					</p:column>
 
-				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					headerText="Data">
-					<h:outputLabel value="#{m.dataSave}" />
-				</p:column>
+					<p:column
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						headerText="Data">
+						<h:outputLabel value="#{m.dataSave}" />
+					</p:column>
 
-				<p:column>
-					<p:commandButton value="Deletar" process="tablecotacoes"
-						actionListener="#{cotacaoController.removeMoeda(m.id)}"
-						update="form1 tablecotacoes" />
+					<p:column>
+						<p:commandButton value="Deletar" process="tablecotacoes"
+							actionListener="#{cotacaoController.removeMoeda(m.id)}"
+							update="form1 tablecotacoes" />
 
-				</p:column>
+					</p:column>
 
-			</p:dataTable>
-		</p:fieldset>
+				</p:dataTable>
+			</p:fieldset>
+		</h:form>
+	</p:dialog>
 
-	</h:form>
-	<br />
-	<h:form id="form2">
 
-		<p:panel id="pg2">
-			<h:panelGrid columns="2" border="1" layout="flex">
-				<f:facet name="header">
+
+	<p:dialog widgetVar="CadastroGerentesdetails"
+		id="CadastroGerentesdetails" showEffect="fade" hideEffect="fade"
+		styleClass="modal-dialog" header="Cadastro de Gerentes"
+		appendTo="@(body)" closable="true" resizable="false" responsive="true"
+		modal="true" height="auto"
+		style="width:300px;  font-size: 14pt; text-align: center;">
+
+		<h:form id="formcadastrogerente">
+			<p:panel id="pg2">
+				<h:panelGrid columns="2" border="1" layout="flex">
+					<f:facet name="header">
            		Cadastro de Gerentes
         	</f:facet>
 
-				<p:outputLabel value="Nome" />
-				<p:inputText value="#{cotacaoController.inputNomeGerente}" />
+					<p:outputLabel value="Nome" />
+					<p:inputText value="#{cotacaoController.inputNomeGerente}" />
 
-				<p:outputLabel value="Agencia" />
-				<p:inputText value="#{cotacaoController.inputAgencia}" />
+					<p:outputLabel value="Agencia" />
+					<p:inputText value="#{cotacaoController.inputAgencia}" />
 
-				<p:outputLabel value="Email" />
-				<p:inputText value="#{cotacaoController.inputEmail}" />
+					<p:outputLabel value="Email" />
+					<p:inputText value="#{cotacaoController.inputEmail}" />
 
-				<p:commandButton value="Cadastrar"
-					action="#{cotacaoController.saveGerente()}"
-					update="form2:pg2 tablegerentes" />
+					<p:commandButton value="Cadastrar"
+						action="#{cotacaoController.saveGerente()}" process="pg2"
+						update="formcadastrogerente:pg2  formgerentes:tablegerentes" />
 
-			</h:panelGrid>
-		</p:panel>
+				</h:panelGrid>
+			</p:panel>
 
-		<p:fieldset legend="Gerentes">
 
-			<p:dataTable id="tablegerentes" value="#{cotacaoController.gerentes}"
-				var="g" border="1" width="800px" style="width: auto;"
-				paginator="true" rows="10" widgetVar="tGerentes"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-				paginatorPosition="bottom" rowsPerPageTemplate="10">
+		</h:form>
+	</p:dialog>
 
-				<f:facet name="header">
+	<p:dialog widgetVar="Gerentesdetails" id="Gerentesdetails"
+		showEffect="fade" hideEffect="fade" styleClass="modal-dialog"
+		header="Cadastro de Gerentes" appendTo="@(body)" closable="true"
+		resizable="false" responsive="true" modal="true" height="auto"
+		style="width:300px;  font-size: 14pt; text-align: center;">
+		<h:form id="formgerentes">
+			<p:fieldset legend="Gerentes Cadastrados">
+
+				<p:dataTable id="tablegerentes"
+					value="#{cotacaoController.gerentes}" var="g" border="1"
+					width="800px" style="width: auto;" paginator="true" rows="10"
+					widgetVar="tGerentes"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+					paginatorPosition="bottom" rowsPerPageTemplate="10">
+
+					<f:facet name="header">
            			Tabela de Gerentes
         		</f:facet>
 
-				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					sortBy="#{g.nomeGerente}" headerText="Gerente">
-					<h:outputLabel value="#{g.nomeGerente}" />
-				</p:column>
+					<p:column
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						sortBy="#{g.nomeGerente}" headerText="Gerente">
+						<h:outputLabel value="#{g.nomeGerente}" />
+					</p:column>
 
-				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					headerText="Agência">
-					<h:outputLabel value="#{g.agencia}" />
-				</p:column>
+					<p:column
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						headerText="Agência">
+						<h:outputLabel value="#{g.agencia}" />
+					</p:column>
 
-				<p:column style="width:200px;  font-size: 14pt; text-align: center;"
-					headerText="Email">
-					<h:outputLabel value="#{g.email}" />
-				</p:column>
+					<p:column
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						headerText="Email">
+						<h:outputLabel value="#{g.email}" />
+					</p:column>
 
-				<p:column>
-					<p:commandButton value="Deletar" process="tablegerentes"
-						actionListener="#{cotacaoController.removeGerente(g.id)}"
-						update="form2:tablegerentes" />
-				</p:column>
+					<p:column>
+						<p:commandButton value="Deletar" process="tablegerentes"
+							actionListener="#{cotacaoController.removeGerente(g.id)}"
+							update="tablegerentes" />
+					</p:column>
 
-			</p:dataTable>
-		</p:fieldset>
+				</p:dataTable>
+			</p:fieldset>
 
-	</h:form>
+		</h:form>
+	</p:dialog>
+
 
 </h:body>
 </html>

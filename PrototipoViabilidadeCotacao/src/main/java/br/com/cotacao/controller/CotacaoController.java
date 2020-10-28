@@ -1,9 +1,6 @@
 package br.com.cotacao.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -11,8 +8,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
-
-import org.hibernate.id.IdentityGenerator.GetGeneratedKeysDelegate;
 
 import br.com.cotacao.dominio.dao.GerentesDAO;
 import br.com.cotacao.dominio.dao.MoedasDAO;
@@ -67,67 +62,21 @@ public class CotacaoController implements Serializable {
 	@Inject
 	private String inputEmail;
 	
+	@Inject
+	public String[] UnidadeMoedas = {"AUD","CAD","CHF","DKK","GBP","JPY","NOK","SEK","USD"};
 	
+	@Inject 
+	public String[] VlrCompra;
 	
-	public String getInputNomeGerente() {
-		return inputNomeGerente;
-	}
-
-	public void setInputNomeGerente(String inputNomeGerente) {
-		this.inputNomeGerente = inputNomeGerente;
-	}
-
-	public String getInputAgencia() {
-		return inputAgencia;
-	}
-
-	public void setInputAgencia(String inputAgencia) {
-		this.inputAgencia = inputAgencia;
-	}
-
-	public String getInputEmail() {
-		return inputEmail;
-	}
-
-	public void setInputEmail(String inputEmail) {
-		this.inputEmail = inputEmail;
-	}
-
-	public GerentesDAO getGerenciarGerentes() {
-		return gerenciarGerentes;
-	}
-
-	public void setGerenciarGerentes(GerentesDAO gerenciarGerentes) {
-		this.gerenciarGerentes = gerenciarGerentes;
-	}
-
-	public MoedasDAO getGerenciarMoedas() {
-		return gerenciarMoedas;
-	}
-
-	public void setGerenciarMoedas(MoedasDAO gerenciarMoedas) {
-		this.gerenciarMoedas = gerenciarMoedas;
-	}
+	@Inject
+	public String[] VlrVenda;
 	
-	public Gerentes getGerente() {
-		return gerente;
-	}
+	@Inject
+	public String[] VlrCompraAjust;
+	
+	@Inject
+	public String[] VlrVendaAjust;
 
-	public void setGerente(Gerentes gerente) {
-		this.gerente = gerente;
-	}
-
-	public List<Gerentes> getGerentes() {
-		return gerentes;
-	}
-
-	public void setGerentes(List<Gerentes> gerentes) {
-		this.gerentes = gerentes;
-	}
-
-	public MoedasDAO getGerenciar() {
-		return gerenciarMoedas;
-	}
 
 	public CotacoesRepository getCotacaoAtual() {
 		return cotacaoAtual;
@@ -172,16 +121,107 @@ public class CotacaoController implements Serializable {
 	public Date getDataInicial() {
 		return dataInicial;
 	}
-	
+
 	public void setDataInicial(Date dataInicial) {
 		this.dataInicial = dataInicial;
 	}
 
-	public void setGerenciar(MoedasDAO gerenciar) {
-		this.gerenciarMoedas = gerenciar;
+	public MoedasDAO getGerenciarMoedas() {
+		return gerenciarMoedas;
 	}
 
-	
+	public void setGerenciarMoedas(MoedasDAO gerenciarMoedas) {
+		this.gerenciarMoedas = gerenciarMoedas;
+	}
+
+	public GerentesDAO getGerenciarGerentes() {
+		return gerenciarGerentes;
+	}
+
+	public void setGerenciarGerentes(GerentesDAO gerenciarGerentes) {
+		this.gerenciarGerentes = gerenciarGerentes;
+	}
+
+	public Gerentes getGerente() {
+		return gerente;
+	}
+
+	public void setGerente(Gerentes gerente) {
+		this.gerente = gerente;
+	}
+
+	public List<Gerentes> getGerentes() {
+		return gerentes;
+	}
+
+	public void setGerentes(List<Gerentes> gerentes) {
+		this.gerentes = gerentes;
+	}
+
+	public String getInputNomeGerente() {
+		return inputNomeGerente;
+	}
+
+	public void setInputNomeGerente(String inputNomeGerente) {
+		this.inputNomeGerente = inputNomeGerente;
+	}
+
+	public String getInputAgencia() {
+		return inputAgencia;
+	}
+
+	public void setInputAgencia(String inputAgencia) {
+		this.inputAgencia = inputAgencia;
+	}
+
+	public String getInputEmail() {
+		return inputEmail;
+	}
+
+	public void setInputEmail(String inputEmail) {
+		this.inputEmail = inputEmail;
+	}
+
+	public String[] getUnidadeMoedas() {
+		return UnidadeMoedas;
+	}
+
+	public void setUnidadeMoedas(String[] unidadeMoedas) {
+		UnidadeMoedas = unidadeMoedas;
+	}
+
+	public String[] getVlrCompra() {
+		return VlrCompra;
+	}
+
+	public void setVlrCompra(String[] vlrCompra) {
+		VlrCompra = vlrCompra;
+	}
+
+	public String[] getVlrVenda() {
+		return VlrVenda;
+	}
+
+	public void setVlrVenda(String[] vlrVenda) {
+		VlrVenda = vlrVenda;
+	}
+
+	public String[] getVlrCompraAjust() {
+		return VlrCompraAjust;
+	}
+
+	public void setVlrCompraAjust(String[] vlrCompraAjust) {
+		VlrCompraAjust = vlrCompraAjust;
+	}
+
+	public String[] getVlrVendaAjust() {
+		return VlrVendaAjust;
+	}
+
+	public void setVlrVendaAjust(String[] vlrVendaAjust) {
+		VlrVendaAjust = vlrVendaAjust;
+	}
+
 	//******************************** Cotação Moedas ***********************************
 	public void varreduraLista() {
 		setMoeda(moedas.get(moedas.size() - 1));
@@ -199,6 +239,7 @@ public class CotacaoController implements Serializable {
 				this.dataUtils.todayAsString()));
 		varreduraLista();
 		saveMoeda();
+		
 	}
 
 	// Função para salvar no banco de dados
@@ -210,7 +251,6 @@ public class CotacaoController implements Serializable {
 
 	// Busca no banco de dados
 	public void buscarMoeda() {
-		moeda = new Moedas();
 		gerenciarMoedas = new MoedasDAO();
 		setMoedas(gerenciarMoedas.listar());
 	}
@@ -221,6 +261,23 @@ public class CotacaoController implements Serializable {
 	}
 	
 	
+	//******************************** Cotações Atual de Moedas - Email ***********************************
+	
+	public void moedasCotacaoAtual() throws Exception {
+		moeda = new Moedas();
+		for(int x=0; x==UnidadeMoedas.length-1;x++) {
+		setMoedas(WEBStatus.listarCotas(getInputMoeda(), this.dataUtils.todayAsString(),
+				this.dataUtils.todayAsString()));
+		varreduraLista();	
+		
+		VlrCompra[x] = String.valueOf(moeda.getCotacaoCompra());
+		VlrVenda[x] = String.valueOf(moeda.getCotacaoCompra());
+		VlrCompraAjust[x] = String.valueOf(
+				moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
+		VlrVendaAjust[x] = String.valueOf(
+				moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
+		}
+	}
 	
 	//******************************** Gerentes ***********************************
 	
@@ -260,13 +317,13 @@ public class CotacaoController implements Serializable {
 		buscarGerente();
 	}
 	
-	//******************************************************************************
-	
 	public <T> void sendMail(List<T> mails) {
 		JavaMailApp mail = new JavaMailApp();
 		mail.javamail(mails);
 	}
-
+	
+	//******************************************************************************
+	
 	// Inicio automático da página
 	@PostConstruct
 	public void init() {
