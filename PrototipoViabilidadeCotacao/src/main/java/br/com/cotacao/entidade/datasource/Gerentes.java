@@ -60,7 +60,10 @@ public class Gerentes implements Serializable{
 		this.email = email;
 	}
 
-
+	@Override
+	public String toString() {
+		return email;
+	}
 	
 	
 }

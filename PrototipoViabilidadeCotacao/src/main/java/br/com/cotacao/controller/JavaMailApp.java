@@ -12,12 +12,12 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import br.com.cotacao.service.WEBStatus;
 
 
 public class JavaMailApp {
 	
-	@SuppressWarnings({ "unchecked", "null" })
+	
+	@SuppressWarnings("null")
 	public <T> void javamail(List<T> mail) {
 		
 		String[] UnidadeMoedas = {"AUD","CAD","CHF","DKK","GBP","JPY","NOK","SEK","USD"};
@@ -48,8 +48,8 @@ public class JavaMailApp {
 	    try {	    	
 			
 			   for(int i=0; i <= 8 ; i++) {
-				  // System.out.println("Teste: "+cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
-			    	//  lista.add((T) cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
+				   System.out.println("Teste: "+cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
+				   lista.add((T)cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
 			      }
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -63,43 +63,35 @@ public class JavaMailApp {
 	      message.setFrom(new InternetAddress("testeemaildesafio@gmail.com"));
 	      //Remetente
 	      
-	      Address[] allEmails = null;
+	      Address[] allEmails = new Address[mail.size()];
 	      
-	      
+	      InternetAddress[] address = null;
 	      
 	      System.out.print("Email da Tabela: "+mail);
 	     
 	      
-	      String[] teste = {};
-	      
-		for(int i=0; i < mail.size()-1; i++) {
-	    	  
-	    	  teste[i] = mail.get(i).toString();
-	      }
-	      
-	      System.out.print("\nteste2: "+ teste);
-	      
 	      for(int i=0; i < mail.size(); i++) {
 	    	  
 	    	 allEmails = InternetAddress.parse(mail.get(i).toString());
+		      System.out.print("\nteste3: "+allEmails.toString()+"\n");
+		      
+		      
+		      message.setRecipients(Message.RecipientType.TO, allEmails);
+		      
+		      message.setSubject("Tabela diária - Cotação de Moedas");//Assunto
+		      
+		      message.setContent(lista.toString(),
+	    			  "text/html; charset=utf-8");
+		      
+		      message.setText("Dados diários atualizados");
+		      
+		      /**Método para enviar a mensagem criada*/
+		      Transport.send(message);
+
+		      System.out.println("Feito!!!");
+	    	 
 	      }
 	      
-	      System.out.print("\nteste3: "+allEmails.toString()+"\n");
-	      
-	      
-	      message.setRecipients(Message.RecipientType.TO, allEmails);
-	      
-	      message.setSubject("Tabela diária - Cotação de Moedas");//Assunto
-	      
-	   
-	      message.setContent(lista.toString(),
-    			  "text/html; charset=utf-8");
-	      
-	      /**Método para enviar a mensagem criada*/
-	      //Transport.send(message);
-
-	      System.out.println("Feito!!!");
-
 	     } catch (MessagingException e) {
 	        throw new RuntimeException(e);
 	    }
