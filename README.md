@@ -1,4 +1,4 @@
-# Prototipo Viabilidade de Cotacao-Moedas
+# Prototipo Viabilidade de Cotação-Moedas
 
 Desafio construído para cadastro de cotações de moedas estrangeiras e envio das mesmas para o team de gerentes de agências, através das combinações "Hibernate-JPA-Maven" com o banco de dados Microsoft SQLserver e, consumo da API olinda`(https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3#/)` .
 
