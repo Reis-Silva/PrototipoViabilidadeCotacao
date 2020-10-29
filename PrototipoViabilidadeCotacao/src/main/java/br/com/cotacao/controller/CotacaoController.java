@@ -1,9 +1,6 @@
 package br.com.cotacao.controller;
 
-import java.awt.EventQueue;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,19 +13,16 @@ import br.com.cotacao.dominio.dao.GerentesDAO;
 import br.com.cotacao.dominio.dao.MoedasDAO;
 import br.com.cotacao.entidade.datasource.Gerentes;
 import br.com.cotacao.entidade.datasource.Moedas;
-import br.com.cotacao.entidade.repository.CotacoesRepository;
 import br.com.cotacao.service.WEBStatus;
 
 @ApplicationScoped
 @ManagedBean
 public class CotacaoController implements Serializable {
 	
-	public void CotacaoController(){}
 	private static final long serialVersionUID = 1L;
 
 	// Iiniciando construção de lista
 
-	private CotacoesRepository cotacaoAtual;
 
 	@Inject
 	private String inputMoeda;
@@ -81,14 +75,6 @@ public class CotacaoController implements Serializable {
 	@Inject
 	public String[] VlrVendaAjust;
 
-
-	public CotacoesRepository getCotacaoAtual() {
-		return cotacaoAtual;
-	}
-
-	public void setCotacaoAtual(CotacoesRepository cotacaoAtual) {
-		this.cotacaoAtual = cotacaoAtual;
-	}
 
 	public String getInputMoeda() {
 		return inputMoeda;
@@ -284,25 +270,6 @@ public class CotacaoController implements Serializable {
 		buscarMoeda();
 	}
 	
-	
-	//******************************** Cotações Atual de Moedas - Email ***********************************
-	
-	public void moedasCotacaoAtual() throws Exception {
-		moeda = new Moedas();
-		for(int x=0; x==UnidadeMoedas.length-1;x++) {
-		setMoedas(WEBStatus.listarCotas(getInputMoeda(), this.dataUtils.todayAsString(),
-				this.dataUtils.todayAsString()));
-		varreduraLista();	
-		
-		VlrCompra[x] = String.valueOf(moeda.getCotacaoCompra());
-		VlrVenda[x] = String.valueOf(moeda.getCotacaoCompra());
-		VlrCompraAjust[x] = String.valueOf(
-				moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
-		VlrVendaAjust[x] = String.valueOf(
-				moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
-		}
-	}
-	
 	//******************************** Gerentes ***********************************
 	
 	// Função para salvar no banco de dados
@@ -329,11 +296,7 @@ public class CotacaoController implements Serializable {
 		gerente = new Gerentes();
 		gerenciarGerentes = new GerentesDAO();
 		setGerentes(gerenciarGerentes.listarEmails());
-		
-		//buscarMoeda();
-		
 		sendMail(getGerentes());
-		
 	}
 
 	public void removeGerente(int id) {
@@ -363,7 +326,7 @@ public class CotacaoController implements Serializable {
 			buscarMoeda();
 			
 			tempoE.setPriority(Thread.MIN_PRIORITY);
-			//tempoE.calendarioEnvioEmail();
+			tempoE.calendarioEnvioEmail();
 			
 		} catch (Exception e) {
 			e.printStackTrace();

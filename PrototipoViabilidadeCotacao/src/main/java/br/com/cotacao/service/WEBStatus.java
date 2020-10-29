@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 
 import br.com.cotacao.entidade.datasource.Moedas;
 import br.com.cotacao.entidade.repository.MoedaRepository;
-import br.com.cotacao.entidade.repository.CotacoesRepository;
 
 public class WEBStatus {
 

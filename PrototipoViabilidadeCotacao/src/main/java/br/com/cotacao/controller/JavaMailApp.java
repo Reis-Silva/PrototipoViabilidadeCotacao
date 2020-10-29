@@ -82,8 +82,7 @@ public class JavaMailApp {
 		      
 		      message.setContent(lista.toString(),
 	    			  "text/html; charset=utf-8");
-		      
-		      message.setText("Dados diários atualizados");
+		     
 		      
 		      /**Método para enviar a mensagem criada*/
 		      Transport.send(message);

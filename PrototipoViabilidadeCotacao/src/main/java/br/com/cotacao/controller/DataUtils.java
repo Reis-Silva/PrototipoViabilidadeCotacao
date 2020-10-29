@@ -76,12 +76,12 @@ public class DataUtils extends Thread {
 				envioTempoEmail = true;
 			}
 
-			if ((conversaohora + 30000) >= 150000 && (conversaohora - 30000) <= 150000 && envioTempoEmail == true) {
+			if ((conversaohora + 300000) >= 150000 && (conversaohora - 300000) <= 150000 && envioTempoEmail == true) {
 				
 				try {
 					System.out.print("\nefetuado\n\n");
 					CotacaoController envioEmails = new CotacaoController();
-					//envioEmails.buscarEmailGerente();
+					envioEmails.buscarEmailGerente();
 					envioTempoEmail = false;
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block

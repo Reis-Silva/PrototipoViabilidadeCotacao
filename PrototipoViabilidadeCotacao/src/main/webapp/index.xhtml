@@ -29,7 +29,7 @@
 				icon="pi pi-save" oncomplete="PF('Gerentesdetails').show();" />
 			<p:separator />
 			<p:menuitem value="Cadastro de Gerentes"
-				action="#{cotacaoController.saveGerente()}"
+				
 				oncomplete="PF('CadastroGerentesdetails').show();"
 				icon="pi pi-times" />
 		</p:menuButton>
@@ -110,13 +110,13 @@
         		</f:facet>
 
 					<p:column
-						style="width:200px;  font-size: 14pt; text-align: center;"
+						style="width:100px;  font-size: 14pt; text-align: center;"
 						sortBy="#{m.moedaOrigem}" headerText="MoedaOrigem">
 						<h:outputLabel value="#{m.moedaOrigem}" />
 					</p:column>
 
 					<p:column
-						style="width:200px;  font-size: 14pt; text-align: center;"
+						style="width:100px;  font-size: 14pt; text-align: center;"
 						headerText="MoedaDestino">
 						<h:outputLabel value="#{m.moedaDestino}" />
 					</p:column>
@@ -157,7 +157,7 @@
 						<h:outputLabel value="#{m.dataSave}" />
 					</p:column>
 
-					<p:column>
+					<p:column style="width:100px;  font-size: 12pt; text-align: center;">
 						<p:commandButton value="Deletar" process="tablecotacoes"
 							actionListener="#{cotacaoController.removeMoeda(m.id)}"
 							update="form1 tablecotacoes" />
@@ -232,7 +232,7 @@
 					</p:column>
 
 					<p:column
-						style="width:200px;  font-size: 14pt; text-align: center;"
+						style="width:150px;  font-size: 14pt; text-align: center;"
 						headerText="Agência">
 						<h:outputLabel value="#{g.agencia}" />
 					</p:column>
@@ -243,7 +243,7 @@
 						<h:outputLabel value="#{g.email}" />
 					</p:column>
 
-					<p:column>
+					<p:column style="width:100px;  font-size: 12pt; text-align: center;">
 						<p:commandButton value="Deletar" process="tablegerentes"
 							actionListener="#{cotacaoController.removeGerente(g.id)}"
 							update="tablegerentes" />
