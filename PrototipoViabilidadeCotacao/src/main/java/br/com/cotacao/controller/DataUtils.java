@@ -34,8 +34,7 @@ public class DataUtils extends Thread {
 
 						Calendar daytime = Calendar.getInstance();
 						Calendar hourtime = Calendar.getInstance();
-						SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-
+						
 						int segunda = daytime.get(Calendar.DAY_OF_MONTH) - daytime.get(Calendar.DAY_OF_WEEK) + 2;
 						int sexta = daytime.get(Calendar.DAY_OF_MONTH) + daytime.get(Calendar.DAY_OF_WEEK) - 2;
 						int today = hourtime.get(Calendar.DAY_OF_MONTH);

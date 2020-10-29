@@ -17,7 +17,6 @@ import javax.mail.internet.MimeMessage;
 public class JavaMailApp {
 	
 	
-	@SuppressWarnings("null")
 	public <T> void javamail(List<T> mail) {
 		
 		String[] UnidadeMoedas = {"AUD","CAD","CHF","DKK","GBP","JPY","NOK","SEK","USD"};
@@ -64,8 +63,6 @@ public class JavaMailApp {
 	      //Remetente
 	      
 	      Address[] allEmails = new Address[mail.size()];
-	      
-	      InternetAddress[] address = null;
 	      
 	      System.out.print("Email da Tabela: "+mail);
 	     
