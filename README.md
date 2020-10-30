@@ -33,9 +33,11 @@ Desafio construído para cadastro de cotações de moedas estrangeiras e envio d
 
 ## Observações:
 
-OBS: No mecanismos de Banco de Dados do SQL Server utiliza-se da "Autenticação do SQL Server": `Logon: root e Senha 1234`. 
+OBS: No mecanismos de Banco de Dados do SQL Server utiliza-se da "Autenticação do SQL Server": `Logon: root e Senha 1234`; 
 
-OBS2: Função de criação do banco de dados não está automática (foi estabelecido a criação obrigatória do "moedasbd" no servidor, pode ser mudado) apenas para a tabela.
+OBS2: Função de criação do banco de dados não está automática (foi estabelecido a criação obrigatória do "moedasbd" no servidor, pode ser mudado) apenas para a tabela;
+
+OBS3: Email de exemplo criado para o envio automático: -  `Login:testeemaildesafio@gmail.com / Senha:testeemaildesafio@12`. Caso seja necessário para habilitar o uso em algum outro local que esteja acessando (Já está habilitado a opção de segurança mínima); 
 
 OBS3: Utilizou-se o Eclipse EE - Version: 2020-09 (4.17.0).
 
