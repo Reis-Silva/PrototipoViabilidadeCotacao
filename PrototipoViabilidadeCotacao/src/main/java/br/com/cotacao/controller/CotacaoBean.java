@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import br.com.cotacao.dominio.dao.GerentesDAO;
@@ -297,6 +299,7 @@ public class CotacaoBean implements Serializable {
 		gerenciarGerentes = new GerentesDAO();
 		setGerentes(gerenciarGerentes.listarEmails());
 		sendMail(getGerentes());
+		successExport(true);
 	}
 
 	public void removeGerente(int id) {
@@ -314,12 +317,21 @@ public class CotacaoBean implements Serializable {
 		}
 	}
 	
+	public void successExport(Boolean success) {
+		if (success) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Email Enviado"));
+		}else {
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed!", "Nao foi possivel enviar o Email..."));
+		}
+	}
 	//******************************************************************************
 	
 	// Inicio automático da página
 	
 	DataUtils tempoE = new DataUtils();
-
+	
 	@PostConstruct
 	public void init() {
 		try {

@@ -115,15 +115,5 @@ public class DataUtils extends Thread {
 
 	}
 	
-	public void emailImediato() {
-		System.out.print("\nEnvio imediato efetuado!\n\n");
-		CotacaoBean envioEmails = new CotacaoBean();
-		try {
-			envioEmails.buscarEmailGerente();
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
-	}
 	
 }

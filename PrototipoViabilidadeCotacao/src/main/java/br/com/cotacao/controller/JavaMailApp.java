@@ -51,7 +51,6 @@ public class JavaMailApp {
 				   lista.add((T)cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
 			      }
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	 

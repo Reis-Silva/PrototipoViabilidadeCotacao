@@ -14,8 +14,20 @@
 
 
 <h:body>
-
+	
 	<p:growl id="msg" showDetail="true" sticky="true" />
+	<p:messages id="messages"  closable="true">
+			<p:autoUpdate />
+	</p:messages>
+		
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		closable="false" resizable="false" showHeader="false">
+		<p:graphicImage name="img/salving.gif" />
+	</p:dialog>
+
+	<br />
 
 	<h:form id="formmenu">
 		<p:growl id="messages" showDetail="true" />
@@ -39,14 +51,14 @@
 	<h:form id="form1">
 		<p:panel id="pg">
 			<h:panelGrid columns="3" border="1" layout="flex">
-			
+
 			<f:facet name="header">
            		Cotação
         	</f:facet>
 
 				<p:outputLabel for="MO" value="Moeda Origem:" />
 				<p:selectOneMenu id="MO" value="#{cotacaoBean.inputMoeda}"
-					unselectable="true" required="true">
+					unselectable="true"  required="true">
 					<f:selectItem itemLabel="Selecione" itemValue="" />
 					<f:selectItem itemLabel="A$ - AUD" itemValue="AUD" />
 					<f:selectItem itemLabel="C$ - CAD" itemValue="CAD" />
@@ -65,8 +77,8 @@
 				</p:selectOneMenu>
 				<p:outputLabel value="" />
 
-				<p:outputLabel value="Data da Cotação" />
-				<p:calendar value="#{cotacaoBean.dataInicial}" mode="popup"
+				<p:outputLabel for="cotacao" value="Data da Cotação" />
+				<p:calendar id="cotacao" value="#{cotacaoBean.dataInicial}" mode="popup"
 					pattern="MM/dd/yyyy" required="true" />
 				<p:outputLabel value="" />
 
@@ -83,16 +95,15 @@
 					update="form1:pg formmoedas:tablecotacoes" />
 			</h:panelGrid>
 		</p:panel>
-		<br/>
-		<br/>
-		<br/>
-		<br/>
-		<p:outputLabel value="Hora padrão para envio de Email: 15:00:00h"/>
-		<br/>
-		<p:commandButton value="Enviar Email Imediato" action="#{cotacaoBean.dataUtils.emailImediato()}"/>
+
+		<br />
+		<br />
+		<br />
+		<br />
+		<p:outputLabel value="Hora padrão para envio de Email: 15:00:00h" />
+		<br />
+		<p:commandButton id="teste" process="teste" value="Enviar Email Imediato" action="#{cotacaoBean.buscarEmailGerente()}"/>
 	</h:form>
-	
-	<br />
 
 	<p:dialog widgetVar="Moedasdetails" id="Moedasdetails"
 		showEffect="fade" hideEffect="fade" styleClass="modal-dialog"
@@ -167,15 +178,12 @@
 						<p:commandButton value="Deletar" process="tablecotacoes"
 							actionListener="#{cotacaoBean.removeMoeda(m.id)}"
 							update="form1 tablecotacoes" />
-
 					</p:column>
 
 				</p:dataTable>
 			</p:fieldset>
 		</h:form>
 	</p:dialog>
-
-
 
 	<p:dialog widgetVar="CadastroGerentesdetails"
 		id="CadastroGerentesdetails" showEffect="fade" hideEffect="fade"
@@ -191,15 +199,15 @@
            		Cadastro de Gerentes
         	</f:facet>
 
-					<p:outputLabel value="Nome" />
-					<p:inputText value="#{cotacaoBean.inputNomeGerente}"
+					<p:outputLabel for="nome" value="Nome" />
+					<p:inputText id="nome" value="#{cotacaoBean.inputNomeGerente}"
 						required="true" />
 
-					<p:outputLabel value="Agencia" />
-					<p:inputText value="#{cotacaoBean.inputAgencia}" required="true" />
+					<p:outputLabel for="agencia" value="Agência" />
+					<p:inputText id="agencia" value="#{cotacaoBean.inputAgencia}" required="true" />
 
-					<p:outputLabel value="Email" />
-					<p:inputText value="#{cotacaoBean.inputEmail}" required="true" />
+					<p:outputLabel for="email" value="Email" />
+					<p:inputText id="email" value="#{cotacaoBean.inputEmail}" required="true" />
 
 					<p:commandButton value="Cadastrar"
 						action="#{cotacaoBean.saveGerente()}" process="pg2"
@@ -207,8 +215,6 @@
 
 				</h:panelGrid>
 			</p:panel>
-
-
 		</h:form>
 	</p:dialog>
 
@@ -258,10 +264,8 @@
 
 				</p:dataTable>
 			</p:fieldset>
-
 		</h:form>
 	</p:dialog>
-
 
 </h:body>
 </html>
