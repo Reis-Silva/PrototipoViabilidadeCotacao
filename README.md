@@ -4,7 +4,7 @@ Desafio construído para cadastro de cotações de moedas estrangeiras e envio d
 
 ## Resume
 
-Neste aplicativo é possível resgatar as cotações de moedas estrangeiras com a gravação das mesmas no banco de dados e, envio de email com os dados atualizados destas para os gerentes de agências que estão cadastrados.  
+Neste aplicativo é possível resgatar as cotações de moedas estrangeiras com a gravação das mesmas no banco de dados e, envio de email com os dados atualizados destas para os gerentes de agências que estão cadastrados, sendo a função efetuada durante 5 dias (Segunda-feira à sexta-feira) as 15:00:00h.  
 
 ## Features
 
@@ -39,7 +39,7 @@ Neste aplicativo é possível resgatar as cotações de moedas estrangeiras com 
 
 -  3 - Utilizar a opção "update Maven" para atualizar as referências de bibliotecas;
 
--  4 - Quando o Servidor estiver conectado, utilize a página para utilizar o aplicativo `http://localhost:8080/deputadoscamara/index.xhtml`.
+-  4 - Quando o Servidor estiver conectado, utilize a página para utilizar o aplicativo `http://localhost:8080/PrototipoViabilidadeCotacao/index.xhtml`.
 
 ## Observed:
 
