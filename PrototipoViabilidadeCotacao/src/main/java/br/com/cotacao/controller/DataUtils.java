@@ -49,7 +49,7 @@ public class DataUtils extends Thread {
 						int[] listaTempo = { segunda, sexta, today, hora, minuto, segundo };
 						
 						contrucaoTempoEmail(listaTempo);
-						Thread.sleep(10000); 
+						Thread.sleep(2000); 
 						
 
 					} catch (InterruptedException e) {
@@ -99,7 +99,7 @@ public class DataUtils extends Thread {
 				envioTempoEmail = true;
 			}
 
-			if ((conversaoHora + 100) >= 150000 && (conversaoHora - 100) <= 150000 && envioTempoEmail == true) {
+			if ((conversaoHora >= 150000) && (conversaoHora  <= 150005) && envioTempoEmail == true) {
 				
 				try {
 					System.out.print("\nEnvio efetuado!\n\n");
