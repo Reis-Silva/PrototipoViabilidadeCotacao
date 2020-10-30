@@ -5,7 +5,7 @@ Desafio construído para cadastro de cotações de moedas estrangeiras e envio d
 
 ## Features
 
-- Suporte no JavaSE-8 em diante podendo ser utilizado o jdk nas versões `11.x, 12.x, 13.x, 14.x, 15.x`.
+- Suporte no JavaSE-8 em diante podendo ser utilizado o jdk nas versões `8.x, 11.x, 12.x, 13.x, 14.x, 15.x`.
 
 - Suporte no Servidor Apache Tomcat versões `7.x, 8.x, 9.x`, aconselhável a versão `9.x` - Link: https://downloads.apache.org/tomcat/tomcat-9/v9.0.39/bin/apache-tomcat-9.0.39-windows-x64.zip
 
@@ -35,7 +35,7 @@ Desafio construído para cadastro de cotações de moedas estrangeiras e envio d
 
 OBS: No mecanismos de Banco de Dados do SQL Server utiliza-se da "Autenticação do SQL Server": `Logon: root e Senha 1234`. 
 
-OBS2: Função de criação do banco de dados não está automática (foi estabelecido a criação obrigatória do "genericbd" no servidor, pode ser mudado) apenas para a tabela.
+OBS2: Função de criação do banco de dados não está automática (foi estabelecido a criação obrigatória do "moedasbd" no servidor, pode ser mudado) apenas para a tabela.
 
 OBS3: Utilizou-se o Eclipse EE - Version: 2020-09 (4.17.0).
 
