@@ -2,7 +2,7 @@ package br.com.cotacao.controller;
 
 public class test {
 
-	static CotacaoController co = new CotacaoController();
+	static CotacaoBean co = new CotacaoBean();
 	
 	static DataUtils time = new DataUtils();
 	

@@ -21,7 +21,7 @@ public class JavaMailApp {
 		
 		String[] UnidadeMoedas = {"AUD","CAD","CHF","DKK","GBP","JPY","NOK","SEK","USD"};
 		
-		CotacaoController cotacao = new CotacaoController();
+		CotacaoBean cotacao = new CotacaoBean();
 		
 	    Properties props = new Properties();
 	    /** Parâmetros de conexão com servidor Gmail */

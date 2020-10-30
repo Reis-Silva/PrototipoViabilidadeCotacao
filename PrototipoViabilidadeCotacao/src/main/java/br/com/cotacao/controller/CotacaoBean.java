@@ -17,7 +17,7 @@ import br.com.cotacao.service.WEBStatus;
 
 @ApplicationScoped
 @ManagedBean
-public class CotacaoController implements Serializable {
+public class CotacaoBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 

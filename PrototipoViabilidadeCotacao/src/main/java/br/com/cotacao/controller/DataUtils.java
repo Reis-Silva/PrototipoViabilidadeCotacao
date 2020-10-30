@@ -68,22 +68,21 @@ public class DataUtils extends Thread {
 			String conc = h + m + s;
 			int conversaohora = Integer.parseInt(conc);
 			
-			System.out.print("\n" + conversaohora);
-			System.out.print("\nToday: " + listaTempo[2]);
+			System.out.print("\nHora Atual:" + conversaohora+"\n\nVerificando a hora de envio...\n");
 			
 			if ((conversaohora + 101) >= 150000) {
 				envioTempoEmail = true;
 			}
 
-			if ((conversaohora + 300000) >= 150000 && (conversaohora - 300000) <= 150000 && envioTempoEmail == true) {
+			if ((conversaohora + 100) >= 150000 && (conversaohora - 100) <= 150000 && envioTempoEmail == true) {
 				
 				try {
 					System.out.print("\nefetuado\n\n");
-					CotacaoController envioEmails = new CotacaoController();
+					CotacaoBean envioEmails = new CotacaoBean();
 					envioEmails.buscarEmailGerente();
 					envioTempoEmail = false;
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 			}

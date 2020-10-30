@@ -22,10 +22,10 @@
 
 		<p:menuButton value="Menu">
 			<p:menuitem value="Tabela de Moedas"
-				action="#{cotacaoController.buscarMoeda()}" update="messages"
+				action="#{cotacaoBean.buscarMoeda()}" update="messages"
 				icon="pi pi-save" oncomplete="PF('Moedasdetails').show();" />
 			<p:menuitem value="Tabela de Gerentes"
-				action="#{cotacaoController.buscarGerente()}" update="messages"
+				action="#{cotacaoBean.buscarGerente()}" update="messages"
 				icon="pi pi-save" oncomplete="PF('Gerentesdetails').show();" />
 			<p:separator />
 			<p:menuitem value="Cadastro de Gerentes"
@@ -45,7 +45,7 @@
         	</f:facet>
 
 				<p:outputLabel for="MO" value="Moeda Origem:" />
-				<p:selectOneMenu id="MO" value="#{cotacaoController.inputMoeda}"
+				<p:selectOneMenu id="MO" value="#{cotacaoBean.inputMoeda}"
 					unselectable="true" required="true">
 					<f:selectItem itemLabel="Selecione" itemValue="" />
 					<f:selectItem itemLabel="A$ - AUD" itemValue="AUD" />
@@ -66,20 +66,20 @@
 				<p:outputLabel value="" />
 
 				<p:outputLabel value="Data da Cotação" />
-				<p:calendar value="#{cotacaoController.dataInicial}" mode="popup"
+				<p:calendar value="#{cotacaoBean.dataInicial}" mode="popup"
 					pattern="MM/dd/yyyy" required="true" />
 				<p:outputLabel value="" />
 
 				<p:outputLabel value="Cotação (Compra)" />
-				<p:outputLabel value="#{cotacaoController.moeda.cotacaoCompra}" />
+				<p:outputLabel value="#{cotacaoBean.moeda.cotacaoCompra}" />
 				<p:outputLabel value="R$(BRL)" />
 
 				<p:outputLabel value="Cotação (Venda)" />
-				<p:outputLabel value="#{cotacaoController.moeda.cotacaoVenda}" />
+				<p:outputLabel value="#{cotacaoBean.moeda.cotacaoVenda}" />
 				<p:outputLabel value="R$(BRL)" />
 
 				<p:commandButton value="Buscar"
-					action="#{cotacaoController.moedaCotacaoAtual()}" process="pg" update="form1:pg formmoedas:tablecotacoes"/>
+					action="#{cotacaoBean.moedaCotacaoAtual()}" process="pg" update="form1:pg formmoedas:tablecotacoes"/>
 			</h:panelGrid>
 		</p:panel>
 
@@ -98,7 +98,7 @@
 		<h:form id="formmoedas">
 			<p:fieldset legend="Moedas Cadastradas">
 
-				<p:dataTable id="tablecotacoes" value="#{cotacaoController.moedas}"
+				<p:dataTable id="tablecotacoes" value="#{cotacaoBean.moedas}"
 					var="m" border="1" width="800px" style="width: auto;"
 					paginator="true" rows="10" widgetVar="tMoedas"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -159,7 +159,7 @@
 
 					<p:column style="width:100px;  font-size: 12pt; text-align: center;">
 						<p:commandButton value="Deletar" process="tablecotacoes"
-							actionListener="#{cotacaoController.removeMoeda(m.id)}"
+							actionListener="#{cotacaoBean.removeMoeda(m.id)}"
 							update="form1 tablecotacoes" />
 
 					</p:column>
@@ -186,16 +186,16 @@
         	</f:facet>
 
 					<p:outputLabel value="Nome" />
-					<p:inputText value="#{cotacaoController.inputNomeGerente}" />
+					<p:inputText value="#{cotacaoBean.inputNomeGerente}" required="true" />
 
 					<p:outputLabel value="Agencia" />
-					<p:inputText value="#{cotacaoController.inputAgencia}" />
+					<p:inputText value="#{cotacaoBean.inputAgencia}" required="true" />
 
 					<p:outputLabel value="Email" />
-					<p:inputText value="#{cotacaoController.inputEmail}" />
+					<p:inputText value="#{cotacaoBean.inputEmail}" required="true" />
 
 					<p:commandButton value="Cadastrar"
-						action="#{cotacaoController.saveGerente()}" process="pg2"
+						action="#{cotacaoBean.saveGerente()}" process="pg2"
 						update="formcadastrogerente:pg2  formgerentes:tablegerentes" />
 
 				</h:panelGrid>
@@ -214,7 +214,7 @@
 			<p:fieldset legend="Gerentes Cadastrados">
 
 				<p:dataTable id="tablegerentes"
-					value="#{cotacaoController.gerentes}" var="g" border="1"
+					value="#{cotacaoBean.gerentes}" var="g" border="1"
 					width="800px" style="width: auto;" paginator="true" rows="10"
 					widgetVar="tGerentes"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -245,7 +245,7 @@
 
 					<p:column style="width:100px;  font-size: 12pt; text-align: center;">
 						<p:commandButton value="Deletar" process="tablegerentes"
-							actionListener="#{cotacaoController.removeGerente(g.id)}"
+							actionListener="#{cotacaoBean.removeGerente(g.id)}"
 							update="tablegerentes" />
 					</p:column>
 
