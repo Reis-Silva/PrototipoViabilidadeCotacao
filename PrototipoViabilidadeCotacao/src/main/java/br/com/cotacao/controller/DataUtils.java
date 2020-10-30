@@ -5,10 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.faces.bean.ApplicationScoped;
+
+@ApplicationScoped
 public class DataUtils extends Thread {
 
 	boolean laco = true;
 	boolean envioTempoEmail = true;
+	int tempoEnvio;
 	
 	public String todayAsString() {
 		Date today = new Date();
@@ -60,24 +64,45 @@ public class DataUtils extends Thread {
 	public void contrucaoTempoEmail(int[] listaTempo) {
 
 		if (listaTempo[2] >= listaTempo[0] && listaTempo[2] <= listaTempo[1]) {
-
-			String h = String.valueOf(listaTempo[3]);
-			String m = String.valueOf(listaTempo[4]);
-			String s = String.valueOf(listaTempo[5]);
-
-			String conc = h + m + s;
-			int conversaohora = Integer.parseInt(conc);
 			
-			System.out.print("\nHora Atual:" + conversaohora+"\n\nVerificando a hora de envio...\n");
+			String hAjuste = null;
+			String mAjuste = null;
+			String sAjuste = null;
 			
-			if ((conversaohora + 101) >= 150000) {
+			if(listaTempo[3] < 10) {
+				String h = String.valueOf(listaTempo[3]);
+				hAjuste = "0" + h;
+			}else {
+				hAjuste = String.valueOf(listaTempo[3]);
+			}
+			
+			if(listaTempo[4] < 10) {
+				String m = String.valueOf(listaTempo[4]);
+				mAjuste = "0" + m;
+			}else {
+				mAjuste = String.valueOf(listaTempo[4]);
+			}
+			
+			if(listaTempo[5] < 10) {
+				String s = String.valueOf(listaTempo[5]);
+				sAjuste = "0" + s;
+			}else {
+				sAjuste = String.valueOf(listaTempo[5]);
+			}
+			
+			String conc = hAjuste + mAjuste + sAjuste;
+			int conversaoHora = Integer.parseInt(conc);
+			
+			System.out.print("\nHora Atual:" + conversaoHora+"\n\nVerificando a hora de envio padrão (15:00:00)...\n");
+			
+			if ((conversaoHora + 101) >= 150000) {
 				envioTempoEmail = true;
 			}
 
-			if ((conversaohora + 100) >= 150000 && (conversaohora - 100) <= 150000 && envioTempoEmail == true) {
+			if ((conversaoHora + 100) >= 150000 && (conversaoHora - 100) <= 150000 && envioTempoEmail == true) {
 				
 				try {
-					System.out.print("\nefetuado\n\n");
+					System.out.print("\nEnvio efetuado!\n\n");
 					CotacaoBean envioEmails = new CotacaoBean();
 					envioEmails.buscarEmailGerente();
 					envioTempoEmail = false;
@@ -89,5 +114,16 @@ public class DataUtils extends Thread {
 		}
 
 	}
-
+	
+	public void emailImediato() {
+		System.out.print("\nEnvio imediato efetuado!\n\n");
+		CotacaoBean envioEmails = new CotacaoBean();
+		try {
+			envioEmails.buscarEmailGerente();
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+	}
+	
 }

@@ -319,6 +319,7 @@ public class CotacaoBean implements Serializable {
 	// Inicio automático da página
 	
 	DataUtils tempoE = new DataUtils();
+
 	@PostConstruct
 	public void init() {
 		try {

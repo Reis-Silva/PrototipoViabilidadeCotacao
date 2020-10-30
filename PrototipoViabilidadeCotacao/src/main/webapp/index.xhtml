@@ -29,7 +29,6 @@
 				icon="pi pi-save" oncomplete="PF('Gerentesdetails').show();" />
 			<p:separator />
 			<p:menuitem value="Cadastro de Gerentes"
-				
 				oncomplete="PF('CadastroGerentesdetails').show();"
 				icon="pi pi-times" />
 		</p:menuButton>
@@ -40,7 +39,8 @@
 	<h:form id="form1">
 		<p:panel id="pg">
 			<h:panelGrid columns="3" border="1" layout="flex">
-				<f:facet name="header">
+			
+			<f:facet name="header">
            		Cotação
         	</f:facet>
 
@@ -79,14 +79,19 @@
 				<p:outputLabel value="R$(BRL)" />
 
 				<p:commandButton value="Buscar"
-					action="#{cotacaoBean.moedaCotacaoAtual()}" process="pg" update="form1:pg formmoedas:tablecotacoes"/>
+					action="#{cotacaoBean.moedaCotacaoAtual()}" process="pg"
+					update="form1:pg formmoedas:tablecotacoes" />
 			</h:panelGrid>
 		</p:panel>
-
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<p:outputLabel value="Hora padrão para envio de Email: 15:00:00h"/>
+		<br/>
+		<p:commandButton value="Enviar Email Imediato" action="#{cotacaoBean.dataUtils.emailImediato()}"/>
 	</h:form>
-
-
-
+	
 	<br />
 
 	<p:dialog widgetVar="Moedasdetails" id="Moedasdetails"
@@ -157,7 +162,8 @@
 						<h:outputLabel value="#{m.dataSave}" />
 					</p:column>
 
-					<p:column style="width:100px;  font-size: 12pt; text-align: center;">
+					<p:column
+						style="width:100px;  font-size: 12pt; text-align: center;">
 						<p:commandButton value="Deletar" process="tablecotacoes"
 							actionListener="#{cotacaoBean.removeMoeda(m.id)}"
 							update="form1 tablecotacoes" />
@@ -186,7 +192,8 @@
         	</f:facet>
 
 					<p:outputLabel value="Nome" />
-					<p:inputText value="#{cotacaoBean.inputNomeGerente}" required="true" />
+					<p:inputText value="#{cotacaoBean.inputNomeGerente}"
+						required="true" />
 
 					<p:outputLabel value="Agencia" />
 					<p:inputText value="#{cotacaoBean.inputAgencia}" required="true" />
@@ -213,10 +220,9 @@
 		<h:form id="formgerentes">
 			<p:fieldset legend="Gerentes Cadastrados">
 
-				<p:dataTable id="tablegerentes"
-					value="#{cotacaoBean.gerentes}" var="g" border="1"
-					width="800px" style="width: auto;" paginator="true" rows="10"
-					widgetVar="tGerentes"
+				<p:dataTable id="tablegerentes" value="#{cotacaoBean.gerentes}"
+					var="g" border="1" width="800px" style="width: auto;"
+					paginator="true" rows="10" widgetVar="tGerentes"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
 					paginatorPosition="bottom" rowsPerPageTemplate="10">
@@ -243,7 +249,8 @@
 						<h:outputLabel value="#{g.email}" />
 					</p:column>
 
-					<p:column style="width:100px;  font-size: 12pt; text-align: center;">
+					<p:column
+						style="width:100px;  font-size: 12pt; text-align: center;">
 						<p:commandButton value="Deletar" process="tablegerentes"
 							actionListener="#{cotacaoBean.removeGerente(g.id)}"
 							update="tablegerentes" />
