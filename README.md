@@ -2,6 +2,9 @@
 
 Desafio construído para cadastro de cotações de moedas estrangeiras e envio das mesmas para o team de gerentes de agências, através das combinações "Hibernate-JPA-Maven" com o banco de dados Microsoft SQLserver e, consumo da API olinda`(https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/swagger-ui3#/)` .
 
+# Resume
+
+Neste aplicativo é possível resgatar as cotações de moedas estrangeiras com a gravação das mesmas no banco de dados e, envio de email com os dados atualizados destas para os gerentes de agências que estão cadastrados.  
 
 ## Features
 
