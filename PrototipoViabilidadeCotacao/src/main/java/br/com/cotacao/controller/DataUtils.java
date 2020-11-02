@@ -99,7 +99,7 @@ public class DataUtils extends Thread {
 				envioTempoEmail = true;
 			}
 
-			if ((conversaoHora >= 150000) && (conversaoHora  <= 150005) && envioTempoEmail == true) {
+			if ((conversaoHora >= 150000) && (conversaoHora  <= 150003) && envioTempoEmail == true) {
 				
 				try {
 					System.out.print("\nEnvio efetuado!\n\n");
