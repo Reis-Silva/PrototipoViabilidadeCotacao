@@ -13,83 +13,95 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import br.com.cotacao.entidade.datasource.Moedas;
+import br.com.cotacao.service.WEBStatus;
 
 public class JavaMailApp {
-	
-	
+
+	@SuppressWarnings("unchecked")
 	public <T> void javamail(List<T> mail) {
-		
-		String[] UnidadeMoedas = {"AUD","CAD","CHF","DKK","GBP","JPY","NOK","SEK","USD"};
-		
+
+		DataUtils dataTeste = new DataUtils();
+		String[] UnidadeMoedas = { "AUD", "CAD", "CHF", "DKK", "GBP", "JPY", "NOK", "SEK", "USD" };
 		CotacaoBean cotacao = new CotacaoBean();
-		
-	    Properties props = new Properties();
-	    /** Parâmetros de conexão com servidor Gmail */
-	    props.put("mail.smtp.host", "smtp.gmail.com");
-	    props.put("mail.smtp.socketFactory.port", "465");
-	    props.put("mail.smtp.socketFactory.class",
-	    "javax.net.ssl.SSLSocketFactory");
-	    props.put("mail.smtp.auth", "true");
-	    props.put("mail.smtp.port", "465");
 
-	    Session session = Session.getDefaultInstance(props,
-	      new javax.mail.Authenticator() {
-	           protected PasswordAuthentication getPasswordAuthentication()
-	           {
-	                 return new PasswordAuthentication("testeemaildesafio@gmail.com",
-	                 "testeemaildesafio@12");
-	           }
-	      });
+		Properties props = new Properties();
+		/** Parâmetros de conexão com servidor Gmail */
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
 
-	    /** Ativa Debug para sessão */
-	    session.setDebug(true);
-	    List<T> lista = new ArrayList<T>();
-	    try {	    	
-			
-			   for(int i=0; i <= 8 ; i++) {
-				   System.out.println("Teste: "+cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
-				   lista.add((T)cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
-			      }
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("testeemaildesafio@gmail.com", "testeemaildesafio@12");
+			}
+		});
+
+		System.out.print("Teste email :" + mail + "\n");
+
+		List<Moedas> testeServidor = null;
+		try {
+			testeServidor = WEBStatus.listarCotas("USD", dataTeste.todayAsString(), dataTeste.todayAsString());
+
+			if (testeServidor.isEmpty()) {
+				System.out.print("Servidor Inativo: " + testeServidor + "\n");
+				cotacao.successExport(false, "API Inativa - Nao foi possível enviar o Email...");
+			} else {
+				System.out.print("Servidor Ativo");
+
+				if (mail.isEmpty()) {
+					System.out.print("Lista de emails vazia");
+					cotacao.successExport(false, "Não há gerentes cadastrados para o envio de email...");
+				} else {
+					session.setDebug(true);
+					List<T> lista = new ArrayList<T>();
+					try {
+
+						for (int i = 0; i <= 8; i++) {
+							System.out.println("Cotação: " + cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
+							lista.add((T) cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+
+					try {
+						Message message = new MimeMessage(session);
+						message.setFrom(new InternetAddress("testeemaildesafio@gmail.com"));
+						// Remetente
+
+						Address[] allEmails = new Address[mail.size()];
+
+						System.out.print("Email da Tabela: " + mail);
+
+						for (int i = 0; i < mail.size(); i++) {
+
+							allEmails = InternetAddress.parse(mail.get(i).toString());
+							System.out.print("\nteste3: " + allEmails.toString() + "\n");
+
+							message.setRecipients(Message.RecipientType.TO, allEmails);
+							message.setSubject("Tabela diária - Cotação de Moedas");// Assunto
+							message.setContent(lista.toString(), "text/html; charset=utf-8");
+
+							/** Método para enviar a mensagem criada */
+							// Transport.send(message);
+							System.out.println("email enviado!");
+						}
+						cotacao.successExport(true, "Email Enviado");
+					} catch (MessagingException e) {
+						throw new RuntimeException(e);
+					}
+				}
+			}
+
+		} catch (Exception e2) {
+			e2.printStackTrace();
 		}
-	 
-	    try {
-	    	
-	    
-	      Message message = new MimeMessage(session);
-	      message.setFrom(new InternetAddress("testeemaildesafio@gmail.com"));
-	      //Remetente
-	      
-	      Address[] allEmails = new Address[mail.size()];
-	      
-	      System.out.print("Email da Tabela: "+mail);
-	     
-	      
-	      for(int i=0; i < mail.size(); i++) {
-	    	  
-	    	 allEmails = InternetAddress.parse(mail.get(i).toString());
-		      System.out.print("\nteste3: "+allEmails.toString()+"\n");
-		      
-		      
-		      message.setRecipients(Message.RecipientType.TO, allEmails);
-		      
-		      message.setSubject("Tabela diária - Cotação de Moedas");//Assunto
-		      
-		      message.setContent(lista.toString(),
-	    			  "text/html; charset=utf-8");
-		     
-		      
-		      /**Método para enviar a mensagem criada*/
-		      Transport.send(message);
 
-		      System.out.println("Feito!!!");
-	    	 
-	      }
-	      
-	     } catch (MessagingException e) {
-	        throw new RuntimeException(e);
-	    }
-	  }
+		/** Ativa Debug para sessão */
+
+	}
 
 }
