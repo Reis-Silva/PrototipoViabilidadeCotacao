@@ -241,9 +241,9 @@ public class CotacaoBean implements Serializable {
 		try {
 			setMoedas(WEBStatus.listarCotas(input, this.dataUtils.todayAsString(),this.dataUtils.todayAsString()));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		setMoeda(moedas.get(moedas.size() - 1));
 		moeda.setMoedaOrigem(input);
 		moeda.setVlrCompraAjust(
@@ -299,7 +299,6 @@ public class CotacaoBean implements Serializable {
 		gerenciarGerentes = new GerentesDAO();
 		setGerentes(gerenciarGerentes.listarEmails());
 		sendMail(getGerentes());
-		successExport(true);
 	}
 
 	public void removeGerente(int id) {
@@ -312,18 +311,17 @@ public class CotacaoBean implements Serializable {
 		try {
 			mail.javamail(mails);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public void successExport(Boolean success) {
+	public void successExport(Boolean success, String mensagem) {
 		if (success) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Email Enviado"));
+					new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, "Email Enviado"));
 		}else {
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed!", "Nao foi possivel enviar o Email..."));
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, mensagem, "Nao foi possivel enviar o Email..."));
 		}
 	}
 	//******************************************************************************
