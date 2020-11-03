@@ -7,13 +7,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import br.com.cotacao.controller.CotacaoBean;
 import br.com.cotacao.entidade.datasource.Moedas;
 
 public class MoedasDAO {
 	
 		protected EntityManagerFactory entityManagerFactory;
 		EntityManager entityManager;
-
+		CotacaoBean cotacao = new CotacaoBean();
+		
 		public MoedasDAO(){
 			entityManager = getEntityManager();
 		} 
@@ -34,10 +36,12 @@ public class MoedasDAO {
 				entityManager.persist(moeda);
 				entityManager.getTransaction().commit();
 				entityManagerFactory.close();
+				cotacao.successExport(true, "Cotação de Moeda Salva no Banco de Dados");
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 				entityManager.getTransaction().rollback();
+				cotacao.successExport(true, "Cotação de Moeda não foi Salva no Banco de Dados");
 			}
 
 		}

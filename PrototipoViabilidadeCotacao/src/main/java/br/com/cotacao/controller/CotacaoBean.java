@@ -283,7 +283,7 @@ public class CotacaoBean implements Serializable {
 		
 		gerenciarGerentes = new GerentesDAO();
 		gerenciarGerentes.salvar(gerente);
-		buscarGerente();
+		
 	}
 
 	// Busca no banco de dados
@@ -318,10 +318,10 @@ public class CotacaoBean implements Serializable {
 	public void successExport(Boolean success, String mensagem) {
 		if (success) {
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, "Email Enviado"));
+					new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, null));
 		}else {
 		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, mensagem, "Nao foi possivel enviar o Email..."));
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, mensagem, null));
 		}
 	}
 	//******************************************************************************

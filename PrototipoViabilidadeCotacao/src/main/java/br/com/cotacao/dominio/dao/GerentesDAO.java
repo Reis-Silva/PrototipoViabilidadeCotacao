@@ -7,12 +7,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import br.com.cotacao.controller.CotacaoBean;
 import br.com.cotacao.entidade.datasource.Gerentes;
 
 public class GerentesDAO {
 	
 		protected EntityManagerFactory entityManagerFactory;
 		EntityManager entityManager;
+		CotacaoBean cotacao = new CotacaoBean();
 
 		public GerentesDAO(){
 			entityManager = getEntityManager();
@@ -34,10 +36,11 @@ public class GerentesDAO {
 				entityManager.persist(gerente);
 				entityManager.getTransaction().commit();
 				entityManagerFactory.close();
-				
+				cotacao.successExport(true, "Gerente Salvo no Banco de Dados");
 			} catch (Exception e) {
 				e.printStackTrace();
 				entityManager.getTransaction().rollback();
+				cotacao.successExport(true, "Gerente não foi Salvo no Banco de Dados");
 			}
 
 		}
