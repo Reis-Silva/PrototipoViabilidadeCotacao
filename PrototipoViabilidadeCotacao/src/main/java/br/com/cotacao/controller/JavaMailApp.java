@@ -46,10 +46,10 @@ public class JavaMailApp {
 				System.out.print("Servidor Inativo: " + testeServidor + "\n");
 				cotacao.successExport(false, "API Inativa - Nao foi possível enviar o Email...");
 			} else {
-				System.out.print("Servidor Ativo");
+				System.out.print("\nServidor Ativo\n");
 
 				if (mail.isEmpty()) {
-					System.out.print("Lista de emails vazia");
+					System.out.print("\nLista de emails vazia\n");
 					cotacao.successExport(false, "Não há gerentes cadastrados para o envio de email...");
 				} else {
 					session.setDebug(true);

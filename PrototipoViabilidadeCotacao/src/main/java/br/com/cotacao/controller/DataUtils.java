@@ -92,10 +92,7 @@ public class DataUtils extends Thread {
 			String conc = hAjuste + mAjuste + sAjuste;
 			int conversaoHora = Integer.parseInt(conc);
 			
-			System.out.print("HoraAjuste: "+conc+"\n");
-			System.out.print("HoraAConvertida: "+conversaoHora+"\n");
-			
-			//System.out.print("\nHora Atual:" + conversaoHora+"\n\nVerificando a hora de envio padrão (15:00:00)...\n");
+			System.out.print("\nHora Atual:" + conversaoHora+"\n\nVerificando a hora de envio padrão (15:00:00)...\n");
 			
 			if ((conversaoHora + 5) >= 150000) {
 				envioTempoEmail = true;
