@@ -50,7 +50,6 @@ public class DataUtils extends Thread {
 						
 						contrucaoTempoEmail(listaTempo);
 						Thread.sleep(2000); 
-						
 
 					} catch (InterruptedException e) {
 
@@ -93,9 +92,12 @@ public class DataUtils extends Thread {
 			String conc = hAjuste + mAjuste + sAjuste;
 			int conversaoHora = Integer.parseInt(conc);
 			
-			System.out.print("\nHora Atual:" + conversaoHora+"\n\nVerificando a hora de envio padrão (15:00:00)...\n");
+			System.out.print("HoraAjuste: "+conc+"\n");
+			System.out.print("HoraAConvertida: "+conversaoHora+"\n");
 			
-			if ((conversaoHora + 101) >= 150000) {
+			//System.out.print("\nHora Atual:" + conversaoHora+"\n\nVerificando a hora de envio padrão (15:00:00)...\n");
+			
+			if ((conversaoHora + 5) >= 150000) {
 				envioTempoEmail = true;
 			}
 

@@ -22,7 +22,6 @@ public class JavaMailApp {
 	public <T> void javamail(List<T> mail) {
 
 		DataUtils dataTeste = new DataUtils();
-		String[] UnidadeMoedas = { "AUD", "CAD", "CHF", "DKK", "GBP", "JPY", "NOK", "SEK", "USD" };
 		CotacaoBean cotacao = new CotacaoBean();
 
 		Properties props = new Properties();
@@ -38,9 +37,7 @@ public class JavaMailApp {
 				return new PasswordAuthentication("testeemaildesafio@gmail.com", "testeemaildesafio@12");
 			}
 		});
-
-		System.out.print("Teste email :" + mail + "\n");
-
+		
 		List<Moedas> testeServidor = null;
 		try {
 			testeServidor = WEBStatus.listarCotas("USD", dataTeste.todayAsString(), dataTeste.todayAsString());
@@ -60,8 +57,8 @@ public class JavaMailApp {
 					try {
 
 						for (int i = 0; i <= 8; i++) {
-							System.out.println("Cotação: " + cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
-							lista.add((T) cotacao.moedaCotacaoAtualEmail(UnidadeMoedas[i]));
+							System.out.println("Cotação: " + cotacao.moedaCotacaoAtualEmail(cotacao.UnidadeMoedas[i]));
+							lista.add((T) cotacao.moedaCotacaoAtualEmail(cotacao.UnidadeMoedas[i]));
 						}
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -82,11 +79,11 @@ public class JavaMailApp {
 							System.out.print("\nteste3: " + allEmails.toString() + "\n");
 
 							message.setRecipients(Message.RecipientType.TO, allEmails);
-							message.setSubject("Tabela diária - Cotação de Moedas");// Assunto
+							message.setSubject("Tabela diária - Cotação de Moedas");
 							message.setContent(lista.toString(), "text/html; charset=utf-8");
 
 							/** Método para enviar a mensagem criada */
-							// Transport.send(message);
+							Transport.send(message);
 							System.out.println("email enviado!");
 						}
 						cotacao.successExport(true, "Email Enviado");
@@ -99,8 +96,6 @@ public class JavaMailApp {
 		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
-
-		/** Ativa Debug para sessão */
 
 	}
 
