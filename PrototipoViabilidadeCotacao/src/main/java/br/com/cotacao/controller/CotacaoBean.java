@@ -186,24 +186,50 @@ public class CotacaoBean implements Serializable {
 		moeda.setDataSave(this.dataUtils.dateAsString(getDataInicial()));
 	}
 
-	public void moedaCotacaoAtual() throws Exception {
+	public void moedaCotacaoAtual() {
 		moeda = new Moedas();
-		setMoedas(WEBStatus.listarCotas(getInputMoeda(), this.dataUtils.dateAsString(getDataInicial()),
-				this.dataUtils.todayAsString()));
-		varreduraLista();
-		saveMoeda();
+		List<Moedas> verificacaoMoeda = null;
+		try {
+			verificacaoMoeda = WEBStatus.listarCotas(getInputMoeda(), this.dataUtils.dateAsString(getDataInicial()),
+					this.dataUtils.todayAsString());
+			
+			if(verificacaoMoeda.isEmpty()) {
+				successExport(false, "Moeda ainda não foi atualizada");
+			}else {
+				setMoedas(verificacaoMoeda);
+				varreduraLista();
+				saveMoeda();
+			}
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
 	}
 
 	public Moedas moedaCotacaoAtualEmail(String input) {
 		moeda = new Moedas();
+		List<Moedas> verificacaoMoeda = null;
+		
 		try {
-			setMoedas(WEBStatus.listarCotas(input, this.dataUtils.todayAsString(), this.dataUtils.todayAsString()));
-			setMoeda(moedas.get(moedas.size() - 1));
-			moeda.setMoedaOrigem(input);
-			moeda.setVlrCompraAjust(moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
-			moeda.setVlrVendaAjust(moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
-			moeda.setDataSave(this.dataUtils.todayAsString());
+			verificacaoMoeda = WEBStatus.listarCotas(input, this.dataUtils.todayAsString(), this.dataUtils.todayAsString());
 			
+			if(verificacaoMoeda.isEmpty()) {
+				moeda.setMoedaOrigem(input);
+				moeda.setCotacaoCompra(0);
+				moeda.setCotacaoVenda(0);
+				moeda.setVlrCompraAjust(0);
+				moeda.setVlrVendaAjust(0);
+				moeda.setDataSave(this.dataUtils.todayAsString());
+				
+			}else {
+				setMoedas(verificacaoMoeda);
+				setMoeda(moedas.get(moedas.size() - 1));
+				moeda.setMoedaOrigem(input);
+				moeda.setVlrCompraAjust(moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
+				moeda.setVlrVendaAjust(moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
+				moeda.setDataSave(this.dataUtils.todayAsString());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
