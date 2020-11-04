@@ -37,7 +37,7 @@
 				action="#{cotacaoBean.buscarMoeda()}" update="messages"
 				icon="pi pi-save" oncomplete="PF('Moedasdetails').show();" />
 			<p:menuitem value="Tabela de Gerentes"
-				action="#{cotacaoBean.buscarGerente()}" update="messages"
+				action="#{cotacaoBean.buscarGerente()}" update="messages formgerentes:tablegerentes form1:pg"
 				icon="pi pi-save" oncomplete="PF('Gerentesdetails').show();" />
 			<p:separator />
 			<p:menuitem value="Cadastro de Gerentes"

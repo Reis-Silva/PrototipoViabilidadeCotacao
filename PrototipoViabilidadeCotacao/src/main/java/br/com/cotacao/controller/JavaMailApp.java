@@ -23,6 +23,7 @@ public class JavaMailApp {
 
 		DataUtils dataTeste = new DataUtils();
 		CotacaoBean cotacao = new CotacaoBean();
+		Moedas unidadeMoedas = new Moedas();
 
 		Properties props = new Properties();
 		/** Parâmetros de conexão com servidor Gmail */
@@ -57,8 +58,8 @@ public class JavaMailApp {
 					try {
 
 						for (int i = 0; i <= 8; i++) {
-							System.out.println("Cotação: " + cotacao.moedaCotacaoAtualEmail(cotacao.UnidadeMoedas[i]));
-							lista.add((T) cotacao.moedaCotacaoAtualEmail(cotacao.UnidadeMoedas[i]));
+							System.out.println("Cotação: " + cotacao.moedaCotacaoAtualEmail(unidadeMoedas.getUnidadeMoedas()[i]));
+							lista.add((T) cotacao.moedaCotacaoAtualEmail(unidadeMoedas.getUnidadeMoedas()[i]));
 						}
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -76,14 +77,13 @@ public class JavaMailApp {
 						for (int i = 0; i < mail.size(); i++) {
 
 							allEmails = InternetAddress.parse(mail.get(i).toString());
-							System.out.print("\nteste3: " + allEmails.toString() + "\n");
-
+							
 							message.setRecipients(Message.RecipientType.TO, allEmails);
 							message.setSubject("Tabela diária - Cotação de Moedas");
 							message.setContent(lista.toString(), "text/html; charset=utf-8");
 
 							/** Método para enviar a mensagem criada */
-							Transport.send(message);
+							//Transport.send(message);
 							System.out.println("email enviado!");
 						}
 						cotacao.successExport(true, "Email Enviado");

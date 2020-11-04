@@ -20,11 +20,10 @@ import br.com.cotacao.service.WEBStatus;
 @ApplicationScoped
 @ManagedBean
 public class CotacaoBean implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	// Iiniciando construção de lista
-
 
 	@Inject
 	private String inputMoeda;
@@ -43,40 +42,25 @@ public class CotacaoBean implements Serializable {
 
 	@Inject
 	private MoedasDAO gerenciarMoedas;
-	
+
 	@Inject
 	private GerentesDAO gerenciarGerentes;
-	
+
 	@Inject
 	private Gerentes gerente;
-	
+
 	@Inject
 	private List<Gerentes> gerentes;
-	
+
 	@Inject
 	private String inputNomeGerente;
-	
+
 	@Inject
 	private String inputAgencia;
-	
+
 	@Inject
 	private String inputEmail;
 	
-	@Inject
-	public String[] UnidadeMoedas = {"AUD","CAD","CHF","DKK","GBP","JPY","NOK","SEK","USD"};
-	
-	@Inject 
-	public String[] VlrCompra;
-	
-	@Inject
-	public String[] VlrVenda;
-	
-	@Inject
-	public String[] VlrCompraAjust;
-	
-	@Inject
-	public String[] VlrVendaAjust;
-
 
 	public String getInputMoeda() {
 		return inputMoeda;
@@ -174,56 +158,31 @@ public class CotacaoBean implements Serializable {
 		this.inputEmail = inputEmail;
 	}
 
-	public String[] getUnidadeMoedas() {
-		return UnidadeMoedas;
+	public boolean isLaco() {
+		return laco;
 	}
 
-	public void setUnidadeMoedas(String[] unidadeMoedas) {
-		UnidadeMoedas = unidadeMoedas;
+	public void setLaco(boolean laco) {
+		this.laco = laco;
 	}
 
-	public String[] getVlrCompra() {
-		return VlrCompra;
+	public DataUtils getTempoE() {
+		return tempoE;
 	}
 
-	public void setVlrCompra(String[] vlrCompra) {
-		VlrCompra = vlrCompra;
+	public void setTempoE(DataUtils tempoE) {
+		this.tempoE = tempoE;
 	}
 
-	public String[] getVlrVenda() {
-		return VlrVenda;
-	}
+	boolean laco = true;
 
-	public void setVlrVenda(String[] vlrVenda) {
-		VlrVenda = vlrVenda;
-	}
-
-	public String[] getVlrCompraAjust() {
-		return VlrCompraAjust;
-	}
-
-	public void setVlrCompraAjust(String[] vlrCompraAjust) {
-		VlrCompraAjust = vlrCompraAjust;
-	}
-
-	public String[] getVlrVendaAjust() {
-		return VlrVendaAjust;
-	}
-
-	public void setVlrVendaAjust(String[] vlrVendaAjust) {
-		VlrVendaAjust = vlrVendaAjust;
-	}
-
- boolean laco=true;
- 
-	//******************************** Cotação Moedas ***********************************
+	// ******************************** Cotação Moedas
+	// ***********************************
 	public void varreduraLista() {
 		setMoeda(moedas.get(moedas.size() - 1));
 		moeda.setMoedaOrigem(getInputMoeda());
-		moeda.setVlrCompraAjust(
-				moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
-		moeda.setVlrVendaAjust(
-				moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
+		moeda.setVlrCompraAjust(moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
+		moeda.setVlrVendaAjust(moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
 		moeda.setDataSave(this.dataUtils.dateAsString(getDataInicial()));
 	}
 
@@ -233,24 +192,21 @@ public class CotacaoBean implements Serializable {
 				this.dataUtils.todayAsString()));
 		varreduraLista();
 		saveMoeda();
-		
 	}
-	
-	public Moedas moedaCotacaoAtualEmail(String input){
+
+	public Moedas moedaCotacaoAtualEmail(String input) {
 		moeda = new Moedas();
 		try {
-			setMoedas(WEBStatus.listarCotas(input, this.dataUtils.todayAsString(),this.dataUtils.todayAsString()));
+			setMoedas(WEBStatus.listarCotas(input, this.dataUtils.todayAsString(), this.dataUtils.todayAsString()));
+			setMoeda(moedas.get(moedas.size() - 1));
+			moeda.setMoedaOrigem(input);
+			moeda.setVlrCompraAjust(moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
+			moeda.setVlrVendaAjust(moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
+			moeda.setDataSave(this.dataUtils.todayAsString());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
-		setMoeda(moedas.get(moedas.size() - 1));
-		moeda.setMoedaOrigem(input);
-		moeda.setVlrCompraAjust(
-				moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
-		moeda.setVlrVendaAjust(
-				moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
-		moeda.setDataSave(this.dataUtils.todayAsString());
+		}	
 		return moeda;
 	}
 
@@ -271,19 +227,19 @@ public class CotacaoBean implements Serializable {
 		gerenciarMoedas.removeById(id);
 		buscarMoeda();
 	}
-	
-	//******************************** Gerentes ***********************************
-	
+
+	// ******************************** Gerentes ***********************************
+
 	// Função para salvar no banco de dados
 	public void saveGerente() {
 		gerente = new Gerentes();
 		gerente.setNomeGerente(getInputNomeGerente());
 		gerente.setAgencia(getInputAgencia());
 		gerente.setEmail(getInputEmail());
-		
+
 		gerenciarGerentes = new GerentesDAO();
 		gerenciarGerentes.salvar(gerente);
-		
+
 	}
 
 	// Busca no banco de dados
@@ -292,7 +248,7 @@ public class CotacaoBean implements Serializable {
 		gerenciarGerentes = new GerentesDAO();
 		setGerentes(gerenciarGerentes.listar());
 	}
-	
+
 	// Busca email dos gerentes
 	public void buscarEmailGerente() throws Exception {
 		gerente = new Gerentes();
@@ -305,8 +261,8 @@ public class CotacaoBean implements Serializable {
 		gerenciarGerentes.removeById(id);
 		buscarGerente();
 	}
-	
-	public <T> void sendMail(List<T> mails){
+
+	public <T> void sendMail(List<T> mails) {
 		JavaMailApp mail = new JavaMailApp();
 		try {
 			mail.javamail(mails);
@@ -314,31 +270,31 @@ public class CotacaoBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void successExport(Boolean success, String mensagem) {
 		if (success) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, null));
-		}else {
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(FacesMessage.SEVERITY_ERROR, mensagem, null));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, mensagem, null));
 		}
 	}
-	//******************************************************************************
-	
+	// ******************************************************************************
+
 	// Inicio automático da página
-	
+
 	DataUtils tempoE = new DataUtils();
-	
+
 	@PostConstruct
 	public void init() {
 		try {
 			buscarGerente();
 			buscarMoeda();
-			
+
 			tempoE.setPriority(Thread.MIN_PRIORITY);
 			tempoE.calendarioEnvioEmail();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -346,4 +302,3 @@ public class CotacaoBean implements Serializable {
 	}
 
 }
-

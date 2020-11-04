@@ -54,7 +54,10 @@ public class Moedas implements Serializable{
 	
 	@Transient
 	private String tipoBoletim;
+	
+	private String[] unidadeMoedas = { "AUD", "CAD", "CHF", "DKK", "GBP", "JPY", "NOK", "SEK", "USD" };
 
+	
 	public int getId() {
 		return id;
 	}
@@ -151,7 +154,14 @@ public class Moedas implements Serializable{
 		this.tipoBoletim = tipoBoletim;
 	}
 
+	public String[] getUnidadeMoedas() {
+		return unidadeMoedas;
+	}
 	
+	public void setUnidadeMoedas(String[] unidadeMoedas) {
+		this.unidadeMoedas = unidadeMoedas;
+	}
+
 	@Override
 	public String toString() {
 		return "<br/><br/>moedaOrigem=" + moedaOrigem + "<br/>moedaDestino=" + moedaDestino
