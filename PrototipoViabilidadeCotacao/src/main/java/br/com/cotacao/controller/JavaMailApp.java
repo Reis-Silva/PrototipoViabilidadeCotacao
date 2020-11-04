@@ -83,7 +83,7 @@ public class JavaMailApp {
 							message.setContent(lista.toString(), "text/html; charset=utf-8");
 
 							/** Método para enviar a mensagem criada */
-							//Transport.send(message);
+							Transport.send(message);
 							System.out.println("email enviado!");
 						}
 						cotacao.successExport(true, "Email Enviado");
