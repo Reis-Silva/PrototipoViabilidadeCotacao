@@ -41,8 +41,16 @@ public class JavaMailApp {
 		
 		List<Moedas> testeServidor = null;
 		try {
-			testeServidor = WEBStatus.listarCotas("USD", dataTeste.todayAsString(), dataTeste.todayAsString());
-
+			for (int i = 0; i < unidadeMoedas.getUnidadeMoedas().length; i++) {
+				testeServidor = WEBStatus.listarCotas(unidadeMoedas.getUnidadeMoedas()[i], dataTeste.todayAsString(), dataTeste.todayAsString());
+				if(testeServidor.isEmpty()) {
+					System.out.print("\n" + unidadeMoedas.getUnidadeMoedas()[i] + "- Moeda Inativa\n");
+				}else {
+					System.out.print("\n" + unidadeMoedas.getUnidadeMoedas()[i] + "- Moeda ativa\n");
+					break;
+				}
+			}
+			
 			if (testeServidor.isEmpty()) {
 				System.out.print("Servidor Inativo: " + testeServidor + "\n");
 				cotacao.successExport(false, "API Inativa - Nao foi possível enviar o Email...");
@@ -57,7 +65,7 @@ public class JavaMailApp {
 					List<T> lista = new ArrayList<T>();
 					try {
 
-						for (int i = 0; i <= 8; i++) {
+						for (int i = 0; i < unidadeMoedas.getUnidadeMoedas().length; i++) {
 							System.out.println("Cotação: " + cotacao.moedaCotacaoAtualEmail(unidadeMoedas.getUnidadeMoedas()[i]));
 							lista.add((T) cotacao.moedaCotacaoAtualEmail(unidadeMoedas.getUnidadeMoedas()[i]));
 						}
