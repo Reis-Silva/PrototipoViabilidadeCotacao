@@ -79,7 +79,6 @@ public class GerentesDAO {
 		//Buscar no banco de dados
 		@SuppressWarnings("unchecked")
 		public List<Gerentes> listar(){
-			
 			entityManager.getTransaction().begin();
 			Query consulta = entityManager.createQuery("select gerente from Gerentes gerente");
 			List<Gerentes> lista = consulta.getResultList();
@@ -90,8 +89,7 @@ public class GerentesDAO {
 		
 		//Buscar no banco de dados emails
 		@SuppressWarnings("unchecked")
-		public List<Gerentes> listarEmails(){
-			
+		public List<Gerentes> listarEmails(){		
 			entityManager.getTransaction().begin();
 			Query consulta = entityManager.createQuery("select email from Gerentes gerente");
 			List<Gerentes> lista = consulta.getResultList();

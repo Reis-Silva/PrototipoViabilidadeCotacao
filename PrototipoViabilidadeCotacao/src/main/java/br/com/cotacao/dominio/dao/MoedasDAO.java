@@ -36,8 +36,7 @@ public class MoedasDAO {
 				entityManager.persist(moeda);
 				entityManager.getTransaction().commit();
 				entityManagerFactory.close();
-				cotacao.successExport(true, "Cotação de Moeda Salva no Banco de Dados");
-				
+				cotacao.successExport(true, "Cotação de Moeda Salva no Banco de Dados");	
 			} catch (Exception e) {
 				e.printStackTrace();
 				entityManager.getTransaction().rollback();
@@ -46,12 +45,10 @@ public class MoedasDAO {
 
 		}
 		
-	
 		//Remover do banco de dados
 		public Moedas getById(final int id) {
 	         return entityManager.find(Moedas.class, id);
 	       }
-		
 		
 		public void removeById(final int id) {
 	         try {
@@ -62,7 +59,6 @@ public class MoedasDAO {
 	        	 ex.printStackTrace();
 	         }
 	       }
-		
 		
 		public void remover(Moedas m) {
 			try {
@@ -77,12 +73,10 @@ public class MoedasDAO {
 			}
 
 		}
-		
-		
+				
 		//Buscar no banco de dados
 		@SuppressWarnings("unchecked")
 		public List<Moedas> listar(){
-			
 			entityManager.getTransaction().begin();
 			Query consulta = entityManager.createQuery("from Moedas");
 			List<Moedas> lista = consulta.getResultList();
