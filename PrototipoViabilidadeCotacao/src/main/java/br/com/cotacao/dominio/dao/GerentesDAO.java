@@ -49,8 +49,7 @@ public class GerentesDAO {
 		public Gerentes getById(final int id) {
 	         return entityManager.find(Gerentes.class, id);
 	       }
-
-		
+	
 		public void removeById(final int id) {
 	         try {
 	        	 Gerentes g = new Gerentes();
@@ -60,8 +59,7 @@ public class GerentesDAO {
 	        	 ex.printStackTrace();
 	         }
 	       }
-		
-		
+			
 		public void remover(Gerentes gerente) {
 			try {
 				entityManager.getTransaction().begin();

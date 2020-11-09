@@ -315,12 +315,8 @@ public class CotacaoBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		try {
-			buscarGerente();
-			buscarMoeda();
-
 			tempoE.setPriority(Thread.MIN_PRIORITY);
 			tempoE.calendarioEnvioEmail();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
