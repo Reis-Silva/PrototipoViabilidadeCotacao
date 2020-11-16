@@ -8,11 +8,11 @@ Neste aplicativo é possível resgatar as cotações de moedas estrangeiras com 
 
 ## Features
 
-- Suporte no JavaEE podendo ser utilizado o jdk nas versões `8.x e 11.x`.
+- Suporte no JavaEE podendo ser utilizado o JavaSE-8 (`jdk 8.x e 11.x`).
 
 - Suporte no Servidor Apache Tomcat versões `8.x e 9.x`, aconselhável a versão `9.x` - Link: https://downloads.apache.org/tomcat/tomcat-9/v9.0.39/bin/apache-tomcat-9.0.39-windows-x64.zip
 
-- Dados recorrentes de dependencias do projeto podem ser utilizadas de acordo como está definido no Link do pom.xml:https://github.com/Reis-Silva/PrototipoViabilidadeCotacao/blob/main/PrototipoViabilidadeCotacao/pom.xml desde de que esteja dentro das versões do JavaEE.
+- Dados recorrentes de dependencias do projeto podem ser utilizadas de acordo como está definido no Link do pom.xml:https://github.com/Reis-Silva/PrototipoViabilidadeCotacao/blob/main/PrototipoViabilidadeCotacao/pom.xml desde de que esteja dentro das versões do JavaSE-8.
 
 - Conexão com Microsoft SQLServer Management Studio (8 - v18.6) contendo o SQL Server 15, no entanto pode ser utilizado em outras versões. Dados recorrentes de conexão com o banco de dados encontram-se no persistence.xml: https://github.com/Reis-Silva/PrototipoViabilidadeCotacao/blob/main/PrototipoViabilidadeCotacao/src/main/java/META-INF/persistence.xml
 
