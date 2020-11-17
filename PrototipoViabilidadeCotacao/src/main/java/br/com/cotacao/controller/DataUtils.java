@@ -94,7 +94,7 @@ public class DataUtils extends Thread {
 			
 			System.out.print("\nHora Atual:" + conversaoHora+"\n\nVerificando a hora de envio padrão (15:00:00)...\n");
 			
-			if ((conversaoHora + 5) >= 150000) {
+			if ((conversaoHora) > 150003) {
 				envioTempoEmail = true;
 			}
 
