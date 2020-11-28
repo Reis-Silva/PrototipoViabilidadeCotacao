@@ -1,4 +1,4 @@
-package br.com.cotacao.service;
+package cotacao.service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.Gson;
 
-import br.com.cotacao.entidade.datasource.Moedas;
-import br.com.cotacao.entidade.repository.MoedaRepository;
+import cotacao.entity.moedas.MoedaRepository;
+import cotacao.entity.moedas.Moedas;
 
 public class WEBStatus {
 

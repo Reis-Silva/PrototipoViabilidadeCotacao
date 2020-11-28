@@ -1,4 +1,4 @@
-package br.com.cotacao.controller;
+package cotacao.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -6,6 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.faces.bean.ApplicationScoped;
+
+import cotacao.dao.gerentes.GerentesJPADAO;
+import cotacao.entity.gerentes.Gerentes;
 
 @ApplicationScoped
 public class DataUtils extends Thread {
@@ -102,8 +105,8 @@ public class DataUtils extends Thread {
 				
 				try {
 					System.out.print("\nEnvio efetuado!\n\n");
-					CotacaoBean envioEmails = new CotacaoBean();
-					envioEmails.buscarEmailGerente();
+					GerentesJPADAO envioEmails = new GerentesJPADAO();
+					 envioEmails.emailSearch(Gerentes.class);
 					envioTempoEmail = false;
 				} catch (Exception e1) {
 					
@@ -113,6 +116,6 @@ public class DataUtils extends Thread {
 		}
 
 	}
-	
+
 	
 }

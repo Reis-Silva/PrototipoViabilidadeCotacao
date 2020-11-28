@@ -1,88 +1,112 @@
-package br.com.cotacao.dominio.dao;
+package cotacao.dao.moedas;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
+import org.primefaces.event.SelectEvent;
+import cotacao.controller.DataUtils;
+import cotacao.entity.moedas.Moedas;
+import cotacao.service.WEBStatus;
+import dao.JPADAO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-
-import br.com.cotacao.controller.CotacaoBean;
-import br.com.cotacao.entidade.datasource.Moedas;
-
-public class MoedasDAO {
+@ViewScoped
+@ManagedBean
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class MoedasJPADAO extends JPADAO<Moedas, Integer> implements Serializable, MoedasDAO{
 	
-		protected EntityManagerFactory entityManagerFactory;
-		EntityManager entityManager;
-		CotacaoBean cotacao = new CotacaoBean();
-		
-		public MoedasDAO(){
-			entityManager = getEntityManager();
-		} 
-		
-		//Iniciando parâmetros de banco de dados/Padrão Sigleton
-		public EntityManager getEntityManager() {
-			entityManagerFactory = Persistence.createEntityManagerFactory("cotacaomoeda");
-			if (entityManager == null) {
-				entityManager = entityManagerFactory.createEntityManager();
-			}
-			return entityManager;
-		}
-		
-		//Salvar no banco de dados
-		public void salvar(Moedas moeda) {
-			try {
-				entityManager.getTransaction().begin();
-				entityManager.persist(moeda);
-				entityManager.getTransaction().commit();
-				entityManagerFactory.close();
-				cotacao.successExport(true, "Cotação de Moeda Salva no Banco de Dados");	
-			} catch (Exception e) {
-				e.printStackTrace();
-				entityManager.getTransaction().rollback();
-				cotacao.successExport(true, "Cotação de Moeda não foi Salva no Banco de Dados");
-			}
 
-		}
-		
-		//Remover do banco de dados
-		public Moedas getById(final int id) {
-	         return entityManager.find(Moedas.class, id);
-	       }
-		
-		public void removeById(final int id) {
-	         try {
-	        	 Moedas m = new Moedas();
-	             m = getById(id);
-	             remover(m);
-	         } catch (Exception ex) {
-	        	 ex.printStackTrace();
-	         }
-	       }
-		
-		public void remover(Moedas m) {
-			try {
-				entityManager.getTransaction().begin();
-				m = entityManager.find(Moedas.class, m.getId());
-				entityManager.remove(m);
-				entityManager.getTransaction().commit();
-				entityManagerFactory.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				entityManager.getTransaction().rollback();
-			}
+	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private String inputMoeda;
 
-		}
-				
-		//Buscar no banco de dados
-		@SuppressWarnings("unchecked")
-		public List<Moedas> listar(){
-			entityManager.getTransaction().begin();
-			Query consulta = entityManager.createQuery("from Moedas");
-			List<Moedas> lista = consulta.getResultList();
-			entityManager.getTransaction().commit();
-			
-			return lista;
-		}
+	@Inject
+	private Moedas moeda;
+	
+	@Inject
+	private Moedas selectMoeda; 
+	
+	@Inject
+	private List<Moedas> moedas;
+
+	@Inject
+	private DataUtils dataUtils = new DataUtils();
+
+	@Inject
+	private Date dataInicial;
+	
+	@Override
+	public void cotacaoMoedasSave(String input ,String date, String method) {
+		moeda = new Moedas();
+		List<Moedas> verificacaoMoeda = null;
+		try {
+			verificacaoMoeda = WEBStatus.listarCotas(input, date,
+					this.dataUtils.todayAsString());
+			if(verificacaoMoeda.isEmpty()) {
+				messageView(false, "Moeda ainda não foi atualizada");
+			}else if(method.contentEquals("cotacaomoeda")){
+				setMoedas(verificacaoMoeda);
+				varreduraLista(date);
+				save(moeda);
+			}else if(method.contains("email")) {
+				setMoedas(verificacaoMoeda);
+				varreduraLista(date);
+			}else {
+				messageView(false, "Nenhum método encontrado");
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}		
 		
+	}
+	
+	public void cotacaoMoedasSaveToday(){
+		cotacaoMoedasSave(getInputMoeda(), this.dataUtils.dateAsString(getDataInicial()), "cotacaomoeda");
+	}
+	
+	public Moedas cotacaoMoedasSaveEmail(String input) {
+		cotacaoMoedasSave(input, this.dataUtils.todayAsString(), "email");
+		return moeda;
+	}
+	
+	public void varreduraLista(String date) {
+		setMoeda(moedas.get(moedas.size() - 1));
+		moeda.setMoedaOrigem(getInputMoeda());
+		moeda.setVlrCompraAjust(moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
+		moeda.setVlrVendaAjust(moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
+		moeda.setDataSave(date);
+	}
+
+	public void moedaStorage() {
+		setMoedas(search(Moedas.class));
+	}
+	
+	public void removeMoeda() {
+		if(getSelectMoeda().getId() == null) {
+			messageView(false, "Selecione uma moeda");
+		}else {
+			int pk = getSelectMoeda().getId();
+			System.out.println("Teste: " + pk + "\n");
+			remove(Moedas.class, pk);
+			moedaStorage();
+			setSelectMoeda(null);
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public void onRowSelect(SelectEvent event) {		
+		Moedas select = (Moedas) event.getObject();
+		setSelectMoeda(select);
+	}
+	
+	public void close() {
+		setMoeda(null);
+	}
+
 }
