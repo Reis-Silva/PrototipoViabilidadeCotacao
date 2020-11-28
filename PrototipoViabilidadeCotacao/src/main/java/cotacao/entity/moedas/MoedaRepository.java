@@ -1,8 +1,6 @@
-package br.com.cotacao.entidade.repository;
+package cotacao.entity.moedas;
 
 import java.util.Arrays;
-
-import br.com.cotacao.entidade.datasource.Moedas;
 
 //Dados dos Estados
 public class MoedaRepository {

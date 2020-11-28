@@ -1,4 +1,4 @@
-package br.com.cotacao.entidade.datasource;
+package cotacao.entity.moedas;
 
 import java.io.Serializable;
 
@@ -10,8 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
+
 @Entity
 @Table(name = "moedas")
+@Data
 public class Moedas implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -20,7 +25,7 @@ public class Moedas implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@Setter(value = AccessLevel.NONE) private Integer id;
 	
 	@Column(name = "MoedaOrigem", length = 10, nullable = false )
 	private String moedaOrigem;
@@ -57,117 +62,13 @@ public class Moedas implements Serializable{
 	
 	private String[] unidadeMoedas = { "AUD", "CAD", "CHF", "DKK", "GBP", "JPY", "NOK", "SEK", "USD" };
 
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getMoedaOrigem() {
-		return moedaOrigem;
-	}
-
-	public void setMoedaOrigem(String moedaOrigem) {
-		this.moedaOrigem = moedaOrigem;
-	}
-
-	public String getMoedaDestino() {
-		return moedaDestino;
-	}
-
-	public void setMoedaDestino(String moedaDestino) {
-		this.moedaDestino = moedaDestino;
-	}
-
-	public double getParidadecompra() {
-		return paridadecompra;
-	}
-
-	public void setParidadecompra(double paridadecompra) {
-		this.paridadecompra = paridadecompra;
-	}
-
-	public double getParidadevenda() {
-		return paridadevenda;
-	}
-
-	public void setParidadevenda(double paridadevenda) {
-		this.paridadevenda = paridadevenda;
-	}
-
-	public double getCotacaoCompra() {
-		return cotacaoCompra;
-	}
-
-	public void setCotacaoCompra(double cotacaoCompra) {
-		this.cotacaoCompra = cotacaoCompra;
-	}
-
-	public double getCotacaoVenda() {
-		return cotacaoVenda;
-	}
-
-	public void setCotacaoVenda(double cotacaoVenda) {
-		this.cotacaoVenda = cotacaoVenda;
-	}
-
-	public double getVlrCompraAjust() {
-		return vlrCompraAjust;
-	}
-
-	public void setVlrCompraAjust(double vlrCompraAjust) {
-		this.vlrCompraAjust = vlrCompraAjust;
-	}
-
-	public double getVlrVendaAjust() {
-		return vlrVendaAjust;
-	}
-
-	public void setVlrVendaAjust(double vlrVendaAjust) {
-		this.vlrVendaAjust = vlrVendaAjust;
-	}
-
-	public double getPercentLucro() {
-		return percentLucro;
-	}
-
-	public void setPercentLucro(double percentLucro) {
-		this.percentLucro = percentLucro;
-	}
-
-	public String getDataSave() {
-		return dataSave;
-	}
-
-	public void setDataSave(String dataSave) {
-		this.dataSave = dataSave;
-	}
-
-	public String getTipoBoletim() {
-		return tipoBoletim;
-	}
-
-	public void setTipoBoletim(String tipoBoletim) {
-		this.tipoBoletim = tipoBoletim;
-	}
-
-	public String[] getUnidadeMoedas() {
-		return unidadeMoedas;
-	}
-	
-	public void setUnidadeMoedas(String[] unidadeMoedas) {
-		this.unidadeMoedas = unidadeMoedas;
-	}
-
 	@Override
 	public String toString() {
 		return "<br/><br/>moedaOrigem=" + moedaOrigem + "<br/>moedaDestino=" + moedaDestino
 				+ "<br/>cotacaoCompra=" + cotacaoCompra + "<br/>cotacaoVenda=" + cotacaoVenda + "<br/>percentLucro=" + percentLucro 
 				+"<br/>vlrCompraAjust=" + vlrCompraAjust + "<br/>vlrVendaAjust=" + vlrVendaAjust +  "<br/>dataSave=" + dataSave+"<br/><br/>";
 	}
+
 
 	
 }

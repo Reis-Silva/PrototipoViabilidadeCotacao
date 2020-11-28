@@ -1,7 +1,6 @@
-package br.com.cotacao.entidade.datasource;
+package cotacao.entity.gerentes;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,15 +8,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
 @Table(name = "gerentes")
+@ToString(of = "email")
+@Data
 public class Gerentes implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@Setter(value = AccessLevel.NONE)
+	private Integer id;
 	
 	@Column
 	private String nomeGerente;
@@ -26,44 +33,6 @@ public class Gerentes implements Serializable{
 	private String agencia;
 	
 	@Column
-	private String email;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getNomeGerente() {
-		return nomeGerente;
-	}
-
-	public void setNomeGerente(String nomeGerente) {
-		this.nomeGerente = nomeGerente;
-	}
-
-	public String getAgencia() {
-		return agencia;
-	}
-
-	public void setAgencia(String agencia) {
-		this.agencia = agencia;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	@Override
-	public String toString() {
-		return email;
-	}
-	
+	private String email;	
 	
 }
