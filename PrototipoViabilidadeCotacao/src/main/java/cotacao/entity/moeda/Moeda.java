@@ -1,4 +1,4 @@
-package cotacao.entity.moedas;
+package cotacao.entity.moeda;
 
 import java.io.Serializable;
 
@@ -17,11 +17,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "moedas")
 @Data
-public class Moedas implements Serializable{
+public class Moeda implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	public Moedas() {}
+	public Moeda() {}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,17 +1,17 @@
-package cotacao.entity.moedas;
+package cotacao.entity.moeda;
 
 import java.util.Arrays;
 
 //Dados dos Estados
 public class MoedaRepository {
 
-	private Moedas[] value;
+	private Moeda[] value;
 
-	public Moedas[] getValue() {
+	public Moeda[] getValue() {
 		return value;
 	}
 
-	public void setData(Moedas[] value) {
+	public void setData(Moeda[] value) {
 		this.value = value;
 	}
 

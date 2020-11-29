@@ -1,9 +1,9 @@
-package cotacao.dao.moedas;
+package cotacao.dao.moeda;
 
-import cotacao.entity.moedas.Moedas;
+import cotacao.entity.moeda.Moeda;
 import dao.DAO;
 
-public interface MoedasDAO extends DAO<Moedas, Integer>{
+public interface MoedaDAO extends DAO<Moeda, Integer>{
 	
 	 public void cotacaoMoedasSave(String input, String date, String method);
 

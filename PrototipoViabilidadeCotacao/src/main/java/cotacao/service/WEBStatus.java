@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.Gson;
 
-import cotacao.entity.moedas.MoedaRepository;
-import cotacao.entity.moedas.Moedas;
+import cotacao.entity.moeda.Moeda;
+import cotacao.entity.moeda.MoedaRepository;
 
 public class WEBStatus {
 
 	// Armazenando Dados na lista
-	public static List<Moedas> listarCotas(String moeda, String dataInicial, String dataFinal) throws Exception {
+	public static List<Moeda> listarCotas(String moeda, String dataInicial, String dataFinal) throws Exception {
 
 		WEBStatus ws = new WEBStatus();
 		String url = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@moeda,dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?"
@@ -25,7 +25,7 @@ public class WEBStatus {
 		MoedaRepository cotacaoReposit = new MoedaRepository();
 		cotacaoReposit = g.fromJson(json, MoedaRepository.class);
 
-		List<Moedas> dadosCotacaoAtual = convertArrayToList(cotacaoReposit.getValue());
+		List<Moeda> dadosCotacaoAtual = convertArrayToList(cotacaoReposit.getValue());
 		return dadosCotacaoAtual;
 	}
 

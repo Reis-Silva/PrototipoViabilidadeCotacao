@@ -1,4 +1,4 @@
-package cotacao.controller;
+package cotacao.controller.calendar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import cotacao.dao.moedas.MoedasJPADAO;
-import cotacao.entity.moedas.Moedas;
+import cotacao.dao.moeda.MoedaJPADAO;
+import cotacao.entity.moeda.Moeda;
 import cotacao.service.WEBStatus;
 import lombok.Data;
 
@@ -25,9 +25,8 @@ public class JavaMailApp {
 	public <T> void javamail(List<T> mail) {
 
 		DataUtils dataTeste = new DataUtils();
-		CotacaoBean<Moedas, Integer> cotacao = new CotacaoBean<Moedas, Integer>();
-		MoedasJPADAO moedas = new MoedasJPADAO();
-		moedas.setMoeda(new Moedas());
+		MoedaJPADAO moeda = new MoedaJPADAO();
+		moeda.setMoeda(new Moeda());
 		
 		Properties props = new Properties();
 		
@@ -43,35 +42,35 @@ public class JavaMailApp {
 			}
 		});
 				
-		List<Moedas> testeServidor = null;
+		List<Moeda> testeServidor = null;
 		try {
-			for (int i = 0; i < moedas.getMoeda().getUnidadeMoedas().length; i++) {
-				testeServidor = WEBStatus.listarCotas(moedas.getMoeda().getUnidadeMoedas()[i], dataTeste.todayAsString(), dataTeste.todayAsString());
+			for (int i = 0; i < moeda.getMoeda().getUnidadeMoedas().length; i++) {
+				testeServidor = WEBStatus.listarCotas(moeda.getMoeda().getUnidadeMoedas()[i], dataTeste.todayAsString(), dataTeste.todayAsString());
 				if(testeServidor.isEmpty()) {
-					System.out.print("\n" + moedas.getMoeda().getUnidadeMoedas()[i] + "- Moeda Inativa\n");
+					System.out.print("\n" + moeda.getMoeda().getUnidadeMoedas()[i] + "- Moeda Inativa\n");
 				}else {
-					System.out.print("\n" + moedas.getMoeda().getUnidadeMoedas()[i] + "- Moeda ativa\n");
+					System.out.print("\n" + moeda.getMoeda().getUnidadeMoedas()[i] + "- Moeda ativa\n");
 					break;
 				}
 			}
 			
 			if (testeServidor.isEmpty()) {
 				System.out.print("Servidor Inativo: " + testeServidor + "\n");
-				cotacao.messageView(false, "API Inativa - Nao foi possível enviar o Email...");
+				moeda.messageView(false, "API Inativa - Nao foi possível enviar o Email...");
 			} else {
 				System.out.print("\nServidor Ativo\n");
 
 				if (mail.isEmpty()) {
 					System.out.print("\nLista de emails vazia\n");
-					cotacao.messageView(false, "Não há gerentes cadastrados para o envio de email...");
+					moeda.messageView(false, "Não há gerentes cadastrados para o envio de email...");
 				} else {
 					session.setDebug(true);
 					List<T> lista = new ArrayList<T>();
 					try {
 
-						for (int i = 0; i < moedas.getMoeda().getUnidadeMoedas().length; i++) {
-							System.out.println("Cotação: " + moedas.cotacaoMoedasSaveEmail(moedas.getMoeda().getUnidadeMoedas()[i]));
-							lista.add((T) moedas.cotacaoMoedasSaveEmail(moedas.getMoeda().getUnidadeMoedas()[i]));
+						for (int i = 0; i < moeda.getMoeda().getUnidadeMoedas().length; i++) {
+							System.out.println("Cotação: " + moeda.cotacaoMoedasSaveEmail(moeda.getMoeda().getUnidadeMoedas()[i]));
+							lista.add((T) moeda.cotacaoMoedasSaveEmail(moeda.getMoeda().getUnidadeMoedas()[i]));
 						}
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -96,7 +95,7 @@ public class JavaMailApp {
 							Transport.send(message);
 							System.out.println("email enviado!");
 						}
-						cotacao.messageView(true, "Email Enviado");
+						moeda.messageView(true, "Email Enviado");
 					} catch (MessagingException e) {
 						throw new RuntimeException(e);
 					}

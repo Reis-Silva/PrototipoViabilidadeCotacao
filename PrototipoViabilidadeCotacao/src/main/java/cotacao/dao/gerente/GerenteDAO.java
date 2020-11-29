@@ -1,12 +1,12 @@
-package cotacao.dao.gerentes;
+package cotacao.dao.gerente;
 
 import java.util.List;
 
-import cotacao.entity.gerentes.Gerentes;
+import cotacao.entity.gerente.Gerente;
 import dao.DAO;
 
-public interface GerentesDAO extends DAO<Gerentes, Integer>{
+public interface GerenteDAO extends DAO<Gerente, Integer>{
 	
-	public List<Gerentes> emailSearch(Class<Gerentes> classGeneric);
+	public List<Gerente> emailSearch(Class<Gerente> classGeneric);
 	public void sendMail();
 }

@@ -1,14 +1,18 @@
-package cotacao.dao.moedas;
+package cotacao.dao.moeda;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.event.SelectEvent;
-import cotacao.controller.DataUtils;
-import cotacao.entity.moedas.Moedas;
+
+import cotacao.controller.calendar.DataUtils;
+import cotacao.controller.calendar.TaskManager;
+import cotacao.entity.moeda.Moeda;
 import cotacao.service.WEBStatus;
 import dao.JPADAO;
 import lombok.Data;
@@ -18,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @ManagedBean
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class MoedasJPADAO extends JPADAO<Moedas, Integer> implements Serializable, MoedasDAO{
+public class MoedaJPADAO extends JPADAO<Moeda, Integer> implements Serializable, MoedaDAO{
 	
 
 	private static final long serialVersionUID = 1L;
@@ -27,13 +31,13 @@ public class MoedasJPADAO extends JPADAO<Moedas, Integer> implements Serializabl
 	private String inputMoeda;
 
 	@Inject
-	private Moedas moeda;
+	private Moeda moeda;
 	
 	@Inject
-	private Moedas selectMoeda; 
+	private Moeda selectMoeda; 
 	
 	@Inject
-	private List<Moedas> moedas;
+	private List<Moeda> moedas;
 
 	@Inject
 	private DataUtils dataUtils = new DataUtils();
@@ -43,8 +47,8 @@ public class MoedasJPADAO extends JPADAO<Moedas, Integer> implements Serializabl
 	
 	@Override
 	public void cotacaoMoedasSave(String input ,String date, String method) {
-		moeda = new Moedas();
-		List<Moedas> verificacaoMoeda = null;
+		moeda = new Moeda();
+		List<Moeda> verificacaoMoeda = null;
 		try {
 			verificacaoMoeda = WEBStatus.listarCotas(input, date,
 					this.dataUtils.todayAsString());
@@ -70,7 +74,7 @@ public class MoedasJPADAO extends JPADAO<Moedas, Integer> implements Serializabl
 		cotacaoMoedasSave(getInputMoeda(), this.dataUtils.dateAsString(getDataInicial()), "cotacaomoeda");
 	}
 	
-	public Moedas cotacaoMoedasSaveEmail(String input) {
+	public Moeda cotacaoMoedasSaveEmail(String input) {
 		cotacaoMoedasSave(input, this.dataUtils.todayAsString(), "email");
 		return moeda;
 	}
@@ -84,7 +88,7 @@ public class MoedasJPADAO extends JPADAO<Moedas, Integer> implements Serializabl
 	}
 
 	public void moedaStorage() {
-		setMoedas(search(Moedas.class));
+		setMoedas(search(Moeda.class));
 	}
 	
 	public void removeMoeda() {
@@ -93,7 +97,7 @@ public class MoedasJPADAO extends JPADAO<Moedas, Integer> implements Serializabl
 		}else {
 			int pk = getSelectMoeda().getId();
 			System.out.println("Teste: " + pk + "\n");
-			remove(Moedas.class, pk);
+			remove(Moeda.class, pk);
 			moedaStorage();
 			setSelectMoeda(null);
 		}
@@ -101,12 +105,19 @@ public class MoedasJPADAO extends JPADAO<Moedas, Integer> implements Serializabl
 	
 	@SuppressWarnings("rawtypes")
 	public void onRowSelect(SelectEvent event) {		
-		Moedas select = (Moedas) event.getObject();
+		Moeda select = (Moeda) event.getObject();
 		setSelectMoeda(select);
 	}
 	
 	public void close() {
 		setMoeda(null);
 	}
-
+	
+	
+	TaskManager calendar = new TaskManager();
+	
+	@PostConstruct
+	public void init(){
+		calendar.cron();
+	}
 }

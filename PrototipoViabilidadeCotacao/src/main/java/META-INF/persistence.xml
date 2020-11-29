@@ -5,8 +5,8 @@
     version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
     <persistence-unit name="cotacaomoeda" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>cotacao.entity.gerentes.Gerentes</class>
-        <class>cotacao.entity.moedas.Moedas</class>
+        <class>cotacao.entity.gerente.Gerente</class>
+        <class>cotacao.entity.moeda.Moeda</class>
 	    
         <properties>
 	    <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect" />

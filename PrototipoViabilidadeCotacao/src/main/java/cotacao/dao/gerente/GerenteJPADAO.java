@@ -1,9 +1,8 @@
-package cotacao.dao.gerentes;
+package cotacao.dao.gerente;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -11,11 +10,9 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
 import org.primefaces.event.SelectEvent;
-
-import cotacao.controller.JavaMailApp;
-import cotacao.entity.gerentes.Gerentes;
+import cotacao.controller.calendar.JavaMailApp;
+import cotacao.entity.gerente.Gerente;
 import dao.JPADAO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,15 +22,15 @@ import lombok.EqualsAndHashCode;
 @ManagedBean
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class GerentesJPADAO extends JPADAO<Gerentes, Integer> implements Serializable, GerentesDAO {
+public class GerenteJPADAO extends JPADAO<Gerente, Integer> implements Serializable, GerenteDAO {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private List<Gerentes> gerentes;
+	private List<Gerente> gerentes;
 	
 	@Inject
-	private Gerentes selectGerente;
+	private Gerente selectGerente;
 	
 	@Inject
 	private String inputNomeGerente;
@@ -45,14 +42,14 @@ public class GerentesJPADAO extends JPADAO<Gerentes, Integer> implements Seriali
 	private String inputEmail;
 	
 	@Override
-	public List<Gerentes> emailSearch(Class<Gerentes> classGeneric) {
+	public List<Gerente> emailSearch(Class<Gerente> classGeneric) {
 		getEntityManager().getTransaction().begin();
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-		CriteriaQuery<Gerentes> criteriaQuery = criteriaBuilder.createQuery(classGeneric);
-		Root<Gerentes> root = criteriaQuery.from(classGeneric);
+		CriteriaQuery<Gerente> criteriaQuery = criteriaBuilder.createQuery(classGeneric);
+		Root<Gerente> root = criteriaQuery.from(classGeneric);
 		criteriaQuery.select(root.get("email"));
-		TypedQuery<Gerentes> typedQuery = getEntityManager().createQuery(criteriaQuery);
-		List<Gerentes> emaillist = typedQuery.getResultList();
+		TypedQuery<Gerente> typedQuery = getEntityManager().createQuery(criteriaQuery);
+		List<Gerente> emaillist = typedQuery.getResultList();
 		
 		return emaillist;
 	}
@@ -60,8 +57,8 @@ public class GerentesJPADAO extends JPADAO<Gerentes, Integer> implements Seriali
 	@Override
 	public void sendMail() {
 		JavaMailApp mail = new JavaMailApp();
-		List<Gerentes> mails = new ArrayList<Gerentes>();
-		mails = emailSearch(Gerentes.class);
+		List<Gerente> mails = new ArrayList<Gerente>();
+		mails = emailSearch(Gerente.class);
 		System.out.println("\nteste: "+ mails + "\n");
 		try {
 			mail.javamail(mails);
@@ -71,7 +68,7 @@ public class GerentesJPADAO extends JPADAO<Gerentes, Integer> implements Seriali
 	}
 
 	public void gerenteSave() {
-		Gerentes gerente = new Gerentes();
+		Gerente gerente = new Gerente();
 		gerente.setAgencia(inputNomeGerente);
 		gerente.setAgencia(inputAgencia);
 		gerente.setEmail(inputEmail);
@@ -79,7 +76,7 @@ public class GerentesJPADAO extends JPADAO<Gerentes, Integer> implements Seriali
 	}
 	
 	public void gerentesStorage(){
-		setGerentes(search(Gerentes.class));
+		setGerentes(search(Gerente.class));
 	}
 	
 	public void removeGerente(){
@@ -87,7 +84,7 @@ public class GerentesJPADAO extends JPADAO<Gerentes, Integer> implements Seriali
 			messageView(false, "Selecione um gerente");
 		}else {
 			int pk = getSelectGerente().getId();
-			remove(Gerentes.class, pk);
+			remove(Gerente.class, pk);
 			setSelectGerente(null);
 			gerentesStorage();
 		}
@@ -96,9 +93,14 @@ public class GerentesJPADAO extends JPADAO<Gerentes, Integer> implements Seriali
 	
 	@SuppressWarnings("rawtypes")
 	public void onRowSelect(SelectEvent event) {
-		selectGerente = new Gerentes();
-		Gerentes select = (Gerentes) (event.getObject());
+		selectGerente = new Gerente();
+		Gerente select = (Gerente) (event.getObject());
 		setSelectGerente(select);
 	}
+	
+	public void close() {
+		setGerentes(null);
+	}
+
 }
 

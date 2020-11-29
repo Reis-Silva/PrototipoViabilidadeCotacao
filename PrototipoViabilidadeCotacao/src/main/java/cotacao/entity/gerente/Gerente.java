@@ -1,4 +1,4 @@
-package cotacao.entity.gerentes;
+package cotacao.entity.gerente;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -17,7 +17,7 @@ import lombok.ToString;
 @Table(name = "gerentes")
 @ToString(of = "email")
 @Data
-public class Gerentes implements Serializable{
+public class Gerente implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
