@@ -30,7 +30,7 @@ public class TaskManager {
 									.startingDailyAt(inicio)
 									.endingDailyAt(fim)
 									.withIntervalInSeconds(2)
-									.onEveryDay();
+									.onMondayThroughFriday();
 			
 			Trigger trigger = TriggerBuilder.newTrigger()
 					.withIdentity("triggerOne", "groupOne")
