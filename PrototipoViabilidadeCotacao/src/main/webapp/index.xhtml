@@ -34,11 +34,11 @@
 
 		<p:menuButton value="Menu">
 			<p:menuitem value="Tabela de Moedas"
-				action="#{moedasJPADAO.moedaStorage()}"
+				action="#{moedaJPADAO.moedaStorage()}"
 				update="messages :Moedasdetails" icon="pi pi-save"
 				oncomplete="PF('Moedasdetails').show();" />
 			<p:menuitem value="Tabela de Gerentes"
-				action="#{gerentesJPADAO.gerentesStorage()}"
+				action="#{gerenteJPADAO.gerentesStorage()}"
 				update="messages :CadastroGerentesdetails form1:pg :Gerentesdetails"
 				icon="pi pi-save" oncomplete="PF('Gerentesdetails').show();" />
 			<p:separator />
@@ -59,7 +59,7 @@
         	</f:facet>
 
 				<p:outputLabel for="MO" value="Moeda Origem:" />
-				<p:selectOneMenu id="MO" value="#{moedasJPADAO.inputMoeda}"
+				<p:selectOneMenu id="MO" value="#{moedaJPADAO.inputMoeda}"
 					unselectable="true" required="true">
 					<f:selectItem itemLabel="Selecione" itemValue="" />
 					<f:selectItem itemLabel="A$ - AUD" itemValue="AUD" />
@@ -80,20 +80,20 @@
 				<p:outputLabel value="" />
 
 				<p:outputLabel for="cotacao" value="Data da Cotação" />
-				<p:calendar id="cotacao" value="#{moedasJPADAO.dataInicial}"
+				<p:calendar id="cotacao" value="#{moedaJPADAO.dataInicial}"
 					mode="popup" pattern="dd/MM/yyyy" required="true" />
 				<p:outputLabel value="" />
 
 				<p:outputLabel value="Cotação (Compra)" />
-				<p:outputLabel value="#{moedasJPADAO.moeda.cotacaoCompra}" />
+				<p:outputLabel value="#{moedaJPADAO.moeda.cotacaoCompra}" />
 				<p:outputLabel value="R$(BRL)" />
 
 				<p:outputLabel value="Cotação (Venda)" />
-				<p:outputLabel value="#{moedasJPADAO.moeda.cotacaoVenda}" />
+				<p:outputLabel value="#{moedaJPADAO.moeda.cotacaoVenda}" />
 				<p:outputLabel value="R$(BRL)" />
 
 				<p:commandButton value="Buscar"
-					action="#{moedasJPADAO.cotacaoMoedasSaveToday()}"
+					action="#{moedaJPADAO.cotacaoMoedasSaveToday()}"
 					process="pg" update="form1:pg" />
 			</h:panelGrid>
 		</p:panel>
@@ -104,30 +104,27 @@
 		<br />
 		<p:outputLabel value="Hora padrão para envio de Email: 15:00:00h" />
 		<br />
-		<p:commandButton id="teste2" process="teste2"
-			value="Tabela Moeda"
-			action="#{moedasJPADAO.close()}" />
-		<p:commandButton id="teste" process="teste"
+		<p:commandButton id="email" process="email"
 			value="Enviar Email Imediato"
-			action="#{gerentesJPADAO.sendMail()}" />
+			action="#{gerenteJPADAO.sendMail()}" />
 	</h:form>
 
 	<p:dialog widgetVar="Moedasdetails" id="Moedasdetails"
 		showEffect="fade" hideEffect="fade" styleClass="modal-dialog"
-		header="Cotação de Moedas" appendTo="@(body)" closable="true"
+		header="Cotação de Moedas" appendTo="@(body)" closable="false"
 		resizable="false" responsive="true" modal="true" height="auto"
 		style="width:300px;  font-size: 14pt; text-align: center;">
 
 		<h:form id="formmoedas">
 			<p:fieldset legend="Moedas Cadastradas">
 
-				<p:dataTable id="tablecotacoes" value="#{moedasJPADAO.moedas}"
+				<p:dataTable id="tablecotacoes" value="#{moedaJPADAO.moedas}"
 					var="m" border="1" width="800px" style="width: auto;"
-					paginator="true" rows="10" widgetVar="tMoedas"
+					paginator="true" rows="10" widgetVar="tMoedas" 
 					paginatorPosition="bottom" rowsPerPageTemplate="10"
 					selectionMode="single" rowKey="#{m.id}">
 					<p:ajax event="rowSelect"
-						listener="#{moedasJPADAO.onRowSelect}"/>
+						listener="#{moedaJPADAO.onRowSelect}"/>
 
 					<f:facet name="header">
            			Tabela de Cotacões
@@ -185,10 +182,10 @@
 				<br/>
 				
 				<p:commandButton id="deletemoeda" value="Delete"
-					action="#{moedasJPADAO.removeMoeda}"
+					action="#{moedaJPADAO.removeMoeda}"
 					update="formmoedas:tablecotacoes" />
 				<p:commandButton id="closemoeda" value="Close"
-					update=":Moedasdetails formmoedas:tablecotacoes :formmoedas" />
+					update=":Moedasdetails formmoedas:tablecotacoes :formmoedas" action="#{moedaJPADAO.close()}"/>
 			</p:fieldset>
 		</h:form>
 	</p:dialog>
@@ -209,18 +206,18 @@
 
 					<p:outputLabel for="nome" value="Nome" />
 					<p:inputText id="nome"
-						value="#{gerentesJPADAO.inputNomeGerente}" required="true" />
+						value="#{gerenteJPADAO.inputNomeGerente}" required="true" />
 
 					<p:outputLabel for="agencia" value="Agência" />
 					<p:inputText id="agencia"
-						value="#{gerentesJPADAO.inputAgencia}" required="true" />
+						value="#{gerenteJPADAO.inputAgencia}" required="true" />
 
 					<p:outputLabel for="email" value="Email" />
-					<p:inputText id="email" value="#{gerentesJPADAO.inputEmail}"
+					<p:inputText id="email" value="#{gerenteJPADAO.inputEmail}"
 						required="true" />
 
 					<p:commandButton value="Cadastrar"
-						action="#{gerentesJPADAO.gerenteSave()}" process="pg2"
+						action="#{gerenteJPADAO.gerenteSave()}" process="pg2"
 						update="formcadastrogerente:pg2  formgerentes:tablegerentes" />
 
 				</h:panelGrid>
@@ -237,12 +234,12 @@
 			<p:fieldset legend="Gerentes Cadastrados">
 
 				<p:dataTable id="tablegerentes" 
-					value="#{gerentesJPADAO.gerentes}" var="g" border="1"
+					value="#{gerenteJPADAO.gerentes}" var="g" border="1"
 					width="800px" style="width: auto;" paginator="true" rows="10"
 					widgetVar="tGerentes"
 					paginatorPosition="bottom" rowsPerPageTemplate="10"
 					selectionMode="single" rowKey="#{g.id}">
-					<p:ajax event="rowSelect" listener="#{gerentesJPADAO.onRowSelect}"/>
+					<p:ajax event="rowSelect" listener="#{gerenteJPADAO.onRowSelect}"/>
 					
 					<f:facet name="header">
            			Tabela de Gerentes
@@ -269,7 +266,9 @@
 				</p:dataTable>
 				<br/>
 				
-				<p:commandButton id="deletegerente" value="Delete" action="#{gerentesJPADAO.removeGerente()}" update="formgerentes:tablegerentes"/>
+				<p:commandButton id="deletegerente" value="Delete" action="#{gerenteJPADAO.removeGerente()}" update="formgerentes:tablegerentes"/>
+				<p:commandButton id="closegerente" value="Close"
+					update=":Gerentesdetails formgerentes:tablegerentes :formgerentes" action="#{gerenteJPADAO.close()}"/>
 			</p:fieldset>
 		</h:form>
 	</p:dialog>
