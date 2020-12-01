@@ -56,11 +56,11 @@ public class MoedaJPADAO extends JPADAO<Moeda, Integer> implements Serializable,
 				messageView(false, "Moeda ainda não foi atualizada");
 			}else if(method.contentEquals("cotacaomoeda")){
 				setMoedas(verificacaoMoeda);
-				varreduraLista(date);
+				varreduraLista(date, method, input);
 				save(moeda);
 			}else if(method.contains("email")) {
 				setMoedas(verificacaoMoeda);
-				varreduraLista(date);
+				varreduraLista(date, method, input);
 			}else {
 				messageView(false, "Nenhum método encontrado");
 			}
@@ -79,9 +79,13 @@ public class MoedaJPADAO extends JPADAO<Moeda, Integer> implements Serializable,
 		return moeda;
 	}
 	
-	public void varreduraLista(String date) {
+	public void varreduraLista(String date, String method, String input) {
 		setMoeda(moedas.get(moedas.size() - 1));
-		moeda.setMoedaOrigem(getInputMoeda());
+		if(method.contentEquals("cotacaomoeda")) {
+			moeda.setMoedaOrigem(getInputMoeda());
+		}else {
+			moeda.setMoedaOrigem(input);
+		}
 		moeda.setVlrCompraAjust(moeda.getCotacaoCompra() + (moeda.getCotacaoCompra() * moeda.getPercentLucro()));
 		moeda.setVlrVendaAjust(moeda.getCotacaoVenda() + (moeda.getCotacaoVenda() * moeda.getPercentLucro()));
 		moeda.setDataSave(date);

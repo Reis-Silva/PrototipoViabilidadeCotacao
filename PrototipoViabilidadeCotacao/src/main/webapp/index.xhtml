@@ -219,6 +219,9 @@
 					<p:commandButton value="Cadastrar"
 						action="#{gerenteJPADAO.gerenteSave()}" process="pg2"
 						update="formcadastrogerente:pg2  formgerentes:tablegerentes" />
+					<p:commandButton id="closecadastrogerente" value="Close"
+						update="formcadastrogerente:pg2 formgerentes:tablegerentes" 
+						action="#{gerenteJPADAO.close()}"/>
 
 				</h:panelGrid>
 			</p:panel>

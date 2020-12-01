@@ -14,6 +14,7 @@ import org.primefaces.event.SelectEvent;
 import cotacao.controller.calendar.JavaMailApp;
 import cotacao.entity.gerente.Gerente;
 import dao.JPADAO;
+import dao.JPAUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -50,7 +51,8 @@ public class GerenteJPADAO extends JPADAO<Gerente, Integer> implements Serializa
 		criteriaQuery.select(root.get("email"));
 		TypedQuery<Gerente> typedQuery = getEntityManager().createQuery(criteriaQuery);
 		List<Gerente> emaillist = typedQuery.getResultList();
-		
+		JPAUtil conexao = new JPAUtil();
+		conexao.offlineServer();
 		return emaillist;
 	}
 
@@ -59,7 +61,7 @@ public class GerenteJPADAO extends JPADAO<Gerente, Integer> implements Serializa
 		JavaMailApp mail = new JavaMailApp();
 		List<Gerente> mails = new ArrayList<Gerente>();
 		mails = emailSearch(Gerente.class);
-		System.out.println("\nteste: "+ mails + "\n");
+		
 		try {
 			mail.javamail(mails);
 		} catch (Exception e) {

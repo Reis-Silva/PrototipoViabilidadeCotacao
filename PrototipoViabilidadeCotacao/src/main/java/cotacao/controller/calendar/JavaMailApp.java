@@ -3,8 +3,6 @@ package cotacao.controller.calendar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -12,7 +10,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import cotacao.dao.moeda.MoedaJPADAO;
 import cotacao.entity.moeda.Moeda;
 import cotacao.service.WEBStatus;
@@ -27,9 +24,9 @@ public class JavaMailApp {
 		DataUtils dataTeste = new DataUtils();
 		MoedaJPADAO moeda = new MoedaJPADAO();
 		moeda.setMoeda(new Moeda());
-		
+
 		Properties props = new Properties();
-		
+
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
@@ -41,19 +38,20 @@ public class JavaMailApp {
 				return new PasswordAuthentication("testeemaildesafio@gmail.com", "testeemaildesafio@12");
 			}
 		});
-				
+
 		List<Moeda> testeServidor = null;
 		try {
 			for (int i = 0; i < moeda.getMoeda().getUnidadeMoedas().length; i++) {
-				testeServidor = WEBStatus.listarCotas(moeda.getMoeda().getUnidadeMoedas()[i], dataTeste.todayAsString(), dataTeste.todayAsString());
-				if(testeServidor.isEmpty()) {
+				testeServidor = WEBStatus.listarCotas(moeda.getMoeda().getUnidadeMoedas()[i], dataTeste.todayAsString(),
+						dataTeste.todayAsString());
+				if (testeServidor.isEmpty()) {
 					System.out.print("\n" + moeda.getMoeda().getUnidadeMoedas()[i] + "- Moeda Inativa\n");
-				}else {
+				} else {
 					System.out.print("\n" + moeda.getMoeda().getUnidadeMoedas()[i] + "- Moeda ativa\n");
 					break;
 				}
 			}
-			
+
 			if (testeServidor.isEmpty()) {
 				System.out.print("Servidor Inativo: " + testeServidor + "\n");
 				moeda.messageView(false, "API Inativa - Nao foi possível enviar o Email...");
@@ -69,7 +67,8 @@ public class JavaMailApp {
 					try {
 
 						for (int i = 0; i < moeda.getMoeda().getUnidadeMoedas().length; i++) {
-							System.out.println("Cotação: " + moeda.cotacaoMoedasSaveEmail(moeda.getMoeda().getUnidadeMoedas()[i]));
+							System.out.println(
+									"Cotação: " + moeda.cotacaoMoedasSaveEmail(moeda.getMoeda().getUnidadeMoedas()[i]));
 							lista.add((T) moeda.cotacaoMoedasSaveEmail(moeda.getMoeda().getUnidadeMoedas()[i]));
 						}
 					} catch (Exception e1) {
@@ -77,24 +76,22 @@ public class JavaMailApp {
 					}
 
 					try {
+						System.out.print("Email da Tabela: " + mail + "\n");
 						Message message = new MimeMessage(session);
 						message.setFrom(new InternetAddress("testeemaildesafio@gmail.com"));
-				
-						Address[] allEmails = new Address[mail.size()];
 
-						System.out.print("Email da Tabela: " + mail);
+						InternetAddress[] mailAddress_TO = new InternetAddress[mail.size()];
 
 						for (int i = 0; i < mail.size(); i++) {
-
-							allEmails = InternetAddress.parse(mail.get(i).toString());
-							
-							message.setRecipients(Message.RecipientType.TO, allEmails);
-							message.setSubject("Tabela diária - Cotação de Moedas");
-							message.setContent(lista.toString(), "text/html; charset=utf-8");
-
-							Transport.send(message);
-							System.out.println("email enviado!");
+							mailAddress_TO[i] = new InternetAddress(mail.get(i).toString());
 						}
+
+						message.setRecipients(Message.RecipientType.TO, mailAddress_TO);
+						message.setSubject("Tabela diária - Cotação de Moedas");
+						message.setContent(lista.toString(), "text/html; charset=utf-8");
+						Transport.send(message);
+						System.out.println("email enviado!");
+						Transport.send(message);
 						moeda.messageView(true, "Email Enviado");
 					} catch (MessagingException e) {
 						throw new RuntimeException(e);

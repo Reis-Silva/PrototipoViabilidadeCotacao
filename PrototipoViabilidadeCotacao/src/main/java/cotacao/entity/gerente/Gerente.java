@@ -34,5 +34,4 @@ public class Gerente implements Serializable{
 	
 	@Column
 	private String email;	
-	
 }
