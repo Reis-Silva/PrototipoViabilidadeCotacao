@@ -16,6 +16,9 @@ Neste aplicativo é possível resgatar as cotações de moedas estrangeiras com 
 
 - Conexão com Microsoft SQLServer Management Studio (8 - v18.6) contendo o SQL Server 15, no entanto pode ser utilizado em outras versões. Dados recorrentes de conexão com o banco de dados encontram-se no persistence.xml: https://github.com/Reis-Silva/PrototipoViabilidadeCotacao/blob/main/PrototipoViabilidadeCotacao/src/main/java/META-INF/persistence.xml
 
+- Utilização do Project lombok para simplificação de códigos (Javadoc: https://projectlombok.org/api/ e download: https://projectlombok.org/download).
+
+- Utilização do framework Quartz para a criação do agendador de tarefas (Javadoc: http://www.quartz-scheduler.org/documentation/ e download: http://www.quartz-scheduler.org/downloads/).
 
 ## Troubleshooting
 
